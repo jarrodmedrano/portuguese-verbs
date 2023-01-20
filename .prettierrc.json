@@ -1,0 +1,21 @@
+{
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "printWidth": 120,
+  "trailingComma": "all",
+  "proseWrap": "always",
+  "overrides": [
+    {
+      "files": "{**/*.jsonc,**/.vscode/*.json,**/tsconfig.json,**/tsconfig.*.json}",
+      "options": {
+        "parser": "json5",
+        "quoteProps": "preserve",
+        "singleQuote": false,
+        "trailingComma": "none"
+      }
+    }
+  ]
+}
