@@ -1,14 +1,14 @@
-import "../src/styles/global.css";
-import { AppProps } from "next/app";
-import { useState } from "react";
-import { QueryClientProvider } from "react-query";
-import { client, trpc } from "../src/services";
+import '../src/styles/global.css';
+import { AppProps } from 'next/app';
+import { useState } from 'react';
+import { QueryClientProvider } from 'react-query';
+import { client, trpc } from '../src/services';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      url: "http://localhost:4000/trpc",
-    })
+      url: 'http://localhost:4000/trpc',
+    }),
   );
 
   return (
