@@ -1,0 +1,565 @@
+{
+  "conjugations": [
+    {
+      "group": "infinitive/impersonal",
+      "group_sort": 0,
+      "sort": 0,
+      "value": "originar"
+    },
+    {
+      "form": "s1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 0,
+      "value": "originar"
+    },
+    {
+      "form": "s2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 1,
+      "value": "originares"
+    },
+    {
+      "form": "s3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 2,
+      "value": "originar"
+    },
+    {
+      "form": "p1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 3,
+      "value": "originarmos"
+    },
+    {
+      "form": "p2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 4,
+      "value": "originardes"
+    },
+    {
+      "form": "p3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 5,
+      "value": "originarem"
+    },
+    {
+      "group": "gerund",
+      "group_sort": 2,
+      "sort": 0,
+      "value": "originando"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 0,
+      "value": "originado"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 1,
+      "value": "originados"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 0,
+      "value": "originada"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 1,
+      "value": "originadas"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 0,
+      "value": "origino"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 1,
+      "value": "originas"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 2,
+      "value": "origina"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 3,
+      "value": "originamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 4,
+      "value": "originais"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 5,
+      "value": "originam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 0,
+      "value": "originava"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 1,
+      "value": "originavas"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 2,
+      "value": "originava"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 3,
+      "value": "originávamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 4,
+      "value": "origináveis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 5,
+      "value": "originavam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 0,
+      "value": "originei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 1,
+      "value": "originaste"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 2,
+      "value": "originou"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 3,
+      "value": "originamos - originámos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 4,
+      "value": "originastes"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 5,
+      "value": "originaram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 0,
+      "value": "originara"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 1,
+      "value": "originaras"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 2,
+      "value": "originara"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 3,
+      "value": "origináramos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 4,
+      "value": "origináreis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 5,
+      "value": "originaram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 0,
+      "value": "originarei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 1,
+      "value": "originarás"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 2,
+      "value": "originará"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 3,
+      "value": "originaremos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 4,
+      "value": "originareis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 5,
+      "value": "originarão"
+    },
+    {
+      "form": "s1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 0,
+      "value": "originaria"
+    },
+    {
+      "form": "s2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 1,
+      "value": "originarias"
+    },
+    {
+      "form": "s3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 2,
+      "value": "originaria"
+    },
+    {
+      "form": "p1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 3,
+      "value": "originaríamos"
+    },
+    {
+      "form": "p2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 4,
+      "value": "originaríeis"
+    },
+    {
+      "form": "p3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 5,
+      "value": "originariam"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 0,
+      "value": "origine"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 1,
+      "value": "origines"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 2,
+      "value": "origine"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 3,
+      "value": "originemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 4,
+      "value": "origineis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 5,
+      "value": "originem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 0,
+      "value": "originasse"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 1,
+      "value": "originasses"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 2,
+      "value": "originasse"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 3,
+      "value": "originássemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 4,
+      "value": "originásseis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 5,
+      "value": "originassem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 0,
+      "value": "originar"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 1,
+      "value": "originares"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 2,
+      "value": "originar"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 3,
+      "value": "originarmos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 4,
+      "value": "originardes"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 5,
+      "value": "originarem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 1,
+      "value": "origina"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 2,
+      "value": "origine"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 3,
+      "value": "originemos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 4,
+      "value": "originai"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 5,
+      "value": "originem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 1,
+      "value": "origines"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 2,
+      "value": "origine"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 3,
+      "value": "originemos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 4,
+      "value": "origineis"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 5,
+      "value": "originem"
+    }
+  ],
+  "definitions": [
+    "to cause",
+    "to originate",
+    "to provoke",
+    "first-person singular (eu) personal infinitive of originar",
+    "third-person singular (ele and ela, also used with você and others) personal infinitive of originar",
+    "first-person singular (eu) future subjunctive of originar",
+    "third-person singular (ele and ela, also used with você and others) future subjunctive of originar"
+  ],
+  "description": "originar (first-person singular present indicative origino, past participle originado)",
+  "etymology": "From origem + -ar.",
+  "page_id": 345243,
+  "pronunciations": [],
+  "related": [],
+  "synonyms": [],
+  "url": "https://en.wiktionary.org/?curid=345243#Portuguese",
+  "word": "originar"
+}

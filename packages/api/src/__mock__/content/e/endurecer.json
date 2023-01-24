@@ -1,0 +1,557 @@
+{
+  "conjugations": [
+    {
+      "group": "infinitive/impersonal",
+      "group_sort": 0,
+      "sort": 0,
+      "value": "endurecer"
+    },
+    {
+      "form": "s1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 0,
+      "value": "endurecer"
+    },
+    {
+      "form": "s2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 1,
+      "value": "endureceres"
+    },
+    {
+      "form": "s3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 2,
+      "value": "endurecer"
+    },
+    {
+      "form": "p1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 3,
+      "value": "endurecermos"
+    },
+    {
+      "form": "p2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 4,
+      "value": "endurecerdes"
+    },
+    {
+      "form": "p3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 5,
+      "value": "endurecerem"
+    },
+    {
+      "group": "gerund",
+      "group_sort": 2,
+      "sort": 0,
+      "value": "endurecendo"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 0,
+      "value": "endurecido"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 1,
+      "value": "endurecidos"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 0,
+      "value": "endurecida"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 1,
+      "value": "endurecidas"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 0,
+      "value": "endureço"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 1,
+      "value": "endureces"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 2,
+      "value": "endurece"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 3,
+      "value": "endurecemos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 4,
+      "value": "endureceis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 5,
+      "value": "endurecem"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 0,
+      "value": "endurecia"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 1,
+      "value": "endurecias"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 2,
+      "value": "endurecia"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 3,
+      "value": "endurecíamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 4,
+      "value": "endurecíeis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 5,
+      "value": "endureciam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 0,
+      "value": "endureci"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 1,
+      "value": "endureceste"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 2,
+      "value": "endureceu"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 3,
+      "value": "endurecemos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 4,
+      "value": "endurecestes"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 5,
+      "value": "endureceram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 0,
+      "value": "endurecera"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 1,
+      "value": "endureceras"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 2,
+      "value": "endurecera"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 3,
+      "value": "endurecêramos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 4,
+      "value": "endurecêreis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 5,
+      "value": "endureceram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 0,
+      "value": "endurecerei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 1,
+      "value": "endurecerás"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 2,
+      "value": "endurecerá"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 3,
+      "value": "endureceremos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 4,
+      "value": "endurecereis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 5,
+      "value": "endurecerão"
+    },
+    {
+      "form": "s1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 0,
+      "value": "endureceria"
+    },
+    {
+      "form": "s2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 1,
+      "value": "endurecerias"
+    },
+    {
+      "form": "s3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 2,
+      "value": "endureceria"
+    },
+    {
+      "form": "p1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 3,
+      "value": "endureceríamos"
+    },
+    {
+      "form": "p2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 4,
+      "value": "endureceríeis"
+    },
+    {
+      "form": "p3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 5,
+      "value": "endureceriam"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 0,
+      "value": "endureça"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 1,
+      "value": "endureças"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 2,
+      "value": "endureça"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 3,
+      "value": "endureçamos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 4,
+      "value": "endureçais"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 5,
+      "value": "endureçam"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 0,
+      "value": "endurecesse"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 1,
+      "value": "endurecesses"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 2,
+      "value": "endurecesse"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 3,
+      "value": "endurecêssemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 4,
+      "value": "endurecêsseis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 5,
+      "value": "endurecessem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 0,
+      "value": "endurecer"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 1,
+      "value": "endureceres"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 2,
+      "value": "endurecer"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 3,
+      "value": "endurecermos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 4,
+      "value": "endurecerdes"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 5,
+      "value": "endurecerem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 1,
+      "value": "endurece"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 2,
+      "value": "endureça"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 3,
+      "value": "endureçamos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 4,
+      "value": "endurecei"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 5,
+      "value": "endureçam"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 1,
+      "value": "endureças"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 2,
+      "value": "endureça"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 3,
+      "value": "endureçamos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 4,
+      "value": "endureçais"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 5,
+      "value": "endureçam"
+    }
+  ],
+  "definitions": ["to harden", "to strengthen"],
+  "description": "endurecer (first-person singular present indicative endureço, past participle endurecido)",
+  "etymology": "From Latin indūrēscere, present active infinitive of indūrēscō, from indūrō.",
+  "page_id": 964002,
+  "pronunciations": ["(Portugal) IPA(key): /ẽ.du.ɾɨ.ˈseɾ/", "Hyphenation: en‧du‧re‧cer"],
+  "related": [],
+  "synonyms": [],
+  "url": "https://en.wiktionary.org/?curid=964002#Portuguese",
+  "word": "endurecer"
+}

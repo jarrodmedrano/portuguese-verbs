@@ -2,9 +2,9 @@ import express from 'express';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import cors from 'cors';
 import { createRouter } from './app/app.router';
-import { todos } from './todo/todo.router';
+import { verbecc } from './verbecc/verbecc.router';
 
-const appRouter = createRouter().merge('todos.', todos);
+const appRouter = createRouter().merge('verbecc.', verbecc);
 
 export type AppRouter = typeof appRouter;
 

@@ -1,0 +1,565 @@
+{
+  "conjugations": [
+    {
+      "group": "infinitive/impersonal",
+      "group_sort": 0,
+      "sort": 0,
+      "value": "acionar"
+    },
+    {
+      "form": "s1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 0,
+      "value": "acionar"
+    },
+    {
+      "form": "s2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 1,
+      "value": "acionares"
+    },
+    {
+      "form": "s3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 2,
+      "value": "acionar"
+    },
+    {
+      "form": "p1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 3,
+      "value": "acionarmos"
+    },
+    {
+      "form": "p2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 4,
+      "value": "acionardes"
+    },
+    {
+      "form": "p3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 5,
+      "value": "acionarem"
+    },
+    {
+      "group": "gerund",
+      "group_sort": 2,
+      "sort": 0,
+      "value": "acionando"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 0,
+      "value": "acionado"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 1,
+      "value": "acionados"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 0,
+      "value": "acionada"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 1,
+      "value": "acionadas"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 0,
+      "value": "aciono"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 1,
+      "value": "acionas"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 2,
+      "value": "aciona"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 3,
+      "value": "acionamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 4,
+      "value": "acionais"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 5,
+      "value": "acionam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 0,
+      "value": "acionava"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 1,
+      "value": "acionavas"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 2,
+      "value": "acionava"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 3,
+      "value": "acionávamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 4,
+      "value": "acionáveis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 5,
+      "value": "acionavam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 0,
+      "value": "acionei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 1,
+      "value": "acionaste"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 2,
+      "value": "acionou"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 3,
+      "value": "acionamos - acionámos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 4,
+      "value": "acionastes"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 5,
+      "value": "acionaram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 0,
+      "value": "acionara"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 1,
+      "value": "acionaras"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 2,
+      "value": "acionara"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 3,
+      "value": "acionáramos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 4,
+      "value": "acionáreis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 5,
+      "value": "acionaram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 0,
+      "value": "acionarei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 1,
+      "value": "acionarás"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 2,
+      "value": "acionará"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 3,
+      "value": "acionaremos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 4,
+      "value": "acionareis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 5,
+      "value": "acionarão"
+    },
+    {
+      "form": "s1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 0,
+      "value": "acionaria"
+    },
+    {
+      "form": "s2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 1,
+      "value": "acionarias"
+    },
+    {
+      "form": "s3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 2,
+      "value": "acionaria"
+    },
+    {
+      "form": "p1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 3,
+      "value": "acionaríamos"
+    },
+    {
+      "form": "p2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 4,
+      "value": "acionaríeis"
+    },
+    {
+      "form": "p3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 5,
+      "value": "acionariam"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 0,
+      "value": "acione"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 1,
+      "value": "aciones"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 2,
+      "value": "acione"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 3,
+      "value": "acionemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 4,
+      "value": "acioneis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 5,
+      "value": "acionem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 0,
+      "value": "acionasse"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 1,
+      "value": "acionasses"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 2,
+      "value": "acionasse"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 3,
+      "value": "acionássemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 4,
+      "value": "acionásseis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 5,
+      "value": "acionassem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 0,
+      "value": "acionar"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 1,
+      "value": "acionares"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 2,
+      "value": "acionar"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 3,
+      "value": "acionarmos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 4,
+      "value": "acionardes"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 5,
+      "value": "acionarem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 1,
+      "value": "aciona"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 2,
+      "value": "acione"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 3,
+      "value": "acionemos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 4,
+      "value": "acionai"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 5,
+      "value": "acionem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 1,
+      "value": "aciones"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 2,
+      "value": "acione"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 3,
+      "value": "acionemos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 4,
+      "value": "acioneis"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 5,
+      "value": "acionem"
+    }
+  ],
+  "definitions": [
+    "(transitive) to action",
+    "(transitive) to activate",
+    "(transitive) to apply (brakes)",
+    "first-person singular (eu) personal infinitive of acionar",
+    "third-person singular (ele and ela, also used with você and others) personal infinitive of acionar",
+    "first-person singular (eu) future subjunctive of acionar",
+    "third-person singular (ele and ela, also used with você and others) future subjunctive of acionar"
+  ],
+  "description": "acionar (first-person singular present indicative aciono, past participle acionado)",
+  "etymology": null,
+  "page_id": 4006595,
+  "pronunciations": [],
+  "related": [],
+  "synonyms": [],
+  "url": "https://en.wiktionary.org/?curid=4006595#Portuguese",
+  "word": "acionar"
+}

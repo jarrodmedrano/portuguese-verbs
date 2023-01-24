@@ -1,0 +1,557 @@
+{
+  "conjugations": [
+    {
+      "group": "infinitive/impersonal",
+      "group_sort": 0,
+      "sort": 0,
+      "value": "dactilografar"
+    },
+    {
+      "form": "s1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 0,
+      "value": "dactilografar"
+    },
+    {
+      "form": "s2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 1,
+      "value": "dactilografares"
+    },
+    {
+      "form": "s3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 2,
+      "value": "dactilografar"
+    },
+    {
+      "form": "p1",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 3,
+      "value": "dactilografarmos"
+    },
+    {
+      "form": "p2",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 4,
+      "value": "dactilografardes"
+    },
+    {
+      "form": "p3",
+      "group": "infinitive/personal",
+      "group_sort": 1,
+      "sort": 5,
+      "value": "dactilografarem"
+    },
+    {
+      "group": "gerund",
+      "group_sort": 2,
+      "sort": 0,
+      "value": "dactilografando"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 0,
+      "value": "dactilografado"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/masculine",
+      "group_sort": 3,
+      "sort": 1,
+      "value": "dactilografados"
+    },
+    {
+      "form": "s",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 0,
+      "value": "dactilografada"
+    },
+    {
+      "form": "p",
+      "group": "pastparticiple/feminine",
+      "group_sort": 4,
+      "sort": 1,
+      "value": "dactilografadas"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 0,
+      "value": "dactilografo"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 1,
+      "value": "dactilografas"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 2,
+      "value": "dactilografa"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 3,
+      "value": "dactilografamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 4,
+      "value": "dactilografais"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/present",
+      "group_sort": 5,
+      "sort": 5,
+      "value": "dactilografam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 0,
+      "value": "dactilografava"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 1,
+      "value": "dactilografavas"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 2,
+      "value": "dactilografava"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 3,
+      "value": "dactilografávamos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 4,
+      "value": "dactilografáveis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/imperfect",
+      "group_sort": 6,
+      "sort": 5,
+      "value": "dactilografavam"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 0,
+      "value": "dactilografei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 1,
+      "value": "dactilografaste"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 2,
+      "value": "dactilografou"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 3,
+      "value": "dactilografamos - dactilografámos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 4,
+      "value": "dactilografastes"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/preterite",
+      "group_sort": 7,
+      "sort": 5,
+      "value": "dactilografaram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 0,
+      "value": "dactilografara"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 1,
+      "value": "dactilografaras"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 2,
+      "value": "dactilografara"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 3,
+      "value": "dactilografáramos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 4,
+      "value": "dactilografáreis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/pluperfect",
+      "group_sort": 8,
+      "sort": 5,
+      "value": "dactilografaram"
+    },
+    {
+      "form": "s1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 0,
+      "value": "dactilografarei"
+    },
+    {
+      "form": "s2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 1,
+      "value": "dactilografarás"
+    },
+    {
+      "form": "s3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 2,
+      "value": "dactilografará"
+    },
+    {
+      "form": "p1",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 3,
+      "value": "dactilografaremos"
+    },
+    {
+      "form": "p2",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 4,
+      "value": "dactilografareis"
+    },
+    {
+      "form": "p3",
+      "group": "indicative/future",
+      "group_sort": 9,
+      "sort": 5,
+      "value": "dactilografarão"
+    },
+    {
+      "form": "s1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 0,
+      "value": "dactilografaria"
+    },
+    {
+      "form": "s2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 1,
+      "value": "dactilografarias"
+    },
+    {
+      "form": "s3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 2,
+      "value": "dactilografaria"
+    },
+    {
+      "form": "p1",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 3,
+      "value": "dactilografaríamos"
+    },
+    {
+      "form": "p2",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 4,
+      "value": "dactilografaríeis"
+    },
+    {
+      "form": "p3",
+      "group": "conditional",
+      "group_sort": 10,
+      "sort": 5,
+      "value": "dactilografariam"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 0,
+      "value": "dactilografe"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 1,
+      "value": "dactilografes"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 2,
+      "value": "dactilografe"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 3,
+      "value": "dactilografemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 4,
+      "value": "dactilografeis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/present",
+      "group_sort": 11,
+      "sort": 5,
+      "value": "dactilografem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 0,
+      "value": "dactilografasse"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 1,
+      "value": "dactilografasses"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 2,
+      "value": "dactilografasse"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 3,
+      "value": "dactilografássemos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 4,
+      "value": "dactilografásseis"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/imperfect",
+      "group_sort": 12,
+      "sort": 5,
+      "value": "dactilografassem"
+    },
+    {
+      "form": "s1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 0,
+      "value": "dactilografar"
+    },
+    {
+      "form": "s2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 1,
+      "value": "dactilografares"
+    },
+    {
+      "form": "s3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 2,
+      "value": "dactilografar"
+    },
+    {
+      "form": "p1",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 3,
+      "value": "dactilografarmos"
+    },
+    {
+      "form": "p2",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 4,
+      "value": "dactilografardes"
+    },
+    {
+      "form": "p3",
+      "group": "subjunctive/preterite",
+      "group_sort": 13,
+      "sort": 5,
+      "value": "dactilografarem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 1,
+      "value": "dactilografa"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 2,
+      "value": "dactilografe"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 3,
+      "value": "dactilografemos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 4,
+      "value": "dactilografai"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/affirmative",
+      "group_sort": 14,
+      "sort": 5,
+      "value": "dactilografem"
+    },
+    {
+      "form": "s1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 0,
+      "value": "-"
+    },
+    {
+      "form": "s2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 1,
+      "value": "dactilografes"
+    },
+    {
+      "form": "s3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 2,
+      "value": "dactilografe"
+    },
+    {
+      "form": "p1",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 3,
+      "value": "dactilografemos"
+    },
+    {
+      "form": "p2",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 4,
+      "value": "dactilografeis"
+    },
+    {
+      "form": "p3",
+      "group": "imperative/negative",
+      "group_sort": 15,
+      "sort": 5,
+      "value": "dactilografem"
+    }
+  ],
+  "definitions": ["Alternative form of datilografar"],
+  "description": "dactilografar (first-person singular present indicative dactilografo, past participle dactilografado)",
+  "etymology": null,
+  "page_id": 6531705,
+  "pronunciations": [],
+  "related": [],
+  "synonyms": [],
+  "url": "https://en.wiktionary.org/?curid=6531705#Portuguese",
+  "word": "dactilografar"
+}
