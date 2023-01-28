@@ -37,9 +37,9 @@ describe('use conjugation hook', () => {
     };
     const { rows } = useConjugation({ data, values });
     expect(rows).toEqual([
-      { present: 'a', future: 'g' },
-      { present: 'b', future: 'h' },
-      { present: 'c', future: 'i' },
+      { present: 'a', imperfect: 'd', future: 'g' },
+      { present: 'b', imperfect: 'e', future: 'h' },
+      { present: 'c', imperfect: 'f', future: 'i' },
     ]);
   });
 });
