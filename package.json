@@ -49,14 +49,12 @@
   "lint-staged": {
     "./*/**/*.{js,jsx,ts,tsx}": [
       "yarn run prettier:fix",
-      "yarn run eslint:fix"
+      "yarn run eslint:fix",
+      "yarn run test --env=jsdom",
+      "yarn run coverage --env=jsdom"
     ],
     "*.{json,md}": [
       "yarn run prettier:fix"
-    ],
-    "*.{js,jsx,ts,tsx}": [
-      "yarn run test --env=jsdom",
-      "yarn run coverage --env=jsdom"
     ]
   },
   "packageManager": "yarn@1.22.17"
