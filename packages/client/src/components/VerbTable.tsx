@@ -1,57 +1,23 @@
+import 'react-tailwind-table/dist/index.css';
 import { useEffect, useState } from 'react';
 import { trpc } from '../services';
 import Table from 'react-tailwind-table';
-import 'react-tailwind-table/dist/index.css';
+import { useConjugation } from './hooks/useConjugation';
 
-type Vals = {
-  [key: string]: boolean;
+export type CheckBoxVals = {
+  [checked: string]: boolean;
 };
 
-type Verb = {
+export type Verb = {
   value: {
-    [key: string]: {
-      [key: string]: Array<string>;
-    };
-  };
-};
-
-const useConjugation = ({ data, values }: { data: Verb | undefined; values: Vals }) => {
-  // get tenses of the verb and use as table headers
-  const colHeaders = data ? Object.keys(data.value) : [];
-
-  // transform data for use in tailwind table column
-  const cols = colHeaders ? colHeaders.filter((col) => values[col]).map((col) => ({ field: col, use: col })) : [];
-
-  // get array of length of the conjugations]
-  // @ts-ignore this is a nonsense error
-  const headerMap: Array<string> = data ? data.value[colHeaders[0]] : [];
-
-  // transform data for use in tailwind table row
-  const myRows = headerMap.map((_, index: number) => {
-    return colHeaders
-      .map((colHeader) => {
-        return {
-          [colHeader]: data?.value[colHeader][index],
-        };
-      })
-      .reduce((prev, curr) => {
-        return {
-          ...prev,
-          ...curr,
-        };
-      });
-  });
-
-  return {
-    columns: cols,
-    rows: myRows,
+    [key: string]: Array<string>;
   };
 };
 
 export const VerbTable = (props: { verb: string; mood: string; filters: string[] }) => {
   const { verb, mood, filters } = props;
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb, mood }]);
-  const [values, setValues] = useState<Vals>({});
+  const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
 
   const handleChange = (event: any) => {
@@ -65,7 +31,7 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
   useEffect(() => {
     if (data) {
       // for each filter check or uncheck the box
-      const newVals: { [key: string]: boolean } = {};
+      const newVals: { [checked: string]: boolean } = {};
       filters.forEach((filt: string) => {
         newVals[filt] = true;
       });

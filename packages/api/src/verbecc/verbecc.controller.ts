@@ -2,9 +2,7 @@ import axios from 'axios';
 
 export type Verb = {
   value: {
-    [key: string]: {
-      [key: string]: Array<string>;
-    };
+    [key: string]: Array<string>;
   };
 };
 
