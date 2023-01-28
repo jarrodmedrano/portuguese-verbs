@@ -21,5 +21,6 @@ app.use(
 );
 
 app.listen(4000, () => {
+  // eslint-disable-next-line no-console
   console.log('The application is listening on port 4000!');
 });
