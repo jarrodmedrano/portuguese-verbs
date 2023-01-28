@@ -1,23 +1,15 @@
 interface Verb {
   value: {
-    infinitive: string;
-    predicted: string;
-    pred_score: number;
-    template: string;
-    translation_en: string;
-    stem: string;
-  };
-  moods: {
     [key: string]: {
-      [key: string]: string[];
+      [key: string]: Array<string>;
     };
   };
 }
 
-export const getConjugation = async (): Promise<Verb> => {
-  const response = await fetch('http://localhost:8000/conjugate/pt/fazer');
-  console.log('response', response);
-  const data = await response.json();
+import axios from 'axios';
 
+export const getConjugation = async ({ verb, mood }: { verb: string; mood?: string }): Promise<Verb> => {
+  const response = await axios.get(`http://localhost:8000/conjugate/pt/${verb}?mood=${mood}`);
+  const data = response.data;
   return data;
 };
