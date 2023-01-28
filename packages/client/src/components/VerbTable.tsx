@@ -1,6 +1,6 @@
-import React, { ReactEventHandler, useEffect, useState } from 'react';
-import { client, trpc } from '../services';
-import Table, { Icolumn, Irow } from 'react-tailwind-table';
+import { useEffect, useState } from 'react';
+import { trpc } from '../services';
+import Table from 'react-tailwind-table';
 import 'react-tailwind-table/dist/index.css';
 
 type Vals = {
@@ -29,7 +29,7 @@ const useConjugation = ({ data, values }: { data: Verb | undefined; values: Vals
   // transform data for use in tailwind table row
   const myRows = headerMap.map((_, index: number) => {
     return colHeaders
-      .map((colHeader, _) => {
+      .map((colHeader) => {
         return {
           [colHeader]: data?.value[colHeader][index],
         };
@@ -72,8 +72,6 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
       setValues(newVals);
     }
   }, [filters, data]);
-
-  useEffect(() => {}, [verb, mood, filters, values, data]);
 
   if (isLoading)
     return (
