@@ -40,10 +40,10 @@ const Home: NextPage = () => {
       <VerbTable
         filters={[
           'presente',
-          // 'pretérito-imperfeito',
-          // 'pretérito-perfeito',
+          'pretérito-imperfeito',
+          'pretérito-perfeito',
           // 'pretérito-mais-que-perfeito',
-          // 'futuro-do-presente',
+          'futuro-do-presente',
           // 'pretérito-perfeito-composto',
           // 'pretérito-mais-que-perfeito-composto',
           // 'pretérito-mais-que-perfeito-anterior',

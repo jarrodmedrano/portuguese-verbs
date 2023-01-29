@@ -20,28 +20,7 @@ model Todo {
 
 model Verb {
   id          Int      @id @default(autoincrement())
-  verb        String
+  name        String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  category_id Int @unique
-  category    Category @relation(fields: [category_id], references: [id])
-  conguations Conjugations[]
-}
-
-model Category {
-  id         Int      @id @default(autoincrement())
-  category   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  verbs      Verb[]
-}
-
-model Conjugations {
-  id          Int      @id @default(autoincrement())
-  verb_id     Int @unique
-  verb        Verb @relation(fields: [verb_id], references: [id])
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  conjugation String
-  tense       String
 }

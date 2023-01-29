@@ -61,16 +61,16 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
         {filters.map((filter) => {
           return (
             <div className="form-check" key={`filter-${filter}`}>
-              <input
-                className="form-check-input float-left mt-1 mr-2 h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
-                type="checkbox"
-                id="flexCheckDefault"
-                onChange={handleChange}
-                name={filter}
-                checked={values[filter]}
-              />
-              <label className="form-check-label inline-block text-gray-800" htmlFor={filter}>
-                {filter}
+              <label className="form-check-label mr-2 inline-block text-gray-800" htmlFor={filter}>
+                <input
+                  className="form-check-input float-left mr-2 mt-1 h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top leading-tight transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  onChange={handleChange}
+                  name={filter}
+                  checked={values[filter]}
+                />
+                <span className="text-sm">{filter}</span>
               </label>
             </div>
           );
