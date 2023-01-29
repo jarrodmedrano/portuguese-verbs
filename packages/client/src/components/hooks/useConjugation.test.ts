@@ -17,6 +17,7 @@ describe('use conjugation hook', () => {
     };
     const { columns } = useConjugation({ data, values });
     expect(columns).toEqual([
+      { field: 'pronoun', use: 'pronoun' },
       { field: 'present', use: 'present' },
       { field: 'future', use: 'future' },
     ]);
@@ -37,9 +38,9 @@ describe('use conjugation hook', () => {
     };
     const { rows } = useConjugation({ data, values });
     expect(rows).toEqual([
-      { present: 'a', imperfect: 'd', future: 'g' },
-      { present: 'b', imperfect: 'e', future: 'h' },
-      { present: 'c', imperfect: 'f', future: 'i' },
+      { pronoun: 'eu', present: 'a', imperfect: 'd', future: 'g' },
+      { pronoun: 'tu', present: 'b', imperfect: 'e', future: 'h' },
+      { pronoun: 'ele/ela', present: 'c', imperfect: 'f', future: 'i' },
     ]);
   });
 });
