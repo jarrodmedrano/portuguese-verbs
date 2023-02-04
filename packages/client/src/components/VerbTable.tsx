@@ -18,6 +18,11 @@ export type Verb = {
 export const VerbTable = (props: { verb: string; mood: string; filters: string[] }) => {
   const { verb, mood, filters } = props;
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb, mood }]);
+  const { data: verbData } = trpc.useQuery(['verb.get', { name: 'fazer' }]);
+
+  // eslint-disable-next-line no-console
+  console.log('verbdata', verbData);
+
   const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
 
