@@ -1,7 +1,7 @@
 import { ChangeEventHandler } from 'react';
 import { useDarkSide } from './hooks/useDarkSide';
 
-export default function Switcher() {
+export const Switcher = () => {
   const [theme, setTheme] = useDarkSide();
 
   const toggleDarkMode: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -23,4 +23,4 @@ export default function Switcher() {
       </label>
     </>
   );
-}
+};

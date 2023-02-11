@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { trpc } from '../services';
 import Table from 'react-tailwind-table';
 import { useConjugation } from './hooks/useConjugation';
-import Switcher from './Switcher';
+import { Switcher } from './Switcher';
+import { SearchBar } from './SearchBar';
 
 export type CheckBoxVals = {
   [checked: string]: boolean;
@@ -16,12 +17,9 @@ export type Verb = {
 };
 
 export const VerbTable = (props: { verb: string; mood: string; filters: string[] }) => {
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const { verb, mood, filters } = props;
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb, mood }]);
-  const { data: verbData } = trpc.useQuery(['verb.get', { name: 'fazer' }]);
-
-  // eslint-disable-next-line no-console
-  console.log('verbdata', verbData);
 
   const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
@@ -99,41 +97,12 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
                 <span className="ml-3 text-gray-500 hover:text-white">Portuguese Verbs</span>
               </a>
             </li>
-            <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100  hover:text-white dark:text-white ">
-              <form>
-                <label
-                  htmlFor="default-search"
-                  className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Search
-                </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg
-                      aria-hidden="true"
-                      className="h-5 w-5 text-gray-500 dark:text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <input
-                    type="search"
-                    id="default-search"
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700  dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                    placeholder="Search for a verb"
-                    required
-                  />
-                </div>
-              </form>
+            <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ">
+              <SearchBar
+                options={['Chennai', 'Mumbai', 'Bangalore']}
+                value={selectedOption}
+                onChange={setSelectedOption}
+              />
             </li>
           </ul>
         </div>

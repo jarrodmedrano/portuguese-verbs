@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { useDarkSide } from './useDarkSide';
 
 describe('useDarkSide', () => {
