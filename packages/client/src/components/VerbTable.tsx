@@ -1,10 +1,12 @@
 import 'react-tailwind-table/dist/index.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { trpc } from '../services';
 import Table from 'react-tailwind-table';
 import { useConjugation } from './hooks/useConjugation';
 import { Switcher } from './Switcher';
 import { SearchBar } from './SearchBar';
+import { SearchContext, withSearchContext } from '../contexts/SearchContext';
+import { Loading } from './Loading';
 
 export type CheckBoxVals = {
   [checked: string]: boolean;
@@ -16,10 +18,15 @@ export type Verb = {
   };
 };
 
-export const VerbTable = (props: { verb: string; mood: string; filters: string[] }) => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const { verb, mood, filters } = props;
-  const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb, mood }]);
+export type VerbTableProps = {
+  verb: string;
+  mood: string;
+  filters: string[];
+};
+
+const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableProps) => {
+  const { search, setSearch } = useContext(SearchContext);
+  const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb: search ? search : verb, mood }]);
 
   const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
@@ -43,43 +50,37 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
     }
   }, [filters, data]);
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4" role="status">
-          <span className="hidden">Loading...</span>
-        </div>
-      </div>
-    );
-
-  if (isError || !data)
-    return (
-      <div className="mb-4 rounded-lg bg-red-100 py-5 px-6 text-base text-red-700" role="alert">
-        Error: {JSON.stringify(error?.message)}
-      </div>
-    );
-
   return (
     <>
-      <div className="flex justify-center">
-        {filters.map((filter) => {
-          return (
-            <div className="form-check" key={`filter-${filter}`}>
-              <label className="form-check-label mr-2 inline-block text-gray-800" htmlFor={filter}>
-                <input
-                  className="form-check-input float-left mr-2 mt-1 h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top leading-tight transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
-                  type="checkbox"
-                  id="flexCheckDefault"
-                  onChange={handleChange}
-                  name={filter}
-                  checked={values[filter]}
-                />
-                <span className="text-sm">{filter}</span>
-              </label>
-            </div>
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex justify-center">
+          {filters.map((filter) => {
+            return (
+              <div className="form-check" key={`filter-${filter}`}>
+                <label className="form-check-label mr-2 inline-block text-gray-800" htmlFor={filter}>
+                  <input
+                    className="form-check-input float-left mr-2 mt-1 h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top leading-tight transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
+                    type="checkbox"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                    name={filter}
+                    checked={values[filter]}
+                  />
+                  <span className="text-sm">{filter}</span>
+                </label>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {(isError || !data) && !isLoading ? (
+        <div className="mb-4 rounded-lg bg-red-100 py-5 px-6 text-base text-red-700" role="alert">
+          Error: {JSON.stringify(error?.message)}
+        </div>
+      ) : null}
 
       <aside
         id="default-sidebar"
@@ -98,11 +99,7 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
               </a>
             </li>
             <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ">
-              <SearchBar
-                options={['Chennai', 'Mumbai', 'Bangalore']}
-                value={selectedOption}
-                onChange={setSelectedOption}
-              />
+              <SearchBar options={['Chennai', 'Mumbai', 'Bangalore']} value={search} onChange={setSearch} />
             </li>
           </ul>
         </div>
@@ -118,3 +115,5 @@ export const VerbTable = (props: { verb: string; mood: string; filters: string[]
     </>
   );
 };
+
+export const VerbTableWithSearchContext = withSearchContext(VerbTable);

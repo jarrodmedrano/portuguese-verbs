@@ -19,6 +19,15 @@ export const SearchBar = ({
   const [query, setQuery] = useState('');
   const results = useSearch(query);
 
+  useEffect(() => {
+    const {
+      results: { data },
+    } = results;
+    if (data) {
+      onChange(data.name);
+    }
+  }, [results, onChange]);
+
   const formik = useFormik({
     initialValues: {
       field1: '',
@@ -34,7 +43,7 @@ export const SearchBar = ({
   };
 
   const handleChange = (text: string) => {
-    onChange(text);
+    setQuery(text);
     setCursor(-1);
     if (!showOptions) {
       setShowOptions(true);
@@ -165,7 +174,6 @@ export const SearchBar = ({
           )}
         </ul>
       </div>
-      {JSON.stringify(results)}
     </form>
   );
 };

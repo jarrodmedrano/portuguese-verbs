@@ -1,63 +1,11 @@
 import type { NextPage } from 'next';
-import { VerbTable } from '../src/components/VerbTable';
+import { VerbTableWithSearchContext } from '../src/components/VerbTable';
+import { SearchContextProvider } from '../src/contexts/SearchContext';
 
 const Home: NextPage = () => {
-  const commonVerbs = [
-    'fazer',
-    'ir',
-    'dirigir',
-    'levar',
-    'parar',
-    'falar',
-    'prestar',
-    'ficar',
-    'chegar',
-    'deixar',
-    'andar',
-    'ser',
-    'ter',
-    'estar',
-    'poder',
-    'fazer',
-    'ir',
-    'haver',
-    'dizer',
-    'dar',
-    'ver',
-    'saber',
-    'querer',
-    'ficar',
-    'dever',
-    'passar',
-    'vir',
-    'chegar',
-    'falar',
-    'deixar',
-    'encontrar',
-  ];
   return (
-    <>
-      {commonVerbs.map((verb) => {
-        return (
-          <VerbTable
-            filters={[
-              'presente',
-              'pretérito-imperfeito',
-              'pretérito-perfeito',
-              // 'pretérito-mais-que-perfeito',
-              'futuro-do-presente',
-              // 'pretérito-perfeito-composto',
-              // 'pretérito-mais-que-perfeito-composto',
-              // 'pretérito-mais-que-perfeito-anterior',
-              // 'futuro-do-presente-composto',
-            ]}
-            verb={verb}
-            key={verb}
-            mood="indicativo"
-          />
-        );
-      })}
-      {/* <VerbTable
+    <SearchContextProvider>
+      <VerbTableWithSearchContext
         filters={[
           'presente',
           'pretérito-imperfeito',
@@ -69,11 +17,11 @@ const Home: NextPage = () => {
           // 'pretérito-mais-que-perfeito-anterior',
           // 'futuro-do-presente-composto',
         ]}
-        verb={'fazer'}
-        key={'fazer'}
+        verb="fazer"
+        key="fazer"
         mood="indicativo"
-      /> */}
-    </>
+      />
+    </SearchContextProvider>
   );
 };
 
