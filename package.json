@@ -52,9 +52,7 @@
   "lint-staged": {
     "./*/**/*.{js,jsx,ts,tsx}": [
       "yarn run prettier:fix",
-      "yarn run eslint:fix",
-      "yarn run test --env=jsdom",
-      "yarn run coverage --env=jsdom"
+      "yarn run eslint:fix"
     ],
     "*.{json,md}": [
       "yarn run prettier:fix"

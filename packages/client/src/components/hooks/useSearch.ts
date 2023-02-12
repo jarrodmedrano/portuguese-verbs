@@ -12,7 +12,7 @@ export const useSearch = (query: string) => {
     } else {
       setIsSearching(false);
     }
-  }, [debouncedQuery]);
+  }, [debouncedQuery, setIsSearching]);
 
   return {
     results,

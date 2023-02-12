@@ -5,6 +5,7 @@ import { resolve } from 'path';
 // https://vitejs.dev/config/
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
+  extends: '../../vite.config.js',
   plugins: [react()],
   test: {
     globals: true,

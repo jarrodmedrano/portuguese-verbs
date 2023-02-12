@@ -1,17 +1,17 @@
 import classNames from 'classnames';
 import { useFormik } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { useSearch } from './hooks/useSearch';
 
 export const SearchBar = ({
-  options,
-  value,
   onChange,
+  onSubmit,
+  options,
 }: {
-  options: string[];
-  value: string;
   onChange: Dispatch<SetStateAction<string>>;
+  options: string[];
+  onSubmit: Dispatch<SetStateAction<string>>;
 }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [cursor, setCursor] = useState(-1);
@@ -19,12 +19,14 @@ export const SearchBar = ({
   const [query, setQuery] = useState('');
   const results = useSearch(query);
 
-  useEffect(() => {
-    const {
-      results: { data },
-    } = results;
-    if (data) {
-      onChange(data.name);
+  useMemo(() => {
+    if (results) {
+      const {
+        results: { data },
+      } = results;
+      if (data && data.name) {
+        onChange(data.name);
+      }
     }
   }, [results, onChange]);
 
@@ -33,12 +35,12 @@ export const SearchBar = ({
       field1: '',
     },
     onSubmit: (values) => {
-      setQuery(values.field1);
+      onSubmit(values.field1);
     },
   });
 
   const select = (option: string) => {
-    onChange(option);
+    onSubmit(option);
     setShowOptions(false);
   };
 
@@ -50,10 +52,8 @@ export const SearchBar = ({
     }
   };
 
-  const filteredOptions = options.filter((option: string | any[]) => option.includes(value));
-
   const moveCursorDown = () => {
-    if (cursor < filteredOptions.length - 1) {
+    if (cursor < options.length - 1) {
       setCursor((c) => c + 1);
     }
   };
@@ -73,8 +73,8 @@ export const SearchBar = ({
         moveCursorDown();
         break;
       case 'Enter':
-        if (cursor >= 0 && cursor < filteredOptions.length) {
-          select(filteredOptions[cursor]);
+        if (cursor >= 0 && cursor < options.length) {
+          select(options[cursor]);
         }
         break;
     }
@@ -127,7 +127,6 @@ export const SearchBar = ({
           placeholder="Search for a verb"
           required
           value={formik.values.field1}
-          // onChange={formik.handleChange}
           onChange={(e) => {
             handleChange(e.target.value);
             formik.handleChange(e);
@@ -142,8 +141,8 @@ export const SearchBar = ({
             !showOptions && 'hidden'
           } select-none`}
         >
-          {filteredOptions.length > 0 ? (
-            filteredOptions.map((option: string, i: number, arr: string | any[]) => {
+          {options.length > 0 ? (
+            options.map((option: string, i: number, arr: string | any[]) => {
               let className = 'px-4 hover:bg-gray-100 dark:hover:bg-gray-100';
 
               if (i === 0) className += 'pt-2 pb-1 rounded-t-lg';

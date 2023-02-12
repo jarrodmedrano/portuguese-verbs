@@ -25,7 +25,7 @@ export type VerbTableProps = {
 };
 
 const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableProps) => {
-  const { search, setSearch } = useContext(SearchContext);
+  const { search, setSearch, partialSearch, setPartialSearch } = useContext(SearchContext);
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb: search ? search : verb, mood }]);
 
   const [values, setValues] = useState<CheckBoxVals>({});
@@ -99,7 +99,7 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableP
               </a>
             </li>
             <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ">
-              <SearchBar options={['Chennai', 'Mumbai', 'Bangalore']} value={search} onChange={setSearch} />
+              <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
             </li>
           </ul>
         </div>
