@@ -32,16 +32,9 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
               `flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ${isOpenClass}`,
             )}
           >
-            <Switcher showLabel={isOpen} />
-          </li>
-          <li
-            className={classNames(
-              `flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ${isOpenClass}`,
-            )}
-          >
             <a
               className={classNames(
-                `mt-2 flex h-12 w-12 items-center justify-center rounded hover:bg-gray-700 hover:text-gray-300 `,
+                `mt-2 flex h-12 w-full items-center  justify-center rounded hover:bg-gray-700 hover:text-gray-300 `,
               )}
               href="#"
               onClick={handleClick}
@@ -56,8 +49,21 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
               </svg>
+              {isOpen && (
+                <span className="ml-2  text-sm font-bold">
+                  <span className="h-12 w-12 text-lg">🇧🇷</span> Portuguese Verbs
+                </span>
+              )}
             </a>
           </li>
+          <li
+            className={classNames(
+              `flex items-center rounded-lg  p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ${isOpenClass}`,
+            )}
+          >
+            <Switcher showLabel={isOpen} />
+          </li>
+
           <li
             className={classNames(
               `flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ${isOpenClass}`,

@@ -121,6 +121,7 @@ export const SearchBar = ({
           </svg>
         </div>
         <input
+          autoFocus
           autoComplete="do-not-autofill"
           id="field1"
           className="block w-full rounded-lg border border-transparent border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 hover:outline-none focus:border-transparent focus:border-blue-500 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -137,7 +138,7 @@ export const SearchBar = ({
         />
 
         <ul
-          className={`absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm ${
+          className={` absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-400 dark:text-white sm:text-sm ${
             !showOptions && 'hidden'
           } select-none`}
         >
@@ -157,8 +158,8 @@ export const SearchBar = ({
               return (
                 <li
                   className={classNames(
-                    `dark:text-slate-400`,
-                    'relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900',
+                    `dark:text-white`,
+                    'relative cursor-pointer select-none py-2 pl-3 pr-9 text-gray-900  dark:bg-slate-400 dark:text-white',
                     className,
                   )}
                   key={`option-${i}`}
@@ -169,7 +170,7 @@ export const SearchBar = ({
               );
             })
           ) : (
-            <li className="px-4 py-2 text-gray-500">No results</li>
+            <li className="px-4 py-2 text-gray-500 dark:bg-slate-400 dark:text-white ">No results</li>
           )}
         </ul>
       </div>
