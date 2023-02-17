@@ -3,10 +3,10 @@ import { useEffect, useState, useContext } from 'react';
 import { trpc } from '../services';
 import Table from 'react-tailwind-table';
 import { useConjugation } from './hooks/useConjugation';
-import { Switcher } from './Switcher';
-import { SearchBar } from './SearchBar';
 import { SearchContext, withSearchContext } from '../contexts/SearchContext';
 import { Loading } from './Loading';
+import { Sidebar } from './Sidebar';
+import classNames from 'classnames';
 
 export type CheckBoxVals = {
   [checked: string]: boolean;
@@ -25,8 +25,9 @@ export type VerbTableProps = {
 };
 
 const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableProps) => {
-  const { search, setSearch, partialSearch, setPartialSearch } = useContext(SearchContext);
+  const { search } = useContext(SearchContext);
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb: search ? search : verb, mood }]);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
 
   const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
@@ -50,16 +51,20 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableP
     }
   }, [filters, data]);
 
+  const handleClickSidebar = () => {
+    setSidebarIsOpen(!sidebarIsOpen);
+  };
+
   return (
-    <div className={`dark:bg-gray-700  dark:text-white `}>
+    <div className={`dark:bg-gray-700 dark:text-white`}>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex justify-center dark:bg-gray-700 dark:text-white">
+        <div className="mt-5 flex justify-center dark:bg-gray-700 dark:text-white">
           {filters.map((filter) => {
             return (
               <div className="form-check" key={`filter-${filter}`}>
-                <label className="form-check-label mr-2 inline-block text-gray-800" htmlFor={filter}>
+                <label className="form-check-label mr-2 inline-block" htmlFor={filter}>
                   <input
                     className="form-check-input float-left mr-2 mt-1 h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top leading-tight transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
                     type="checkbox"
@@ -87,25 +92,10 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableP
         className="fixed top-0 left-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4  dark:bg-gray-800">
-          <ul className="space-y-2">
-            <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100  hover:text-white dark:text-white dark:hover:bg-gray-700">
-              <Switcher />
-            </li>
-            <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100  hover:text-white dark:text-white dark:hover:bg-gray-700">
-              <a href="#">
-                🇧🇷
-                <span className="ml-3 text-gray-500 hover:text-white">Portuguese Verbs</span>
-              </a>
-            </li>
-            <li className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ">
-              <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
-            </li>
-          </ul>
-        </div>
+        <Sidebar handleClick={handleClickSidebar} isOpen={sidebarIsOpen} />
       </aside>
 
-      <div className="p-4 sm:ml-64">
+      <div className={classNames(`p-4 ${sidebarIsOpen ? 'sm:ml-64' : 'sm:ml-20'}`)}>
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
           <div className="mb-4 flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <Table
