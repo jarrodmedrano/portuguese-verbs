@@ -1,26 +1,43 @@
-FROM node:16-alpine
-
-ENV NODE_ENV development
-
-# https://github.com/vercel/turbo/issues/2198
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+FROM node:alpine AS builder
 RUN apk add --no-cache libc6-compat
-
-# add turborepo
-RUN yarn global add turbo
-
+RUN apk update
 # Set working directory
 WORKDIR /app
-
-# Install app dependencies
-COPY  ["yarn.lock", "package.json", "./"] 
-
-# Copy source files
+RUN yarn global add turbo
 COPY . .
-
-# Install app dependencies
+RUN turbo prune --scope=client --docker
+ 
+# Add lockfile and package.json's of isolated subworkspace
+FROM node:alpine AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
+WORKDIR /app
+ 
+# First install the dependencies (as they change less often)
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
-
-EXPOSE 3000 3001 3002 6006
-
-CMD ["yarn", "dev"]
+ 
+# Build the project
+COPY --from=builder /app/out/full/ .
+RUN yarn turbo run build --filter=client...
+ 
+FROM node:alpine AS runner
+WORKDIR /app
+ 
+# Don't run production as root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
+ 
+COPY --from=installer /app/packages/client/next.config.js .
+COPY --from=installer /app/packages/client/package.json .
+ 
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
+ 
+CMD node apps/client/server.js

@@ -1,22 +1,29 @@
-version: '2'
+version: "3"
+
 services:
-  # turborepo
-  turbo:
-    container_name: turborepo-starter
+  web:
+    container_name: web
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./packages/client/Dockerfile
+    restart: always
     ports:
-      - '3000:3000'
-      - '3001:3001'
-      - '3002:3002'
-      - '6006:6006'
-    volumes:
-      - ./:/app/
-        # Just specify a path and let the Engine create a volume
-      - /app/node_modules/
-    restart: on-failure
+      - 3000:3000
+    networks:
+      - app_network
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile
+    restart: always
+    ports:
+      - 3001:3001
+    networks:
+      - app_network
 
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
 networks:
-  turbo-network:
-    driver: bridge
+  app_network:
+    external: true
