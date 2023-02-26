@@ -24,6 +24,7 @@ jobs:
     
     - name: chmod
       run: chmod -R +x ./.github
+    - name: List working dir
       run: |
         ls -la
     - name: Automatic Tagging of Releases
