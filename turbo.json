@@ -2,11 +2,11 @@
   "$schema": "https://turborepo.org/schema.json",
   "baseBranch": "origin/main",
   "pipeline": {
-    "lint": {
-      "outputs": []
-    },
     "dev": {
       "cache": false
+    },
+    "start": {
+      "dependsOn": ["^build"]
     },
     "//#lint": {
       "dependsOn": ["//#check:toml", "//#check:prettier"]
@@ -16,13 +16,27 @@
     "check-types": {
       "dependsOn": ["//#build:ts", "^build"]
     },
-
     "//#build:ts": {
       "outputs": ["packages/**/dist"]
     },
     "build": {
       "outputs": ["dist/**/*", ".next/**/*"],
       "dependsOn": ["^build"]
+    },
+    "lint": {
+      "cache": false
+    },
+    "lint:fix": {
+      "cache": false
+    },
+    "format": {
+      "cache": false
+    },
+    "format:check": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
     }
   }
 }
