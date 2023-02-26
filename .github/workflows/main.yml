@@ -21,12 +21,15 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+    
+     - name: chmod
+        run: chmod -R +x ./.github
 
     - name: Automatic Tagging of Releases
       id: increment-git-tag
       run: |
-        bash ./build/build.sh -v major
-
+        bash ./.github/build.sh -v major
+        
     - name: Build, Tag, and Push the Image to Amazon ECR
       id: build-image
       env:
