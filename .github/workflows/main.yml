@@ -24,7 +24,10 @@ jobs:
     
     - name: chmod
       run: chmod -R +x ./.github
-      
+    - name: Open Web Client Directory
+        working-directory: src/webclient
+        run: |
+          ls -la
     - name: Automatic Tagging of Releases
       id: increment-git-tag
       run: |
