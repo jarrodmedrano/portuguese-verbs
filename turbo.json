@@ -14,9 +14,9 @@
     "//#check:prettier": {},
     "//#check:toml": {},
     "check-types": {
-      "dependsOn": ["//#build:ts", "^build"]
+      "dependsOn": ["build:ts", "^build"]
     },
-    "//#build:ts": {
+    "build:ts": {
       "outputs": ["packages/**/dist"]
     },
     "build": {
