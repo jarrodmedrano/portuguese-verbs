@@ -22,7 +22,8 @@
     "migrate": "npx prisma migrate dev --preview-feature",
     "generate": "npm run generate",
     "dev": "tsnd --respawn src/index.ts",
-    "db:seed": "prisma db seed --preview-feature"
+    "db:seed": "prisma db seed --preview-feature",
+    "prebuild": "npm run generate && npm run migrate && npm run db:seed"
   },
   "devDependencies": {
     "@prisma/client": "^3.10.0",
