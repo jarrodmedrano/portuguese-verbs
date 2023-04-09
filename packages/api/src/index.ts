@@ -4,8 +4,9 @@ import cors from 'cors';
 import { createRouter } from './app/app.router';
 import { verbecc } from './verbecc/verbecc.router';
 import { verb } from './verb/verb.router';
-
 const appRouter = createRouter().merge('verbecc.', verbecc).merge('verb.', verb);
+
+require('dotenv').config();
 
 export type AppRouter = typeof appRouter;
 
