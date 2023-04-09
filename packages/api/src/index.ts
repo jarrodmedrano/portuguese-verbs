@@ -22,7 +22,7 @@ app.use(
   }),
 );
 
-app.listen(4000, () => {
+app.listen(process.env.TRPC_PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('The application is listening on port 4000!');
+  console.log(`The application is listening on port ${process.env.TRPC_PORT}!`);
 });
