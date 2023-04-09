@@ -36,6 +36,17 @@
         "^build"
       ]
     },
+    "api#prebuild": {
+      "dependsOn": [
+        "^build",
+        "prebuild"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "public/dist/**"
+      ]
+    },
     "api#build": {
       "dependsOn": [
         "^build",

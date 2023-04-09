@@ -1,16 +1,6 @@
 version: '3'
 
 services:
-  web:
-    container_name: web
-    build:
-      context: .
-      dockerfile: ./packages/client/Dockerfile
-    restart: always
-    ports:
-      - 3000:3000
-    networks:
-      - app_network
   api:
     container_name: api
     build:
@@ -18,7 +8,17 @@ services:
       dockerfile: ./packages/api/Dockerfile
     restart: always
     ports:
-      - 3001:3001
+      - 4000:4000
+    networks:
+      - app_network
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
     networks:
       - app_network
 
