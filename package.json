@@ -5,7 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "prebuild": "yarn run format",
+    "build": "yarn prebuild && yarn turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -19,6 +20,47 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage"
+  },
+  "pipeline": {
+    "prebuild": {
+      "dependsOn": [
+        "^prebuild"
+      ]
+    },
+    "build": {
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ],
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "api#build": {
+      "dependsOn": [
+        "^build",
+        "prebuild"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "public/dist/**"
+      ]
+    },
+    "client#build": {
+      "dependsOn": [
+        "api#build",
+        "^build",
+        "prebuild"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "public/dist/**"
+      ]
+    },
+    "test": {},
+    "lint": {}
   },
   "workspaces": [
     "packages/*"
