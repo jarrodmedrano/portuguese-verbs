@@ -1,6 +1,6 @@
 # TURBOREPO + tRPC
 
-Boilerplate for scaffolding easy fullstack Typescript projects.
+.
 
 ## Technologies
 
@@ -25,4 +25,4 @@ Runs both client and server in parallel environments
 yarn dev
 ```
 
-#### Author: Shreeji Pedhadiya 👨🏻‍💻
+#### Author: Jarrod Medrano 👨🏻‍💻
