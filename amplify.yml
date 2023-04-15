@@ -5,7 +5,7 @@ frontend:
       commands:
         - yum -y install jq
         - jq --version
-        - nvm install 16
+        - nvm install 14
         - npm install --legacy-peer-deps
     build:
       commands:
