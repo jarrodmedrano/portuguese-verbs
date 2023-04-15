@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "prebuild": "yarn run format",
-    "build": "yarn prebuild && yarn turbo run build",
+    "build": "yarn turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
