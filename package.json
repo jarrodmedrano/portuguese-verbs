@@ -5,7 +5,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "prebuild": "yarn run format",
     "build": "yarn turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
