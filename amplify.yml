@@ -4,6 +4,9 @@ frontend:
     preBuild:
       commands:
         - yum -y install jq
+        - yum -y install husky
+        - yum -y install prettier
+        - yum -y install turbo
         - jq --version
         - nvm install 16
         - npm install --legacy-peer-deps
