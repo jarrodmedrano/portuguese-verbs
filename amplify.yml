@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yum -y install jq
+        - jq --version
+        - nvm install 16
+        - yarn install
+        - npm ci
+    build:
+      commands:
+        - bash scripts/before_install.sh
+        - yarn run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
