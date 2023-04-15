@@ -6,12 +6,11 @@ frontend:
         - yum -y install jq
         - jq --version
         - nvm install 16
-        - yarn install
+        - npm install
     build:
       commands:
         - bash scripts/before_install.sh
-        - yarn install
-        - yarn run build
+        - npm run build
   artifacts:
     baseDirectory: .next
     files:

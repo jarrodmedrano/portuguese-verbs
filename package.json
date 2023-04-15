@@ -104,14 +104,13 @@
   },
   "lint-staged": {
     "./*/**/*.{js,jsx,ts,tsx}": [
-      "yarn run prettier:fix",
-      "yarn run eslint:fix"
+      "npm run prettier:fix",
+      "npm run eslint:fix"
     ],
     "*.{json,md}": [
-      "yarn run prettier:fix"
+      "npm run prettier:fix"
     ]
   },
-  "packageManager": "yarn@1.22.17",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@vitest/ui": "^0.28.4"
