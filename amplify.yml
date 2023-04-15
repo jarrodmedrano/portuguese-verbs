@@ -10,6 +10,7 @@ frontend:
     build:
       commands:
         - bash scripts/before_install.sh
+        - yarn install
         - yarn run build
   artifacts:
     baseDirectory: .next
