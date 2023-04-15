@@ -7,7 +7,6 @@ frontend:
         - jq --version
         - nvm install 16
         - yarn install
-        - npm ci
     build:
       commands:
         - bash scripts/before_install.sh
