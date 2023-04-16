@@ -24,8 +24,10 @@ export const SearchBar = ({
       const {
         results: { data },
       } = results;
+      // @ts-ignore this
       if (data && data.name) {
-        onChange(data.name);
+        // @ts-ignore this
+        onChange(data?.name);
       }
     }
   }, [results, onChange]);

@@ -74,7 +74,8 @@
     "lint": {}
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "devDependencies": {
     "@vitejs/plugin-react": "^3.0.0",

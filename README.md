@@ -9,20 +9,28 @@
 - [ExpressJS](https://expressjs.com/)
 - [NextJS](https://nextjs.org/)
 
-## Development
+## Startup
 
-Initiates SQLite Database
+# Create a network, which allows containers to communicate
 
-```bash
-# Inside packages/api
-npx prisma db push
-```
+# with each other, by using their container name as a hostname
 
-Runs both client and server in parallel environments
+docker network create app_network
 
-```bash
-# Root Directory
-yarn dev
-```
+# Build prod using new BuildKit engine
+
+COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
+
+# Start prod in detached mode
+
+docker-compose -f docker-compose.yml up -d
+
+Open http://localhost:3000.
+
+To shutdown all running containers:
+
+# Stop all running containers
+
+docker kill $(docker ps -q) && docker rm $(docker ps -a -q)
 
 #### Author: Jarrod Medrano 👨🏻‍💻

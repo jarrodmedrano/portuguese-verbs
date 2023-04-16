@@ -26,6 +26,7 @@ export type VerbTableProps = {
 
 const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableProps) => {
   const { search } = useContext(SearchContext);
+  // @ts-ignore this
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb: search ? search : verb, mood }]);
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
 

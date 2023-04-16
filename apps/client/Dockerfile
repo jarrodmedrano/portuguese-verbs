@@ -6,14 +6,11 @@ WORKDIR /app
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=client --docker
-RUN turbo prune --scope=api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-slim AS installer
 RUN apt-get update
 WORKDIR /app
-
-RUN pwd
  
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -23,10 +20,10 @@ RUN yarn install
  
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN apt-get install -y openssl
+# RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
-RUN cd packages/api && yarn run prebuild
-RUN yarn turbo run build
+# RUN cd packages/api && yarn run prebuild
+RUN yarn turbo run build --filter=client...
  
 FROM node:18-slim AS runner
 WORKDIR /app
@@ -36,11 +33,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
  
-COPY --from=installer /app/packages/client/next.config.mjs .
-COPY --from=installer /app/packages/client/package.json .
+COPY --from=installer /app/packagesclient/next.config.js .
+COPY --from=installer /app/packagesclient/package.json .
  
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /app/packages/client/.next/static ./apps/client/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/packagesclient/.next/static ./packages/client/.next/static
  
-CMD node apps/client/server.js
+CMD node packages/client/server.js

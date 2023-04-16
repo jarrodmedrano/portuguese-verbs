@@ -17,7 +17,7 @@
       "dependsOn": ["build:ts", "^build"]
     },
     "build:ts": {
-      "outputs": ["packages/**/dist"]
+      "outputs": ["packages/**/dist", "apps/**/dist"]
     },
     "build": {
       "outputs": ["dist/**/*", ".next/**/*"],
