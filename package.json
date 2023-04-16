@@ -19,7 +19,9 @@
     "pre-commit": "lint-staged",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "compose": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build",
+    "compose-up": "docker-compose up"
   },
   "pipeline": {
     "prebuild": {
