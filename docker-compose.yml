@@ -1,7 +1,21 @@
 version: '3'
 
 services:
+  verbecc:
+    container_name: verbecc
+    image: bretttolbert/verbecc-svc:latest
+    restart: always
+    ports:
+      - 8000:8000
+    networks:
+      - app_network
+    expose:
+      - 8000:8000
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
   api:
+    depends_on:
+      - verbecc
     container_name: api
     build:
       context: .
@@ -11,8 +25,14 @@ services:
       - 4000:4000
     networks:
       - app_network
+    expose:
+      - 4000:4000
+      - 8000:8000
+    env_file:
+      - .env
   client:
     depends_on:
+      - verbecc
       - api
     container_name: client
     build:
@@ -23,6 +43,8 @@ services:
       - 3000:3000
     networks:
       - app_network
+    env_file:
+      - .env
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
