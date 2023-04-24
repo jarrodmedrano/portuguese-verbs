@@ -21,6 +21,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage",
+    "compose-network": "docker network create app_network",
     "compose": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build",
     "compose-up": "docker compose up",
     "compose-up-dev": "docker compose -f docker-compose.dev.yml up --build"
