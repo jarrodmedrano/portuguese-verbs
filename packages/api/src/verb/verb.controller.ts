@@ -1,11 +1,11 @@
-import { Verb } from '@prisma/client';
+// import { Verb } from '@prisma/client';
 import prisma from '../db';
 
-export const getVerbs = async (): Promise<Verb[]> => {
+export const getVerbs = async (): Promise<any[]> => {
   return prisma.verb.findMany();
 };
 
-export const getVerb = async ({ name }: { name: string }): Promise<Verb | null> => {
+export const getVerb = async ({ name }: { name: string }): Promise<any | null> => {
   return prisma.verb.findFirst({
     where: {
       name: {
@@ -15,7 +15,7 @@ export const getVerb = async ({ name }: { name: string }): Promise<Verb | null> 
   });
 };
 
-export const createVerb = async (input: string): Promise<Verb> => {
+export const createVerb = async (input: string): Promise<any> => {
   const verb = await prisma.verb.create({
     data: { name: input },
   });

@@ -1,0 +1,41 @@
+FROM node:18-slim AS builder
+RUN apt-get autoclean
+RUN apt-get clean
+RUN apt-get update
+# Set working directory
+WORKDIR /app
+RUN yarn global add turbo
+COPY . .
+# Only Take packages that are needed to compile this app
+RUN turbo prune --scope=client --docker
+
+# Add lockfile and package.json's of isolated subworkspace
+FROM node:18-slim AS installer
+RUN apt-get autoclean
+RUN apt-get clean
+RUN apt-get update
+WORKDIR /app
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/yarn.lock ./yarn.lock
+COPY --from=builder /app/turbo.json ./turbo.json
+RUN yarn install --frozen-lockfile
+
+FROM node:18-slim AS sourcer
+RUN apt-get autoclean
+RUN apt-get clean
+RUN apt-get update
+WORKDIR /app
+COPY --from=installer /app/ .
+COPY --from=builder /app/out/full/ .
+RUN apt-get install -y openssl
+# RUN npx prisma db pull && prisma generate
+RUN cd packages/api && yarn run prebuild
+COPY .gitignore .gitignore
+RUN yarn turbo run build --include-dependencies --no-deps
+
+FROM node:18-slim as runner
+RUN apt-get update
+WORKDIR /app
+COPY --from=sourcer /app/ .
+WORKDIR /app/packages/client/
+CMD [ "yarn", "dev" ]

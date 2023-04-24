@@ -7,4 +7,11 @@ module.exports = {
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
+  webpack: (config) => {
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300,
+    };
+    return config;
+  },
 };

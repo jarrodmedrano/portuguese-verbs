@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  verbecc:
+    extends:
+      file: common-services.yml
+      service: verbecc
+  api:
+    extends:
+      file: common-services.yml
+      service: api
+    volumes:
+      - ./packages/api:/app/packages/api
+      - /app/node_modules
+      - /app/dist
+      - /app/
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile.dev
+    environment:
+      - VERBECC_API=http://verbecc:8000
+      - TRPC_PORT=4000
+  client:
+    extends:
+      file: common-services.yml
+      service: client
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile.dev
+    environment:
+      - VERBECC_API=http://localhost:8000
+      - NODE_ENV=development
+      - NEXT_PUBLIC_TRPC_API=http://localhost:4000
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:
+    external: true
