@@ -38,11 +38,11 @@ relevant IAM credentials to create the networking infrastructure in an AWS accou
 
 # Navigate to the Infrastructure Directory
 
-`$ cd ../cloudformation/infrastructure`
+`cd ../cloudformation/infrastructure`
 
 # Deploy the CloudFormation Template
 
-```$ aws cloudformation create-stack \
+```aws cloudformation create-stack \
  --stack-name compose-infrastructure \
  --template-body file://cloudformation.yml \
  --capabilities CAPABILITY_IAM
@@ -54,19 +54,19 @@ CloudFormation stack has been successfully deployed:
 
 # Set the VPC Id
 
-```$ VPC_ID=$(aws cloudformation describe-stacks --stack-name compose-infrastructure --query "Stacks[0].Outputs[?OutputKey=='VpcId'].OutputValue" --output text)
+```VPC_ID=$(aws cloudformation describe-stacks --stack-name compose-infrastructure --query "Stacks[0].Outputs[?OutputKey=='VpcId'].OutputValue" --output text)
 
 ```
 
 # Set the ECS Cluster Name
 
-```$ ECS_CLUSTER=$(aws cloudformation describe-stacks --stack-name compose-infrastructure --query "Stacks[0].Outputs[?OutputKey=='ClusterName'].OutputValue" --output text)
+```ECS_CLUSTER=$(aws cloudformation describe-stacks --stack-name compose-infrastructure --query "Stacks[0].Outputs[?OutputKey=='ClusterName'].OutputValue" --output text)
 
 ```
 
 # The Loadbalancer Arn
 
-```$ LOADBALANCER_ARN=$(aws cloudformation describe-stacks --stack-name compose-infrastructure --query "Stacks[0].Outputs[?OutputKey=='LoadbalancerId'].OutputValue" --output text)
+```LOADBALANCER_ARN=$(aws cloudformation describe-stacks --stack-name compose-infrastructure --query "Stacks[0].Outputs[?OutputKey=='LoadbalancerId'].OutputValue" --output text)
 
 ```
 
@@ -85,12 +85,12 @@ image
 
 # Navigate to the directory that stores the Pipeline Template
 
-`$ cd ../cloudformation/pipeline/`
+`cd ../cloudformation/pipeline/`
 
 # Deploy the AWS CloudFormation Template, passing in the existing AWS Resource Paramaters
 
 ```
-$ aws cloudformation create-stack \
+aws cloudformation create-stack \
  --stack-name compose-pipeline \
  --template-body file://cloudformation.yaml \
  --capabilities CAPABILITY_IAM \
@@ -108,19 +108,19 @@ artifacts are all included in the application directory within the repository.
 
 # Ensure you are in the Application directory of the cloned repository
 
-`$ cd ../../application`
+`cd ../../application`
 
 # Retrieve the S3 Bucket Name
 
 ```
-$ BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name compose-pipeline --query "Stacks[0].Outputs[?OutputKey=='S3BucketName'].OutputValue" --output text)
+BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name compose-pipeline --query "Stacks[0].Outputs[?OutputKey=='S3BucketName'].OutputValue" --output text)
 ```
 
 # Zip up the Code and Upload to S3
 
 ```
-$ zip -r compose-bundle.zip .
-$ aws s3 cp compose-bundle.zip s3://$BUCKET_NAME/compose-bundle.zip
+zip -r compose-bundle.zip .
+aws s3 cp compose-bundle.zip s3://$BUCKET_NAME/compose-bundle.zip
 ```
 
 Copying the ZIP file into the S3 bucket will trigger the CodePipeline; after a few seconds the pipeline will transition
@@ -193,13 +193,13 @@ artifacts:
 
 # Delete the Sample Application deployed via the Pipeline
 
-`$ aws cloudformation delete-stack --stack-name compose-application`
+`aws cloudformation delete-stack --stack-name compose-application`
 
 # Delete the S3 Objects
 
 ```
-$ BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name compose-pipeline --query "Stacks[0].Outputs[?OutputKey=='S3BucketName'].OutputValue" --output text)
-$ aws s3api delete-objects \
+BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name compose-pipeline --query "Stacks[0].Outputs[?OutputKey=='S3BucketName'].OutputValue" --output text)
+aws s3api delete-objects \
   --bucket $BUCKET_NAME --delete \
   "$(aws s3api list-object-versions \
     --bucket "${BUCKET_NAME}" \
@@ -209,21 +209,21 @@ $ aws s3api delete-objects \
 
 # Delete the S3 Bucket
 
-`$ aws s3 rb s3://$BUCKET_NAME`
+`aws s3 rb s3://$BUCKET_NAME`
 
 # Delete the ECR Repository
 
 ```
-$ ECR_REPO=$(aws cloudformation describe-stacks --stack-name compose-pipeline --query "Stacks[0].Outputs[?OutputKey=='DemoAppEcrName'].OutputValue" --output text)
-$ aws ecr delete-repository --repository-name $ECR_REPO --force
+ECR_REPO=$(aws cloudformation describe-stacks --stack-name compose-pipeline --query "Stacks[0].Outputs[?OutputKey=='DemoAppEcrName'].OutputValue" --output text)
+aws ecr delete-repository --repository-name $ECR_REPO --force
 ```
 
 # Delete the Sample Pipeline
 
-`$ aws cloudformation delete-stack --stack-name compose-pipeline`
+`aws cloudformation delete-stack --stack-name compose-pipeline`
 
 # Delete the Networking and ECS Infrastructure
 
-`$ aws cloudformation delete-stack --stack-name compose-infrastructure`
+`aws cloudformation delete-stack --stack-name compose-infrastructure`
 
 #### Author: Jarrod Medrano 👨🏻‍💻
