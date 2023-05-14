@@ -340,7 +340,7 @@ Resources:
               commands:
                 - echo Building the Docker image...
                 # - cd frontend/
-                - docker compose build -t $IMAGE_URI:$IMAGE_TAG .
+                - docker-compose build $IMAGE_URI:$IMAGE_TAG .
             post_build:
               commands:
                 - echo Pushing the Docker image...
