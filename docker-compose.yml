@@ -11,14 +11,14 @@ services:
     extends:
       file: common-services.yml
       service: api
-      image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
-      build: ./packages/api
+    image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
+    build: ./
   client:
     extends:
       file: common-services.yml
       service: client
-      image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
-      build: ./packages/client
+    image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
+    build: ./
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
