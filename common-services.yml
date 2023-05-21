@@ -45,3 +45,11 @@ services:
       - app_network
     env_file:
       - .env
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - 3050:80

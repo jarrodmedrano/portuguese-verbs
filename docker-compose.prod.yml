@@ -11,14 +11,28 @@ services:
     extends:
       file: common-services.yml
       service: api
+      environment:
+        - VERBECC_API_URL=verbecc
+        - TRPC_PORT=4000
+      volumes:
+        - ./packages/api:/app/packages/api
+        - /app/node_modules
+        - /app/dist
+        - /app/
     image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
-    build: ./
   client:
     extends:
       file: common-services.yml
       service: client
+      environment:
+        - VERBECC_API=verbecc
+        - NODE_ENV=production
+        - NEXT_PUBLIC_TRPC_API=api
+      volumes:
+        - ./:/app
+        - /app/node_modules
+        - /app/.next
     image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
-    build: ./
   nginx:
     extends:
       file: common-services.yml
