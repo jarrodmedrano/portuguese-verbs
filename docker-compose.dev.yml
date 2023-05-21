@@ -35,10 +35,10 @@ services:
       - ./:/app
       - /app/node_modules
       - /app/.next
-  nginx:
+  reverse-proxy:
     extends:
       file: common-services.yml
-      service: nginx
+      service: reverse-proxy
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname

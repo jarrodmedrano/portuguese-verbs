@@ -98,6 +98,7 @@
     "husky": "^7.0.0",
     "jsdom": "^20.0.3",
     "lint-staged": "^11.1.2",
+    "nps": "^5.10.0",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "turbo": "1.6.3",
