@@ -6,7 +6,10 @@ import { verbecc } from './verbecc/verbecc.router';
 import { verb } from './verb/verb.router';
 const appRouter = createRouter().merge('verbecc.', verbecc).merge('verb.', verb);
 
-require('dotenv').config();
+const dotenv = require('dotenv');
+const dotenvExpand = require('dotenv-expand');
+const config = dotenv.config();
+dotenvExpand(config);
 
 export type AppRouter = typeof appRouter;
 

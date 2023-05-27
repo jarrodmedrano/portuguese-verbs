@@ -1,5 +1,8 @@
 import { z } from 'zod';
-require('dotenv').config();
+const dotenv = require('dotenv');
+const dotenvExpand = require('dotenv-expand');
+const config = dotenv.config();
+dotenvExpand(config);
 
 /**
  * Specify your server-side environment variables schema here. This way you can ensure the app isn't

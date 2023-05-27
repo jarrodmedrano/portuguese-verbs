@@ -1,5 +1,8 @@
 import axios from 'axios';
-require('dotenv').config();
+const dotenv = require('dotenv');
+const dotenvExpand = require('dotenv-expand');
+const config = dotenv.config();
+dotenvExpand(config);
 
 export type Verb = {
   value: {

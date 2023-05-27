@@ -12,7 +12,8 @@
     "express": "^4.17.3",
     "zod": "^3.20.2",
     "prisma": "^3.10.0",
-    "@prisma/client": "^4.10.0"
+    "@prisma/client": "^4.10.0",
+    "dotenv-expand": "^10.0.0"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",

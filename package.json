@@ -6,25 +6,13 @@
   "private": true,
   "packageManager": "yarn@1.22.19",
   "scripts": {
-    "prebuild": "yarn run format",
-    "build": "yarn prebuild && yarn turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "preview": "vite preview",
+    "start": "nps",
+    "prepare": "husky install",
+    "precommit": "nps precommit",
     "eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
     "eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
     "prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
-    "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "coverage": "vitest run --coverage",
-    "compose-network": "docker network create app_network",
-    "compose": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build",
-    "compose-up": "docker compose up",
-    "compose-up-dev": "docker compose -f docker-compose.dev.yml up --build"
+    "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\""
   },
   "pipeline": {
     "prebuild": {
