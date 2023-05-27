@@ -8,11 +8,16 @@ const ciWebPath = path.resolve(__dirname, 'out/apps/web');
 
 module.exports = {
   scripts: {
+    clean: {
+      default: 'docker system prune',
+    },
+    network: {
+      default: 'docker network create app_network',
+    },
     prepare: {
-      default: 'nps prepare.install prepare.format',
+      default: 'nps prepare.install prepare.format nps network',
       install: 'husky install && yarn install',
       format: 'prettier --write "**/*.{ts,tsx,md}',
-      network: 'docker network create app_network',
       docker: 'docker compose up',
       ci: {
         web: `npx turbo prune --scope=web && cd out && yarn install --frozen-lockfile`,
@@ -47,8 +52,7 @@ module.exports = {
       },
     },
     dev: {
-      default: 'nps prepare.network',
-      start: 'nps dev.default && docker compose -f docker-compose.dev.yml up --build',
+      default: 'docker compose -f docker-compose.dev.yml up --build',
     },
     lint: 'turbo run lint',
     preview: 'vite preview',
