@@ -19,6 +19,9 @@ module.exports = {
         api: `npx turbo prune --scope=api && cd out && yarn install --frozen-lockfile && nps prisma.generate`,
       },
     },
+    prebuild: {
+      default: 'nps prepare.format',
+    },
     test: {
       default: 'nps test.client test.api',
       client: `cd ${clientPath} && npx vitest`,
