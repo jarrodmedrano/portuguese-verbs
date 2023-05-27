@@ -46,7 +46,10 @@ module.exports = {
         api: 'cd out && npm run build',
       },
     },
-    dev: 'docker compose -f docker-compose.dev.yml up --build',
+    dev: {
+      default: 'nps prepare.network',
+      start: 'nps dev.default && docker compose -f docker-compose.dev.yml up --build',
+    },
     lint: 'turbo run lint',
     preview: 'vite preview',
     eslint: {

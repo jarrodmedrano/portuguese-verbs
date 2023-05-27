@@ -38,4 +38,4 @@ WORKDIR /app
 # USER expressjs
  
 COPY --from=installer /app .
-CMD ["yarn", "run", "dev"]
+CMD node packages/api/dist/index.js
