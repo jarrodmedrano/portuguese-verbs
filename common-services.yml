@@ -14,8 +14,6 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   api:
-    depends_on:
-      - verbecc
     container_name: api
     build:
       context: .
@@ -30,9 +28,6 @@ services:
     env_file:
       - .env
   client:
-    depends_on:
-      - verbecc
-      - api
     container_name: client
     build:
       context: .
@@ -49,10 +44,6 @@ services:
     container_name: nginx_container
     ports:
       - 3050:80
-    depends_on:
-      - client
-      - api
-      - verbecc
     volumes:
       - ./packages/config/nginx.conf:/etc/nginx/nginx.conf
     extra_hosts:
