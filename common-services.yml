@@ -10,7 +10,7 @@ services:
     networks:
       - app_network
     expose:
-      - 8000:8000
+      - '8000'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   api:
@@ -26,8 +26,7 @@ services:
     networks:
       - app_network
     expose:
-      - 4000:4000
-      - 8000:8000
+      - '4000'
     env_file:
       - .env
   client:
