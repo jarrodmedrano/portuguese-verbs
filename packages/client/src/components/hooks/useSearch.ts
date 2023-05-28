@@ -7,7 +7,6 @@ export const useSearch = (query: string) => {
   const debouncedQuery = useDebounce(query, 1000);
   const results: UseQueryResult<unknown> = trpc.useQuery([
     'verb.get',
-    //@ts-ignore idk
     debouncedQuery ? { name: debouncedQuery } : { name: '' },
   ]);
 

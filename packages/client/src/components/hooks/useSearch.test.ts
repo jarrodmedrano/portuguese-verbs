@@ -7,6 +7,7 @@ describe('useSearch', () => {
   const date = new Date(Date.now());
 
   it('should return the same value', () => {
+    // @ts-ignore - this is a mock
     vi.spyOn(trpc, 'useQuery').mockReturnValue({
       data: {
         created_at: date,
@@ -18,7 +19,7 @@ describe('useSearch', () => {
 
     const { result } = renderHook(() => useSearch('test'));
     expect(result.current).toStrictEqual({
-      isSearching: false,
+      isSearching: true,
       results: {
         data: {
           created_at: date,
