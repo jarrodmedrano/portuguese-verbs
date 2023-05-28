@@ -25,8 +25,6 @@ services:
       - app_network
     expose:
       - '4000'
-    env_file:
-      - .env
   client:
     container_name: client
     build:

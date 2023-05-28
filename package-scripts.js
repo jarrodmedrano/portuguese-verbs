@@ -67,7 +67,7 @@ module.exports = {
     prepare: 'husky install',
     coverage: 'vitest run --coverage',
     docker: {
-      default: 'COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build',
+      default: 'COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml build',
       client: `docker build -t client . -f ${clientPath}/Dockerfile`,
       api: `docker build -t api . -f ${apiPath}/Dockerfile`,
     },
