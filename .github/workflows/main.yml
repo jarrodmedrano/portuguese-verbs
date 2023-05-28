@@ -49,5 +49,9 @@ jobs:
           ECR_REPOSITORY: portuguese-verbs
           IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
         run: |
-          npx nps docker -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          npx nps docker.client
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY-client:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY-client:$IMAGE_TAG
+          npx nps docker.api
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY-api:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY-api:$IMAGE_TAG
