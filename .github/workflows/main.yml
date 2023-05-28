@@ -33,10 +33,10 @@ jobs:
         run: yarn
 
       - name: Build
-        run: yarn build
+        run: npx nps build
 
       - name: Test
-        run: yarn test
+        run: npx nps test
       - name: Automatic Tagging of Releases
         id: increment-git-tag
         run: |
@@ -49,6 +49,6 @@ jobs:
           ECR_REPOSITORY: portuguese-verbs
           IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
         run: |
-          docker compose build
+          npx nps docker
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

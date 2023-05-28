@@ -15,7 +15,7 @@ module.exports = {
       default: 'docker network create app_network',
     },
     prepare: {
-      default: 'nps prepare.install prepare.format nps network',
+      default: 'nps prepare.install prepare.format',
       install: 'husky install && yarn install',
       format: 'prettier --write "**/*.{ts,tsx,md}',
       docker: 'docker compose up',
@@ -26,6 +26,13 @@ module.exports = {
     },
     prebuild: {
       default: 'nps prepare.format',
+    },
+    build: {
+      default: 'npx turbo run build',
+      ci: {
+        client: 'cd out && npm run build',
+        api: 'cd out && npm run build',
+      },
     },
     test: {
       default: 'nps test.client test.api',
@@ -44,13 +51,6 @@ module.exports = {
         dev: `cd ${apiPath} && npx prisma migrate dev`,
       },
     },
-    build: {
-      default: 'npx turbo run build',
-      ci: {
-        client: 'cd out && npm run build',
-        api: 'cd out && npm run build',
-      },
-    },
     dev: {
       default: 'docker compose -f docker-compose.dev.yml up --build',
     },
@@ -65,19 +65,7 @@ module.exports = {
       fix: 'prettier --write "**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)"',
     },
     prepare: 'husky install',
-    preCommit: 'lint-staged',
-    test: {
-      default: 'vitest',
-      ui: 'vitest --ui',
-    },
     coverage: 'vitest run --coverage',
-    prisma: {
-      generate: `cd ${apiPath} && npx prisma generate`,
-      studio: `cd ${apiPath} && npx prisma studio`,
-      migrate: {
-        dev: `cd ${apiPath} && npx prisma migrate dev`,
-      },
-    },
     docker: {
       default: 'COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build',
       client: `docker build -t client . -f ${clientPath}/Dockerfile`,
