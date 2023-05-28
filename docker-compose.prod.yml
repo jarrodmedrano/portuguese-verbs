@@ -27,7 +27,6 @@ services:
       - app_network
     expose:
       - '4000'
-    service: api
     environment:
       - VERBECC_API_URL=verbecc
       - TRPC_PORT=4000
