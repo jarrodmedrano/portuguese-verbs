@@ -35,8 +35,6 @@ services:
       - 3000:3000
     networks:
       - app_network
-    env_file:
-      - .env
   reverse-proxy:
     image: nginx:latest
     container_name: nginx_container
