@@ -339,7 +339,7 @@ Resources:
             build:
               commands:
                 - echo Building the Docker image...
-                - docker compose build
+                - docker-compose -f docker-compose.prod.yml build
                 - docker tag $IMAGE_URI:$IMAGE_TAG
             post_build:
               commands:

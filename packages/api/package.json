@@ -26,7 +26,7 @@
     "migrate": "npx prisma migrate dev --preview-feature",
     "generate": "npx prisma generate",
     "dev": "yarn run prebuild && tsnd --respawn src/index.ts",
-    "db:seed": "prisma db seed --preview-feature",
+    "db:seed": "npx prisma db seed --preview-feature",
     "prebuild": "yarn run generate && yarn run migrate && yarn run db:seed"
   },
   "devDependencies": {
