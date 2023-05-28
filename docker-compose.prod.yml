@@ -46,8 +46,6 @@ services:
       - 3000:3000
     networks:
       - app_network
-    env_file:
-      - .env
     environment:
       - VERBECC_API=verbecc
       - NODE_ENV=production
