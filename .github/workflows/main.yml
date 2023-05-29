@@ -51,5 +51,6 @@ jobs:
           CLIENT_PATH: ./packages/client
           API_PATH: ./packages/api
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . -f ${CLIENT_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "Building the Docker image to $ECR_REGISTRY..."
+          docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG}-client . -f ${CLIENT_PATH}/Dockerfile
+          docker push ${$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG}-client
