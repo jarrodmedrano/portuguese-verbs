@@ -51,5 +51,5 @@ jobs:
           CLIENT_PATH: ./packages/client
           API_PATH: ./packages/api
         run: |
-          docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest} . -f ${CLIENT_PATH}/Dockerfile`
+          docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest} . -f ${CLIENT_PATH}/Dockerfile
           docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
