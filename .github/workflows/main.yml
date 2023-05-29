@@ -53,5 +53,3 @@ jobs:
         run: |
           docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest} . -f ${CLIENT_PATH}/Dockerfile`
           docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
-          docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest} . -f ${API_PATH}/Dockerfile`
-          docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
