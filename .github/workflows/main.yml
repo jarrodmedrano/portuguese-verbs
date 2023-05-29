@@ -48,10 +48,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: portuguese-verbs
           IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+          CLIENT_PATH: ./packages/client
+          API_PATH: ./packages/api
         run: |
-          npx nps docker.client
-          docker tag client:latest ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
+          docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest} . -f ${CLIENT_PATH}/Dockerfile`
           docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
-          npx nps docker.api
-          docker tag api:latest ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
+          docker build -t ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest} . -f ${API_PATH}/Dockerfile`
           docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
