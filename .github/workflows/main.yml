@@ -49,11 +49,9 @@ jobs:
           ECR_REPOSITORY: portuguese-verbs
           IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
         run: |
-          COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml
           npx nps docker.client
           docker tag client:latest ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
+          docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
           npx nps docker.api
           docker tag api:latest ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
-          docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
           docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
-          docker push bretttolbert/verbecc-svc:latest
