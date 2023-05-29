@@ -113,7 +113,7 @@ BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name compose-pipeline -
 # Zip up the Code and Upload to S3
 
 ```
-zip -r compose-bundle.zip .
+git archive --format=zip HEAD -o compose-bundle.zip
 aws s3 cp compose-bundle.zip s3://$BUCKET_NAME/compose-bundle.zip
 ```
 
