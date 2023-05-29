@@ -60,7 +60,8 @@ jobs:
           cache-from: type=gha,scope=${IMAGE_TAG}
           cache-to: type=gha,scope=${IMAGE_TAG}
           tags: |
-            $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{IMAGE_TAG}}-${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{IMAGE_TAG}}-latest
 
       - name: Install Docker Compose
         run: curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
