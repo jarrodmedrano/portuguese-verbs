@@ -50,6 +50,10 @@ jobs:
           IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
         run: |
           COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml
-          docker push ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
-          docker push ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
+          npx nps build.client
+          docker tag client:latest ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
+          npx nps build.api
+          docker tag api:latest ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
+          docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-client}:${IMAGE_TAG:-latest}
+          docker push ${ECR_REGISTRY/$ECR_REPOSITORY:-api}:${IMAGE_TAG:-latest}
           docker push bretttolbert/verbecc-svc:latest
