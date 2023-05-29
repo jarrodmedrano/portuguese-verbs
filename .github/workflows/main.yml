@@ -60,7 +60,6 @@ jobs:
           cache-from: type=gha,scope=${IMAGE_TAG}
           cache-to: type=gha,scope=${IMAGE_TAG}
           tags: |
-            # $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-${{ github.sha }}
             $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-latest
 
       - name: Install Docker Compose
