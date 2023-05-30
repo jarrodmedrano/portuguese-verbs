@@ -56,7 +56,7 @@ services:
       - /app/.next
     image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
   reverse-proxy:
-    image: nginx:latest
+    image: nginx:stable
     container_name: nginx_container
     ports:
       - 3050:80

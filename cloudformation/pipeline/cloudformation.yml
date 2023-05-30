@@ -339,14 +339,13 @@ Resources:
             build:
               commands:
                 - echo Building the Docker image...
-                - docker-compose -f docker-compose.prod.yml build
-                # - docker tag $IMAGE_URI:$IMAGE_TAG
+                - docker build -t $IMAGE_URI:${IMAGE_TAG}-client . -f ./packages/client/Dockerfile
+                - docker build -t $IMAGE_URI:${IMAGE_TAG}-api . -f ./packages/api/Dockerfile
             post_build:
               commands:
                 - echo Pushing the Docker image...
-                - docker push ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
-                - docker push ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
-                - docker push bretttolbert/verbecc-svc:latest
+                - docker push $IMAGE_URI:${IMAGE_TAG}-client
+                - docker push $IMAGE_URI:${IMAGE_TAG}-api
 
   # Code Build to Extract Cfn
   ExtractBuild:
