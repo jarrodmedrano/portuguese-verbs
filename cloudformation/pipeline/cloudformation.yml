@@ -387,7 +387,7 @@ Resources:
            build:
              commands:
                - echo Convert Compose File
-               - docker --debug compose convert > cloudformation.yml
+               - docker-compose convert > cloudformation.yml
           artifacts:
             files:
               - cloudformation.yml
