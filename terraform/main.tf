@@ -8,19 +8,23 @@ terraform {
   }
 }
 
-module "my_instance" {
-  source        = "./modules/ec2"
-  ami_id        = lookup(var.amis, var.aws_region)
-  instance_type = var.my_instance[0]
-  servers       = 1
-  key_name      = aws_key_pair.terraform_ssh_key.key_name
-}
+# module "my_instance" {
+#   source        = "./modules/ec2"
+#   ami_id        = lookup(var.amis, var.aws_region)
+#   instance_type = var.my_instance[0]
+#   servers       = 1
+#   key_name      = aws_key_pair.terraform_ssh_key.key_name
+# }
 
 module "vpc" {
   source         = "./modules/vpc"
   key_name       = aws_key_pair.terraform_ssh_key.key_name
   aws_ami        = data.aws_ami.latest_amazon_linux2.id
   security_group = aws_default_security_group.default_sec_group.id
+}
+
+module "ecr" {
+  source         = "./modules/ecr"
 }
 
 # data "aws_secretsmanager_secret_version" "creds" {
