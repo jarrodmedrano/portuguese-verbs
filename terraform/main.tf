@@ -27,8 +27,7 @@ module "server" {
   source         = "./modules/server"
   key_name       = aws_key_pair.terraform_ssh_key.key_name
   aws_ami        = data.aws_ami.latest_amazon_linux2.id
-    main_vpc_id = module.vpc.main_vpc_id
-
+  main_vpc_id    = module.vpc.main_vpc_id
 }
 
 provider "aws" {
