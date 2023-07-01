@@ -36,7 +36,7 @@ variable "aws_ami" {
     type        = string
 }
 
-variable "security_group" {
+variable "security_group_id" {
     description = "Security Group"
     type        = string
 }

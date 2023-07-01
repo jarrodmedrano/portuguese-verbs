@@ -52,7 +52,7 @@ resource "aws_instance" "my_vm" {
   associate_public_ip_address = var.my_instance[2]
   subnet_id                   = aws_subnet.web.id
 # subnet_id = var.web_subnet_id
-  vpc_security_group_ids      = [var.security_group]
+  vpc_security_group_ids      = [var.security_group_id]
   # key_name                    = "terraform_key_rsa.pub"
   key_name = var.key_name
   # user_data = file("entry_script.sh")
