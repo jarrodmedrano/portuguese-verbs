@@ -35,7 +35,7 @@ services:
       - /app/node_modules
       - /app/dist
       - /app/
-    image: ${DOCKER_REGISTRY}/${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
+    image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
   client:
     container_name: client
     build:
@@ -54,7 +54,7 @@ services:
       - ./:/app
       - /app/node_modules
       - /app/.next
-    image: ${DOCKER_REGISTRY}/${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
+    image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
   reverse-proxy:
     image: nginx:stable
     container_name: nginx_container
