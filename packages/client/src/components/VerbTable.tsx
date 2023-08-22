@@ -83,14 +83,14 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableP
       )}
 
       {(isError || !data) && !isLoading ? (
-        <div className="mb-4 rounded-lg bg-red-100 py-5 px-6 text-base text-red-700" role="alert">
+        <div className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700" role="alert">
           Error: {JSON.stringify(error?.message)}
         </div>
       ) : null}
 
       <aside
         id="default-sidebar"
-        className="fixed top-0 left-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
         <Sidebar handleClick={handleClickSidebar} isOpen={sidebarIsOpen} />
