@@ -41,7 +41,11 @@ jobs:
         id: increment-git-tag
         run: |
           bash ./.github/scripts/build.sh -v major
-
+      - name: Create ECR Repo if it doesn't exist yet
+        id: ecr
+        uses: int128/create-ecr-repository-action@v1
+        with:
+          repository: ${{ secrets.ECR_REPOSITORY }}
       - name: Build, Tag, and Push the Image to Amazon ECR
         id: build-image
         env:
