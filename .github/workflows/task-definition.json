@@ -1,0 +1,110 @@
+{
+  "taskDefinitionArn": "arn:aws:ecs:us-east-2:***:task-definition/portuguese-verbs",
+  "family": "portuguese-verbs",
+  "containerDefinitions": [
+    {
+      "name": "verbecc",
+      "image": "bretttolbert/verbecc-svc:latest",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "image": "api:latest",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 4000,
+          "hostPort": 4000
+        }
+      ],
+      "environment": [
+        {
+          "name": "VERBECC_API_URL",
+          "value": "verbecc"
+        },
+        {
+          "name": "TRPC_PORT",
+          "value": "4000"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "api_volume",
+          "containerPath": "/app/packages/api"
+        }
+      ]
+    },
+    {
+      "name": "client",
+      "image": "client:latest",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000
+        }
+      ],
+      "environment": [
+        {
+          "name": "VERBECC_API",
+          "value": "verbecc"
+        },
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "NEXT_PUBLIC_TRPC_API",
+          "value": "api"
+        }
+      ],
+      "compatibilities": ["EC2", "FARGATE"],
+      "requiresCompatibilities": ["FARGATE"]
+    },
+    {
+      "name": "reverse-proxy",
+      "image": "nginx:stable",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 3050
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "nginx_config",
+          "containerPath": "/etc/nginx/nginx.conf"
+        }
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "name": "api_volume",
+      "host": {
+        "sourcePath": "/path/to/your/packages/api"
+      }
+    },
+    {
+      "name": "nginx_config",
+      "host": {
+        "sourcePath": "/path/to/your/packages/config/nginx.conf"
+      }
+    }
+  ]
+}

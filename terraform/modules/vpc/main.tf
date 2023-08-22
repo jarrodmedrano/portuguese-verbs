@@ -1,64 +1,108 @@
-
-
-resource "aws_vpc" "main" {
-  cidr_block = var.vpc_cidr_block
-
-  tags = local.common-tags
+provider "aws" {
+  region = "us-east-1"
 }
 
-
-resource "aws_subnet" "web" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.web_subnet
-  availability_zone = var.azs[0]
-  tags              = local.common-tags
+# VPC
+resource "aws_vpc" "vpc" {
+  cidr_block           = var.cidr
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  tags = {
+    Name = var.app_name
+    Env  = var.env
+  }
 }
 
-resource "aws_internet_gateway" "my_web_igw" {
-  vpc_id = aws_vpc.main.id
+# Internet gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+  tags = {
+    Name = var.app_name
+    Env  = var.env
+  }
+}
+
+# Private subnets
+resource "aws_subnet" "private_subnet" {
+  vpc_id            = aws_vpc.vpc.id
+  count             = length(var.private_subnets)
+  cidr_block        = element(var.private_subnets, count.index)
+  availability_zone = element(var.availability_zones, count.index)
 
   tags = {
-    "Name" = "${var.main_vpc_name} IGW"
+    Name = "${lower(var.app_name)}-private-subnet-${count.index}"
+    Env  = var.env
   }
 }
 
-resource "aws_default_route_table" "main_vpc_default_rt" {
-  default_route_table_id = aws_vpc.main.default_route_table_id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    // all routes not explicitly known by the VPC will go through the internet gateway
-    gateway_id = aws_internet_gateway.my_web_igw.id
-    // gateway id that will handle the traffic ^ points to the internet gateway
-  }
-  tags = {
-    "Name" = "my-default-rt"
-  }
-}
-
-
-data "template_file" "user_data" {
-  template = file("${path.root}/web-app-template.yml")
-  vars = {
-    MY_SSH_KEY = "${var.key_name}"
-  }
-}
-
-resource "aws_instance" "my_vm" {
-  ami           = var.aws_ami
-  instance_type = var.my_instance[0]
-  // cpu not supported in t2 micro
-  # cpu_core_count              = var.my_instance[1]
-  associate_public_ip_address = var.my_instance[2]
-  subnet_id                   = aws_subnet.web.id
-# subnet_id = var.web_subnet_id
-  vpc_security_group_ids      = ["${var.security_group_id}"]
-  # key_name                    = "terraform_key_rsa.pub"
-  key_name = var.key_name
-  # user_data = file("entry_script.sh")
-  user_data = data.template_file.user_data.rendered
+# Public subnets
+resource "aws_subnet" "public_subnet" {
+  vpc_id                  = aws_vpc.vpc.id
+  count                   = length(var.public_subnets)
+  cidr_block              = element(var.public_subnets, count.index)
+  availability_zone       = element(var.availability_zones, count.index)
+  map_public_ip_on_launch = true
 
   tags = {
-    "Name" = "My EC2 Instance - Amazon Linux 2"
+    Name = "${lower(var.app_name)}-public-subnet-${count.index}"
+    Env  = var.env
   }
+}
+
+# Public route table
+resource "aws_route_table" "public_route_table" {
+  vpc_id = aws_vpc.vpc.id
+  tags = {
+    Name = "${lower(var.app_name)}public-route-table"
+    Env  = var.env
+  }
+}
+
+# Public route
+resource "aws_route" "public-route" {
+  route_table_id         = aws_route_table.public_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.igw.id
+}
+
+# Route table association with public subnets
+resource "aws_route_table_association" "public-route-association" {
+  count          = length(var.public_subnets)
+  subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
+  route_table_id = aws_route_table.public_route_table.id
+}
+
+# Private route table
+resource "aws_route_table" "private_route_table" {
+  vpc_id = aws_vpc.vpc.id
+  tags = {
+    Name = "${lower(var.app_name)}private-route-table"
+    Env  = var.env
+  }
+}
+
+# Public route
+resource "aws_route" "private_route" {
+  route_table_id         = aws_route_table.private_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_nat_gateway.nat_gateway.id
+}
+
+# Route table association with private subnets
+resource "aws_route_table_association" "private_route_association" {
+  count          = length(var.private_subnets)
+  subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
+  route_table_id = aws_route_table.private_route_table.id
+}
+
+# Nat gateway
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.eip.id
+  subnet_id     = element(aws_subnet.public_subnet.*.id, 0)
+  depends_on    = [aws_internet_gateway.igw]
+}
+
+# Elastic API for gateway
+resource "aws_eip" "eip" {
+  vpc = true
 }

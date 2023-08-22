@@ -60,3 +60,19 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-client
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-api . -f ${API_PATH}/Dockerfile
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-api
+
+      - name: Render Amazon ECS task definition for first container
+        id: render-client-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: client
+          image: $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-client
+
+      - name: Modify Amazon ECS task definition with second container
+        id: render-api-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-web-container.outputs.task-definition }}
+          container-name: api
+          image: $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-api
