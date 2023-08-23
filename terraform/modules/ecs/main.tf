@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 resource "aws_ecs_service" "private_service" {
   for_each = var.service_config
 
-  name            = "${each.value.name}-Service"
+  name            = "${each.value.name}-service"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition[each.key].arn
   launch_type     = "FARGATE"
