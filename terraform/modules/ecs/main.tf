@@ -14,7 +14,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   container_definitions = jsonencode([
     {
       name      = each.value.name
-      image     = "${var.account}.dkr.ecr.${var.region}.amazonaws.com/${lower(var.app_name)}-${lower(each.value.name)}:latest"
+      image     = "${var.account}.dkr.ecr.${var.region}.amazonaws.com/${lower(var.app_name)}/${lower(each.value.name)}:latest"
       cpu       = each.value.cpu
       memory    = each.value.memory
       essential = true
