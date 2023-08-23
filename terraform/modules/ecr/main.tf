@@ -1,3 +1,4 @@
 resource "aws_ecr_repository" "ecr_repository" {
-  name     = var.app_name
+  for_each = toset(var.ecr_repositories)
+  name = lower("${var.app_name}-${each.key}")
 }
