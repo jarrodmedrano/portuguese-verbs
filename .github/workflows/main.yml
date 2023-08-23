@@ -41,11 +41,6 @@ jobs:
         id: increment-git-tag
         run: |
           bash ./.github/scripts/build.sh -v major
-      - name: Create ECR Repo if it doesn't exist yet
-        id: ecr
-        uses: int128/create-ecr-repository-action@v1
-        with:
-          repository: ${{ secrets.ECR_REPOSITORY }}
       - name: Build, Tag, and Push the Image to Amazon ECR
         id: build-image
         env:
@@ -57,9 +52,9 @@ jobs:
         run: |
           echo "Building the Docker image to $ECR_REGISTRY..."
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:client . -f ${CLIENT_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:client
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}-client
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:api . -f ${API_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:api
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}-api
 
       - name: Render Amazon ECS task definition for first container
         env:
@@ -71,7 +66,7 @@ jobs:
         with:
           task-definition: .github/workflows/task-definition.json
           container-name: client
-          image: $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-client
+          image: $ECR_REGISTRY/${ECR_REPOSITORY}-client
 
       - name: Modify Amazon ECS task definition with second container
         env:
@@ -83,4 +78,4 @@ jobs:
         with:
           task-definition: ${{ steps.render-client-container.outputs.task-definition }}
           container-name: api
-          image: $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-api
+          image: $ECR_REGISTRY/${ECR_REPOSITORY}-api
