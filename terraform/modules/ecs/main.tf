@@ -2,6 +2,12 @@ resource "aws_ecs_cluster" "ecs_cluster" {
   name = lower("${var.app_name}-cluster")
 }
 
+resource "aws_cloudwatch_log_group" "ecs_cw_log_group" {
+  for_each = toset(var.app_services)
+  name     = lower("${each.key}-logs")
+}
+
+#Create task definitions for app services
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   for_each                 = var.service_config
   family                   = "${lower(var.app_name)}-${each.key}"

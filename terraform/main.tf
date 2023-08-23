@@ -8,6 +8,11 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+  access_key = var.TF_VAR_AWS_ACCESS_KEY_ID
+  secret_key = var.TF_VAR_AWS_SECRET_ACCESS_KEY
+}
 
 locals {
   internal_alb_target_groups = { for service, config in var.microservice_config : service => config.alb_target_group if !config.is_public }
@@ -29,13 +34,6 @@ module "vpc" {
   private_subnets    = var.private_subnets
   region = var.region
 }
-
-module "ecr" {
-  source           = "./modules/ecr"
-  app_name         = var.app_name
-  ecr_repositories = var.app_services
-}
-
 
 module "internal_alb_security_group" {
   source        = "./modules/security-group"
@@ -81,6 +79,18 @@ module "public_alb" {
   security_groups   = [module.public_alb_security_group.security_group_id]
 }
 
+module "route53_private_zone" {
+  source            = "./modules/route53"
+  internal_url_name = var.internal_url_name
+  alb               = module.internal_alb.internal_alb
+  vpc_id            = module.vpc.vpc_id
+}
+
+module "ecr" {
+  source           = "./modules/ecr"
+  app_name         = var.app_name
+  ecr_repositories = var.app_services
+}
 
 module "ecs" {
   source                      = "./modules/ecs"
@@ -97,12 +107,6 @@ module "ecs" {
   internal_alb_security_group = module.internal_alb_security_group
   internal_alb_target_groups  = module.internal_alb.target_groups
   public_alb_target_groups    = module.public_alb.target_groups
-}
-
-provider "aws" {
-  region     = "us-east-2"
-  access_key = var.TF_VAR_AWS_ACCESS_KEY_ID
-  secret_key = var.TF_VAR_AWS_SECRET_ACCESS_KEY
 }
 
 // create ssh keypair for ec2 instance
