@@ -73,6 +73,6 @@ jobs:
         id: render-api-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.render-web-container.outputs.task-definition }}
+          task-definition: ${{ steps.render-client-container.outputs.task-definition }}
           container-name: api
           image: $ECR_REGISTRY/$ECR_REPOSITORY:${IMAGE_TAG}-api
