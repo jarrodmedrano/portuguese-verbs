@@ -51,9 +51,9 @@ jobs:
           API_PATH: ./packages/api
         run: |
           echo "Building the Docker image to $ECR_REGISTRY..."
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:client . -f ${CLIENT_PATH}/Dockerfile
+          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}-client . -f ${CLIENT_PATH}/Dockerfile
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}-client
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:api . -f ${API_PATH}/Dockerfile
+          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}-api . -f ${API_PATH}/Dockerfile
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}-api
 
       - name: Render Amazon ECS task definition for first container
