@@ -56,7 +56,7 @@ jobs:
           docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}-api . -f ${API_PATH}/Dockerfile
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}-api
           docker pull bretttolbert/verbecc-svc:latest
-          docker tag $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc
+          docker tag $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc bretttolbert/verbecc-svc:latest
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc
 
       - name: Render Amazon ECS task definition for first container
