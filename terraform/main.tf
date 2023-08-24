@@ -79,12 +79,12 @@ module "public_alb" {
   security_groups   = [module.public_alb_security_group.security_group_id]
 }
 
-# module "route53_private_zone" {
-#   source            = "./modules/route53"
-#   internal_url_name = var.internal_url_name
-#   alb               = module.internal_alb.internal_alb
-#   vpc_id            = module.vpc.vpc_id
-# }
+module "route53_private_zone" {
+  source            = "./modules/route53"
+  internal_url_name = var.internal_url_name
+  alb               = module.internal_alb.internal_alb
+  vpc_id            = module.vpc.vpc_id
+}
 
 module "ecr" {
   source           = "./modules/ecr"
