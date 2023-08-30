@@ -58,6 +58,9 @@ jobs:
           docker pull bretttolbert/verbecc-svc:latest
           docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc
+          docker pull nginx:latest
+          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}-nginx
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}-nginx
 
       - name: Render Amazon ECS task definition for first container
         env:
@@ -94,3 +97,15 @@ jobs:
           task-definition: ${{ steps.render-api-container.outputs.task-definition }}
           container-name: verbecc
           image: $ECR_REGISTRY/${ECR_REPOSITORY}-verbecc
+
+      - name: Modify Amazon ECS task definition with fourth
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+        id: render-nginx-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-verbecc-container.outputs.task-definition }}
+          container-name: nginx
+          image: $ECR_REGISTRY/${ECR_REPOSITORY}-nginx
