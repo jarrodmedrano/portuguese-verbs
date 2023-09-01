@@ -19,7 +19,7 @@ services:
     container_name: api
     build:
       context: .
-      dockerfile: ./packages/api/Dockerfile
+      dockerfile: ./apps/api/Dockerfile
     restart: always
     ports:
       - 4000:4000
@@ -31,7 +31,7 @@ services:
       - VERBECC_API_URL=verbecc
       - TRPC_PORT=4000
     volumes:
-      - ./packages/api:/app/packages/api
+      - ./apps/api:/app/apps/api
       - /app/node_modules
       - /app/dist
       - /app/
@@ -40,7 +40,7 @@ services:
     container_name: client
     build:
       context: .
-      dockerfile: ./packages/client/Dockerfile
+      dockerfile: ./apps/client/Dockerfile
     restart: always
     ports:
       - 3000:3000

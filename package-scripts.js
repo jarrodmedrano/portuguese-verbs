@@ -1,7 +1,7 @@
 const path = require('path');
 
-const clientPath = path.resolve(__dirname, 'packages/client');
-const apiPath = path.resolve(__dirname, 'packages/api');
+const clientPath = path.resolve(__dirname, 'apps/client');
+const apiPath = path.resolve(__dirname, 'apps/api');
 
 const ciApiPath = path.resolve(__dirname, 'out/apps/api');
 const ciWebPath = path.resolve(__dirname, 'out/apps/web');

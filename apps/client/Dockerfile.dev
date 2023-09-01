@@ -29,7 +29,7 @@ COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
-RUN cd packages/api && yarn run prebuild
+RUN cd apps/api && yarn run prebuild
 COPY .gitignore .gitignore
 RUN yarn turbo run build --include-dependencies --no-deps
 
@@ -37,5 +37,5 @@ FROM node:18-slim as runner
 RUN apt-get update
 WORKDIR /app
 COPY --from=sourcer /app/ .
-WORKDIR /app/packages/client/
+WORKDIR /app/apps/client/
 CMD [ "yarn", "dev" ]

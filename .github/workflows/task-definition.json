@@ -40,7 +40,7 @@
       "mountPoints": [
         {
           "sourceVolume": "api_volume",
-          "containerPath": "/app/packages/api"
+          "containerPath": "/app/apps/api"
         }
       ]
     },
@@ -97,7 +97,7 @@
     {
       "name": "api_volume",
       "host": {
-        "sourcePath": "/path/to/your/packages/api"
+        "sourcePath": "/path/to/your/apps/api"
       }
     },
     {
