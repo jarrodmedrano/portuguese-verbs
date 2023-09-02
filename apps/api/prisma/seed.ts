@@ -32,7 +32,6 @@ const seedVerbs = async () => {
 
   parser.on('end', async function () {
     // eslint-disable-next-line no-console
-    console.log('verbs', VERB_NAMES);
 
     for (const v of VERB_NAMES) {
       const verb = await prisma.verb.create({

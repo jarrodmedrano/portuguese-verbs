@@ -31,7 +31,7 @@ RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
 RUN cd apps/api && yarn run prebuild
 COPY .gitignore .gitignore
-RUN yarn turbo run build --include-dependencies --no-deps
+RUN yarn turbo run build  --filter=client...
 
 FROM node:18-slim as runner
 RUN apt-get update

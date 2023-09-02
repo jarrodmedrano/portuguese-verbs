@@ -9,7 +9,7 @@ const appRouter = createRouter().merge('verbecc.', verbecc).merge('verb.', verb)
 const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand');
 const config = dotenv.config();
-dotenvExpand(config);
+dotenvExpand.expand(config);
 
 export type AppRouter = typeof appRouter;
 

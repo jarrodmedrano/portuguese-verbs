@@ -22,9 +22,9 @@ RUN yarn install --frozen-lockfile
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN apt-get install -y openssl
+# RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
-RUN cd apps/api && yarn run prebuild
+# RUN cd apps/api && yarn run prebuild
 RUN yarn turbo run build --filter=client...
 
 FROM node:18-slim AS runner
