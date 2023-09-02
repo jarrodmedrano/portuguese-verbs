@@ -10,7 +10,7 @@ COPY . .
 RUN turbo prune --scope=client --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM node:18-slim AS installer
+FROM --platform=linux/amd64 node:18-slim AS installer
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
@@ -20,7 +20,7 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY --from=builder /app/turbo.json ./turbo.json
 RUN yarn install --frozen-lockfile
 
-FROM node:18-slim AS sourcer
+FROM --platform=linux/amd64 node:18-slim AS sourcer
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
@@ -33,7 +33,7 @@ RUN cd apps/api && yarn run prebuild
 COPY .gitignore .gitignore
 RUN yarn turbo run build  --filter=client...
 
-FROM node:18-slim as runner
+FROM --platform=linux/amd64 node:18-slim as runner
 RUN apt-get update
 WORKDIR /app
 COPY --from=sourcer /app/ .

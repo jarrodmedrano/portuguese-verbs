@@ -1,4 +1,4 @@
-FROM node:18-slim AS builder
+FROM --platform=linux/arm64 node:18-slim AS builder
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
@@ -10,7 +10,7 @@ COPY . .
 RUN turbo prune --scope=api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM node:18-slim AS installer
+FROM --platform=linux/arm64 node:18-slim AS installer
 RUN apt-get update
 WORKDIR /app
 
@@ -28,7 +28,7 @@ RUN yarn run prebuild
 # RUN npx prisma db pull && prisma generate
 RUN yarn turbo run build --filter=api...
 
-FROM node:18-slim AS runner
+FROM --platform=linux/arm64 node:18-slim AS runner
 RUN apt-get update
 RUN apt-get install -y openssl
 WORKDIR /app
