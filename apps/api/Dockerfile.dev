@@ -23,7 +23,8 @@ RUN yarn prisma
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-# RUN apt-get install -y openssl
+RUN apt-get install -y openssl
+RUN yarn run prebuild
 # RUN npx prisma db pull && prisma generate
 RUN yarn turbo run build --filter=api...
 
