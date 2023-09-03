@@ -24,6 +24,7 @@ RUN yarn install --frozen-lockfile
 COPY --from=builder /app/out/full/ .
 # RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
+RUN apt-get install -y openssl
 RUN yarn run prebuild
 RUN yarn turbo run build --filter=api...
 

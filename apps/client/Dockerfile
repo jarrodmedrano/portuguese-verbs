@@ -25,6 +25,7 @@ COPY --from=builder /app/out/full/ .
 # RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
 # RUN cd apps/api && yarn run prebuild
+RUN apt-get install -y openssl
 RUN yarn turbo run build --filter=client...
 
 FROM node:18-slim AS runner

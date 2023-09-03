@@ -55,13 +55,13 @@ jobs:
           API_PATH: ./apps/api
         run: |
           echo "Building the Docker image to $ECR_REGISTRY..."
-          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}/client . -f ${CLIENT_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/client
-          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}/api . -f ${API_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/api
+          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:client . -f ${CLIENT_PATH}/Dockerfile
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:client
+          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:api . -f ${API_PATH}/Dockerfile
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:api
           docker pull bretttolbert/verbecc-svc:latest
-          docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}/verbecc
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/verbecc
+          docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
           docker pull nginx:latest
-          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}/nginx
+          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}/nginx
