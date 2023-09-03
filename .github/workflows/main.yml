@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -27,7 +26,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -56,13 +55,13 @@ jobs:
           API_PATH: ./apps/api
         run: |
           echo "Building the Docker image to $ECR_REGISTRY..."
-          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-client . -f ${CLIENT_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-client
-          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-api . -f ${API_PATH}/Dockerfile
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-api
+          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}/client . -f ${CLIENT_PATH}/Dockerfile
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/client
+          docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}/api . -f ${API_PATH}/Dockerfile
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/api
           docker pull bretttolbert/verbecc-svc:latest
-          docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-verbecc
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-verbecc
+          docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}/verbecc
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/verbecc
           docker pull nginx:latest
-          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-nginx
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:${IMAGE_TAG}-nginx
+          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}/nginx
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/nginx
