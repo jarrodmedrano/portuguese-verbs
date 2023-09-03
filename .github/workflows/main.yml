@@ -64,4 +64,4 @@ jobs:
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
           docker pull nginx:latest
           docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
-          docker push $ECR_REGISTRY/${ECR_REPOSITORY}/nginx
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
