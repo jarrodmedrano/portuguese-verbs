@@ -3,7 +3,7 @@ module.exports = {
   extends: ['next'],
   settings: {
     next: {
-      rootDir: 'packages/client',
+      rootDir: 'apps/client',
     },
   },
   plugins: ['@typescript-eslint', 'eslint-plugin-import'],

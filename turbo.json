@@ -6,15 +6,22 @@
       "cache": false
     },
     "start": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**"]
     },
     "//#lint": {
-      "dependsOn": ["//#check:toml", "//#check:prettier"]
+      "dependsOn": ["//#check:toml", "//#check:prettier"],
+      "outputs": ["dist/**", "build/**"]
     },
-    "//#check:prettier": {},
-    "//#check:toml": {},
+    "//#check:prettier": {
+      "outputs": ["dist/**", "build/**"]
+    },
+    "//#check:toml": {
+      "outputs": ["dist/**", "build/**"]
+    },
     "check-types": {
-      "dependsOn": ["build:ts", "^build"]
+      "dependsOn": ["build:ts", "^build"],
+      "outputs": ["dist/**", "build/**"]
     },
     "build:ts": {
       "outputs": ["packages/**/dist", "apps/**/dist"]

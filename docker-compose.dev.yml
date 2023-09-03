@@ -10,13 +10,13 @@ services:
       file: common-services.yml
       service: api
     volumes:
-      - ./packages/api:/app/packages/api
+      - ./apps/api:/app/apps/api
       - /app/node_modules
       - /app/dist
       - /app/
     build:
       context: .
-      dockerfile: ./packages/api/Dockerfile.dev
+      dockerfile: ./apps/api/Dockerfile.dev
     environment:
       - VERBECC_API=http://verbecc:8000
       - TRPC_PORT=4000
@@ -26,14 +26,14 @@ services:
       service: client
     build:
       context: .
-      dockerfile: ./packages/client/Dockerfile.dev
+      dockerfile: ./apps/client/Dockerfile.dev
     environment:
       - VERBECC_API=http://localhost:8000
       - NODE_ENV=development
       - NEXT_PUBLIC_TRPC_API=http://localhost:4000
     volumes:
       - ./:/app
-      - ./packages/client/node_modules:/app/packages/client/node_modules
+      - ./apps/client/node_modules:/app/apps/client/node_modules
       - /app/node_modules
       - /app/.next
   reverse-proxy:
