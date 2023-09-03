@@ -13,3 +13,20 @@ data "aws_ami" "latest_amazon_linux2" {
     values = ["x86_64"]
   }
 }
+
+# Get AZs in the region
+data "aws_availability_zones" "azs" {
+  state = "available"
+}
+
+# # Task execution role assume role policy document
+# data "aws_iam_policy_document" "assume_role_policy" {
+#   statement {
+#     actions = ["sts:AssumeRole"]
+
+#     principals {
+#       type        = "Service"
+#       identifiers = ["ecs-tasks.amazonaws.com"]
+#     }
+#   }
+# }

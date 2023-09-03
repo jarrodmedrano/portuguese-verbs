@@ -1,26 +1,130 @@
-# Configure AWS provider
+# Provider 
 provider "aws" {
   region = var.region
 }
 
-# Create ECR repository for images
+# ECR repository
 resource "aws_ecr_repository" "repo" {
-  name = var.app_name
+  name = var.app_name 
 }
 
-# Create ECS cluster
+# ECS cluster
 resource "aws_ecs_cluster" "cluster" {
-  name = "${var.app_name}-cluster"
+  name = lower("${var.app_name}-cluster")  
 }
 
-# Create ECS task definition
-resource "aws_ecs_task_definition" "task" {
-  family = "${var.app_name}-task"
+# ECS service 
+resource "aws_ecs_service" "service" {
+  name            = "service"
+  cluster         = aws_ecs_cluster.cluster.arn
+  task_definition = aws_ecs_task_definition.task.arn
+  desired_count   = 1
 
-  container_definitions = jsonencode([
+
+  # Add this block for network configuration
+  network_configuration {
+    subnets = [aws_subnet.public[0].id, aws_subnet.public[1].id]
+  }
+  
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg.arn
+    container_name   = "nginx"
+    container_port   = var.listener_port 
+  }
+
+  depends_on = [aws_lb_target_group.tg]
+}
+
+# ALB target group
+resource "aws_lb_target_group" "tg" {
+  port        = var.listener_port
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = aws_vpc.main.id
+}
+
+# ALB
+resource "aws_lb" "lb" {
+  internal           = false
+  load_balancer_type = "application"
+  subnets            = [aws_subnet.public[0].id, aws_subnet.public[1].id]
+}
+
+resource "aws_lb_listener" "lb_listener" {
+  load_balancer_arn = aws_lb.lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg.arn
+  }
+}
+
+# VPC
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+}
+
+# Internet gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+}
+
+# Public subnets
+resource "aws_subnet" "public" {
+  count             = length(data.aws_availability_zones.azs)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.${count.index + 1}.0/24"
+  availability_zone = element(data.aws_availability_zones.azs.names, count.index)
+}
+
+# Routing table
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+}
+
+# Route table associations
+resource "aws_route_table_association" "public" {
+  count          = length(data.aws_availability_zones.azs)
+  subnet_id      = aws_subnet.public.*.id[count.index]
+  route_table_id = aws_route_table.public.id
+}
+
+# ECS task execution IAM role
+resource "aws_iam_role" "ecs_task_execution" {
+  name = "myapp-execution-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
+    }]
+  })
+}
+
+# ECS task execution role policies 
+resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
+  role       = aws_iam_role.ecs_task_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# ECS task definition
+resource "aws_ecs_task_definition" "task" {
+  family                   = "${var.app_name}-task" 
+   container_definitions = jsonencode([
     {
       name  = "verbecc"
-      image = "${aws_ecr_repository.repo.repository_url}:verbecc"
+      image = "${var.account}.dkr.ecr.${var.region}.amazonaws.com/${lower(var.app_name)}:verbecc"
       portMappings = [{
         containerPort = 8000
         hostPort      = 8000
@@ -28,7 +132,7 @@ resource "aws_ecs_task_definition" "task" {
     },
     {
       name  = "api"
-      image = "${aws_ecr_repository.repo.repository_url}:api"
+      image = "${var.account}.dkr.ecr.${var.region}.amazonaws.com/${lower(var.app_name)}:api"
       portMappings = [{
         containerPort = 4000
         hostPort      = 4000
@@ -36,7 +140,7 @@ resource "aws_ecs_task_definition" "task" {
     },
     {
       name  = "client"
-      image = "${aws_ecr_repository.repo.repository_url}:client"
+      image = "${var.account}.dkr.ecr.${var.region}.amazonaws.com/${lower(var.app_name)}:client"
       portMappings = [{
         containerPort = 3000
         hostPort      = 3000
@@ -51,87 +155,9 @@ resource "aws_ecs_task_definition" "task" {
       }]
     }
   ])
-
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   memory                   = 2048
   cpu                      = 1024
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-}
-
-# Create ECS service
-resource "aws_ecs_service" "service" {
-  name            = "${var.app_name}-service"
-  cluster         = aws_ecs_cluster.cluster.id
-  task_definition = aws_ecs_task_definition.task.arn
-  desired_count   = 1
-
-  load_balancer {
-    target_group_arn = aws_lb_target_group.tg.arn
-    container_name   = "nginx"
-    container_port   = 80
-  }
-
-  network_configuration {
-    subnets          = [aws_subnet.public_1.id, aws_subnet.public_2.id]
-    assign_public_ip = true
-  }
-}
-
-# Create ALB target group
-resource "aws_lb_target_group" "tg" {
-  name        = "${var.app_name}-tg"
-  port        = 80
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = aws_vpc.main.id
-}
-
-# Create ALB
-resource "aws_lb" "lb" {
-  name               = "${var.app_name}-lb"
-  internal           = false
-  load_balancer_type = "application"
-  subnets            = [aws_subnet.public_1.id, aws_subnet.public_2.id]
-}
-
-# Create VPC
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-}
-
-# Create public subnets
-resource "aws_subnet" "public_1" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "${var.region}a"
-}
-
-resource "aws_subnet" "public_2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "${var.region}b"
-}
-
-# Create ECS service IAM role
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "${var.app_name}-execution-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Sid    = ""
-      Principal = {
-        Service = "ecs-tasks.amazonaws.com"
-      }
-    }]
-  })
-}
-
-# Attach required policies to ECS role
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
 }

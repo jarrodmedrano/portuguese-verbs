@@ -4,6 +4,11 @@ variable "TF_VAR_AWS_ACCESS_KEY_ID" {
   nullable    = false
 }
 
+variable "listener_port" {
+  type    = number
+  default = 80
+}
+
 variable "TF_VAR_AWS_SECRET_ACCESS_KEY" {
   description = "AWS Secret Access Key"
   type        = string
