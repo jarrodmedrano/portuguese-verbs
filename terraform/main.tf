@@ -110,7 +110,7 @@ module "ecs" {
 }
 
 // create ssh keypair for ec2 instance
-resource "aws_key_pair" "terraform_ssh_key" {
-  key_name   = "terraform_key_rsa"
-  public_key = file("~/.ssh/aws/terraform_key_rsa.pub")
-}
+# resource "aws_key_pair" "terraform_ssh_key" {
+#   key_name   = "terraform_key_rsa"
+#   public_key = file("~/.ssh/aws/terraform_key_rsa.pub")
+# }
