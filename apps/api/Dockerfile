@@ -2,6 +2,7 @@ FROM node:18-slim AS builder
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
+RUN apt-get install -y openssl
 # Set working directory
 WORKDIR /app
 
@@ -12,6 +13,7 @@ RUN turbo prune --scope=api --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-slim AS installer
 RUN apt-get update
+RUN apt-get install -y openssl
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
@@ -23,7 +25,6 @@ RUN yarn prisma
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN apt-get install -y openssl
 RUN yarn run prebuild
 RUN yarn turbo run build --filter=api...
 
@@ -36,5 +37,4 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 
 COPY --from=installer /app .
-
 CMD node apps/api/dist/index.js
