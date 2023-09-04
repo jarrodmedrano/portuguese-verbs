@@ -19,11 +19,10 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install --frozen-lockfile
+RUN yarn prisma
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-# RUN apt-get install -y openssl
-# RUN npx prisma db pull && prisma generate
 RUN apt-get install -y openssl
 RUN yarn run prebuild
 RUN yarn turbo run build --filter=api...

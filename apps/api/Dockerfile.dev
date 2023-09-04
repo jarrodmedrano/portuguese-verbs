@@ -25,7 +25,6 @@ RUN yarn prisma
 COPY --from=builder /app/out/full/ .
 RUN apt-get install -y openssl
 RUN yarn run prebuild
-# RUN npx prisma db pull && prisma generate
 RUN yarn turbo run build --filter=api...
 
 FROM --platform=linux/arm64 node:18-slim AS runner
