@@ -53,7 +53,7 @@ COPY --from=installer /app/apps/client/package.json .
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
+# COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/client/start.sh ./
 # COPY /app/apps/client/server.js ./
 
