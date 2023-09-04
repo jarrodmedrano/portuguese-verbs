@@ -20,11 +20,13 @@ WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
+RUN apt-get update && apt-get install -y openssl
 RUN yarn install --frozen-lockfile
 RUN yarn prisma
 
 # Build the project
 COPY --from=builder /app/out/full/ .
+RUN apt-get update && apt-get install -y openssl
 RUN yarn run prebuild
 RUN yarn turbo run build --filter=api...
 
@@ -34,6 +36,7 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
+RUN apt-get update && apt-get install -y openssl
 USER expressjs
 
 COPY --from=installer /app .
