@@ -17,6 +17,10 @@ const app = express();
 
 app.use(cors());
 
+app.use('/health', (_, res) => {
+  res.sendStatus(200);
+});
+
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
