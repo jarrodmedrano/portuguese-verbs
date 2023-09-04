@@ -54,6 +54,9 @@ module.exports = {
     dev: {
       default: 'docker compose -f docker-compose.dev.yml up --build',
     },
+    prod: {
+      default: 'docker compose -f docker-compose.yml up --build',
+    },
     lint: 'turbo run lint',
     preview: 'vite preview',
     eslint: {

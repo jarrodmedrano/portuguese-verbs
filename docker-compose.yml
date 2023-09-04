@@ -28,7 +28,7 @@ services:
     expose:
       - '4000'
     environment:
-      - VERBECC_API_URL=verbecc
+      - VERBECC_API=http://verbecc:8000
       - TRPC_PORT=4000
     volumes:
       - ./apps/api:/app/apps/api
@@ -47,13 +47,9 @@ services:
     networks:
       - app_network
     environment:
-      - VERBECC_API=verbecc
+      - VERBECC_API=http://verbecc:8000
       - NODE_ENV=production
-      - NEXT_PUBLIC_TRPC_API=api
-    volumes:
-      - ./:/app
-      - /app/node_modules
-      - /app/.next
+      - NEXT_PUBLIC_TRPC_API=http://api:4000
     image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
   reverse-proxy:
     image: nginx:stable
