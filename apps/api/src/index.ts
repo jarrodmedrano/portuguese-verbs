@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors());
 
-app.use('/', (_, res) => {
+app.use('/health', (_, res) => {
   res.sendStatus(200);
 });
 
