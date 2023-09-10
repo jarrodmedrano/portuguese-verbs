@@ -24,6 +24,31 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       cpu       = each.value.cpu
       memory    = each.value.memory
       essential = true
+      environment = [
+        {
+          name  = "VERBECC_API"
+          value = "http://verbecc:8000"
+        },
+        {
+          name  = "NODE_ENV"
+          value = "development"
+        },
+        {
+          name  = "TRPC_PORT"
+          value = "4000"
+        },
+        {
+          name  = "CLIENT_PORT"
+          value = "3000"
+        },
+        {
+          name  = "VERBECC_PORT"
+          value = "8000"
+        }, {
+          name  = "NEXT_PUBLIC_TRPC_API"
+          value = "http://api:4000"
+        }
+      ]
       portMappings = [
         {
           containerPort = each.value.container_port
