@@ -25,3 +25,23 @@ variable "vpc_cidr" {
   # Note we are /17, not /16 So we're only using half of the available which can help with VPC peering in the future
   default = "10.0.0.0/17"
 }
+
+variable "api_port" {
+  type        = number
+  description = "Api port"
+}
+
+variable "client_port" {
+  type        = number
+  description = "Client port"
+}
+
+variable "verbecc_port" {
+  type        = number
+  description = "Verbecc port"
+}
+
+variable "nginx_port" {
+  type        = number
+  description = "Nginx port"
+}

@@ -108,9 +108,3 @@ module "ecs" {
   internal_alb_target_groups  = module.internal_alb.target_groups
   public_alb_target_groups    = module.public_alb.target_groups
 }
-
-// create ssh keypair for ec2 instance
-# resource "aws_key_pair" "terraform_ssh_key" {
-#   key_name   = "terraform_key_rsa"
-#   public_key = file("~/.ssh/aws/terraform_key_rsa.pub")
-# }

@@ -9,3 +9,9 @@ variable "environment" {
   description = "Infrastructure environment"
   default     = "staging"
 }
+
+variable "app_services" {
+  type        = list(string)
+  description = "service name list"
+  default     = ["client", "api", "nginx", "verbecc"]
+}

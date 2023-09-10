@@ -60,6 +60,42 @@ resource "aws_elastic_beanstalk_environment" "staging" {
     value     = var.app_security_group_id
   }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "API_HOST"
+    value     = var.api_host
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "API_PORT"
+    value     = var.api_port
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "CLIENT_HOST"
+    value     = var.client_host
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "CLIENT_PORT"
+    value     = var.client_port
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "NGINX_HOST"
+    value     = var.nginx_host
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "NGINX_PORT"
+    value     = var.nginx_port
+  }
+
   tags = {
     ManagedBy = "terraform"
   }

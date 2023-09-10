@@ -49,3 +49,45 @@ variable "app_services" {
   description = "service name list"
   default     = ["client", "api", "nginx", "verbecc"]
 }
+
+variable "verbecc_api" {
+  type        = string
+  description = "Verbecc API"
+  default     = "http://verbecc:8000"
+}
+
+variable "client_port" {
+  type        = number
+  description = "Client port"
+  default     = 3000
+}
+
+variable "api_port" {
+  type        = number
+  description = "Api port"
+  default     = 4000
+}
+
+variable "nginx_port" {
+  type        = number
+  description = "Nginx port"
+  default     = 80
+}
+
+variable "next_public_trpc_api" {
+  type        = string
+  description = "Next public trpc api"
+  default     = "http://api:4000"
+}
+
+variable "trpc_port" {
+  type        = number
+  description = "Trpc port"
+  default     = 4000
+}
+
+variable "verbecc_port" {
+  type        = number
+  description = "Verbecc port"
+  default     = 8000
+}

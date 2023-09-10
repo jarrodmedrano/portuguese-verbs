@@ -34,3 +34,33 @@ variable "beanstalk_environment" {
   type        = string
   description = "Beanstalk environment name"
 }
+
+variable "client_port" {
+  type        = number
+  description = "Client port"
+}
+
+variable "client_host" {
+  type        = number
+  description = "Client host"
+}
+
+variable "api_port" {
+  type        = number
+  description = "Api port"
+}
+
+variable "api_host" {
+  type        = number
+  description = "Api host"
+}
+
+variable "nginx_port" {
+  type        = number
+  description = "Nginx port"
+}
+
+variable "nginx_host" {
+  type        = number
+  description = "Nginx host"
+}
