@@ -73,27 +73,27 @@
     "apps/*"
   ],
   "devDependencies": {
-    "@vitejs/plugin-react": "^3.0.0",
-    "@vitest/coverage-istanbul": "^0.28.3",
-    "eslint": "^8.21.0",
-    "eslint-config-airbnb-typescript": "^14.0.0",
+    "@vitejs/plugin-react": "3.0.0",
+    "@vitest/coverage-istanbul": "0.28.3",
+    "eslint": "8.21.0",
+    "eslint-config-airbnb-typescript": "14.0.0",
     "eslint-config-next": "11.1.2",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-no-loops": "^0.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.25.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^7.0.0",
-    "jsdom": "^20.0.3",
-    "lint-staged": "^11.1.2",
-    "nps": "^5.10.0",
-    "prettier": "^2.5.1",
-    "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "^1.10.13",
-    "vite-plugin-istanbul": "^4.0.0",
-    "vitest": "^0.26.2"
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-no-loops": "0.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.25.1",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "husky": "7.0.0",
+    "jsdom": "20.0.3",
+    "lint-staged": "11.1.2",
+    "nps": "5.10.0",
+    "prettier": "2.5.1",
+    "prettier-plugin-tailwindcss": "0.1.13",
+    "turbo": "1.10.13",
+    "vite-plugin-istanbul": "4.0.0",
+    "vitest": "0.26.2"
   },
   "engines": {
     "npm": ">=8.0.0",
@@ -109,7 +109,7 @@
     ]
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.50.0",
-    "@vitest/ui": "^0.28.4"
+    "@typescript-eslint/eslint-plugin": "5.50.0",
+    "@vitest/ui": "0.28.4"
   }
 }

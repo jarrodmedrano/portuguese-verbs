@@ -6,7 +6,6 @@ module.exports = {
       rootDir: 'apps/client',
     },
   },
-  plugins: ['@typescript-eslint', 'eslint-plugin-import'],
   rules: {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/no-default-export': ['warn'],
