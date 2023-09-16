@@ -16,7 +16,7 @@ module.exports = {
     },
     prepare: {
       default: 'nps prepare.install prepare.format',
-      install: 'husky install && yarn install',
+      install: 'npx husky install && yarn install',
       format: 'prettier --write "**/*.{ts,tsx,md}',
       docker: 'docker compose up',
       ci: {
@@ -67,7 +67,7 @@ module.exports = {
       default: 'prettier --check "**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)"',
       fix: 'prettier --write "**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)"',
     },
-    prepare: 'husky install',
+    prepare: 'npx husky install',
     coverage: 'vitest run --coverage',
     docker: {
       default: 'COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml build',
