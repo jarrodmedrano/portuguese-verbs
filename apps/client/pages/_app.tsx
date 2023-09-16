@@ -1,11 +1,8 @@
 import '../src/styles/global.css';
-import getConfig from 'next/config';
 import { AppProps } from 'next/app';
 import { ReactNode, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { client, trpc } from '../src/services';
-
-const { publicRuntimeConfig } = getConfig();
 
 declare module 'react-query/types/react/QueryClientProvider' {
   // eslint-disable-next-line no-unused-vars
@@ -16,11 +13,11 @@ declare module 'react-query/types/react/QueryClientProvider' {
 
 const App = ({ Component, pageProps }: AppProps) => {
   // eslint-disable-next-line no-console
-  console.log('TRPC RUN ON', publicRuntimeConfig.trpc_api);
+  console.log('TRPC RUN ON', process.env.trpc_api);
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      url: `${publicRuntimeConfig.trpc_api}/trpc`,
+      url: `${process.env.trpc_api}/trpc`,
     }),
   );
 
