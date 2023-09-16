@@ -7,6 +7,47 @@ resource "aws_cloudwatch_log_group" "ecs_cw_log_group" {
   name     = lower("${each.key}-logs")
 }
 
+resource "aws_service_discovery_public_dns_namespace" "portuguese" {
+  name = "service.local"
+  description = "portuguese"
+}
+
+resource "aws_service_discovery_private_dns_namespace" "portuguese" {
+  name = "service.local"
+  description = "portuguese"
+  vpc = var.vpc_id
+}
+
+resource "aws_service_discovery_service" "public_service" {
+  for_each = { for k, v in var.service_config : k => v if v.is_public == true }
+
+  name = "${each.value.name}-service-discovery"
+
+  dns_config {
+    namespace_id = aws_service_discovery_public_dns_namespace.portuguese.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+  }
+}
+
+resource "aws_service_discovery_service" "private_service" {
+  for_each = { for k, v in var.service_config : k => v if v.is_public == false }
+
+  name = "${each.value.name}-service-discovery"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.portuguese.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+  }
+}
+
 #Create task definitions for app services
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   for_each                 = var.service_config
@@ -27,7 +68,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       environment = [
         {
           name  = "VERBECC_API"
-          value = "http://verbecc:8000"
+          value = "https://verbecc.service.local:8000"
         },
         {
           name  = "NODE_ENV"
@@ -46,7 +87,11 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           value = "8000"
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "http://api:4000"
+          value = "http://api.service.local:4000"
+        },
+        {
+          name = "ECS_ENABLE_TASK_IAM_ROLE"
+          value = "true"
         }
       ]
       portMappings = [
@@ -90,6 +135,10 @@ resource "aws_ecs_service" "private_service" {
     target_group_arn = each.value.is_public == true ? var.public_alb_target_groups[each.key].arn : var.internal_alb_target_groups[each.key].arn
     container_name   = each.value.name
     container_port   = each.value.container_port
+  }
+
+  service_registries {
+    registry_arn = each.value.is_public == true ? aws_service_discovery_service.public_service[each.key].arn : aws_service_discovery_service.private_service[each.key].arn
   }
 }
 
