@@ -15,4 +15,5 @@ module.exports = {
     'no-console': 'error',
     'no-unused-vars': 'error',
   },
+  ignorePatterns: ['*/**/dist/*'], // <<< ignore all files in test folder
 };

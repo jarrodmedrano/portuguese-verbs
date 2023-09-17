@@ -53,8 +53,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   for_each                 = var.service_config
   family                   = "${lower(var.app_name)}-${each.key}"
   execution_role_arn       = var.ecs_task_execution_role_arn
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
+  # requires_compatibilities = ["FARGATE"]
+  # network_mode             = "awsvpc"
+    network_mode             = "bridge"
+
   memory                   = each.value.memory
   cpu                      = each.value.cpu
 
@@ -120,12 +122,13 @@ resource "aws_ecs_service" "private_service" {
   name            = "${each.value.name}-service"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition[each.key].arn
-  launch_type     = "FARGATE"
+  # launch_type     = "FARGATE"
+  launch_type = "EC2"
   desired_count   = each.value.desired_count
 
   network_configuration {
     subnets          = each.value.is_public == true ? var.public_subnets : var.private_subnets
-    assign_public_ip = each.value.is_public == true ? true : false
+    # assign_public_ip = each.value.is_public == true ? true : false
     security_groups = [
       each.value.is_public == true ? aws_security_group.webapp_security_group.id : aws_security_group.service_security_group.id
     ]
