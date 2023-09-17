@@ -21,7 +21,7 @@ resource "aws_service_discovery_private_dns_namespace" "private_portuguese" {
 resource "aws_service_discovery_service" "public_service" {
   for_each = { for k, v in var.service_config : k => v if v.is_public == true }
 
-  name = "${each.value.name}-service-discovery"
+  name = "${each.value.name}-service"
 
   dns_config {
     namespace_id = aws_service_discovery_public_dns_namespace.public_portuguese.id
@@ -36,7 +36,7 @@ resource "aws_service_discovery_service" "public_service" {
 resource "aws_service_discovery_service" "private_service" {
   for_each = { for k, v in var.service_config : k => v if v.is_public == false }
 
-  name = "${each.value.name}-service-discovery"
+  name = "${each.value.name}-service"
 
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.private_portuguese.id
@@ -71,7 +71,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       environment = [
         {
           name  = "VERBECC_API"
-          value = "http://verbecc.private-service.local"
+          value = "http://verbecc-service.private-service.local"
         },
         {
           name  = "NODE_ENV"
@@ -90,7 +90,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           value = "8000"
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "http://api.private-service.local" 
+          value = "http://api-service.private-service.local" 
         },
         {
           name = "ECS_ENABLE_TASK_IAM_ROLE"
