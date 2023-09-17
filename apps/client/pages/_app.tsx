@@ -16,7 +16,7 @@ const { publicRuntimeConfig } = getConfig();
 
 const App = ({ Component, pageProps }: AppProps) => {
   // eslint-disable-next-line no-console
-  console.log('TRPC RUN ON', publicRuntimeConfig.trpc_api);
+  console.log('TRPC RUN ON TEST', publicRuntimeConfig.trpc_api);
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
