@@ -60,6 +60,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   memory                   = each.value.memory
   cpu                      = each.value.cpu
 
+
   container_definitions = jsonencode([
     {
       name      = each.value.name
@@ -89,13 +90,12 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           value = "8000"
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "http://api.service.local:4000"
+          value = "" 
         },
         {
           name = "ECS_ENABLE_TASK_IAM_ROLE"
           value = "true"
-        },
-        { name = "FORCE_UPDATE", value = "true" }
+        }
       ]
       portMappings = [
         {
@@ -103,6 +103,21 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           hostPort : each.value.host_port
         }
       ]
+
+       service_connect_configuration = {
+        enabled   = true
+        namespace = aws_service_discovery_http_namespace.portuguese.arn
+        service = {
+          discovery_name = each.value.name
+          client_alias = {
+            dns_name = each.value.name
+            port     = each.value.host_port
+          }
+
+          port_name = each.value.name
+        }
+      }
+
 
       logConfiguration = {
         logDriver = "awslogs"
@@ -116,6 +131,11 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   ])
 }
 
+resource "aws_service_discovery_http_namespace" "portuguese" {
+  name = var.app_name
+}
+
+
 #Create services for app services
 resource "aws_ecs_service" "private_service" {
   for_each = var.service_config
@@ -126,6 +146,8 @@ resource "aws_ecs_service" "private_service" {
   launch_type     = "FARGATE"
   # launch_type = "EC2"
   desired_count   = each.value.desired_count
+  platform_version = "LATEST"
+
 
   network_configuration {
     subnets          = each.value.is_public == true ? var.public_subnets : var.private_subnets
@@ -206,6 +228,7 @@ resource "aws_security_group" "service_security_group" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 
