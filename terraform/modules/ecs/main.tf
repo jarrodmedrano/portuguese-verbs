@@ -7,13 +7,13 @@ resource "aws_cloudwatch_log_group" "ecs_cw_log_group" {
   name     = lower("${each.key}-logs")
 }
 
-resource "aws_service_discovery_public_dns_namespace" "portuguese" {
-  name = "service.local"
+resource "aws_service_discovery_public_dns_namespace" "public_portuguese" {
+  name = "public-service.local"
   description = "portuguese"
 }
 
-resource "aws_service_discovery_private_dns_namespace" "portuguese" {
-  name = "service.local"
+resource "aws_service_discovery_private_dns_namespace" "private_portuguese" {
+  name = "private-service.local"
   description = "portuguese"
   vpc = var.vpc_id
 }
@@ -24,7 +24,7 @@ resource "aws_service_discovery_service" "public_service" {
   name = "${each.value.name}-service-discovery"
 
   dns_config {
-    namespace_id = aws_service_discovery_public_dns_namespace.portuguese.id
+    namespace_id = aws_service_discovery_public_dns_namespace.public_portuguese.id
 
     dns_records {
       ttl  = 10
@@ -39,7 +39,7 @@ resource "aws_service_discovery_service" "private_service" {
   name = "${each.value.name}-service-discovery"
 
   dns_config {
-    namespace_id = aws_service_discovery_private_dns_namespace.portuguese.id
+    namespace_id = aws_service_discovery_private_dns_namespace.private_portuguese.id
 
     dns_records {
       ttl  = 10
@@ -71,7 +71,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       environment = [
         {
           name  = "VERBECC_API"
-          value = "https://verbecc.service.local:8000"
+          value = "http://verbecc.private-service.local"
         },
         {
           name  = "NODE_ENV"
@@ -90,7 +90,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           value = "8000"
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "" 
+          value = "http://api.private-service.local" 
         },
         {
           name = "ECS_ENABLE_TASK_IAM_ROLE"
