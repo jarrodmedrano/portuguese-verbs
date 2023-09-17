@@ -94,7 +94,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         {
           name = "ECS_ENABLE_TASK_IAM_ROLE"
           value = "true"
-        }
+        },
+        { name = "FORCE_UPDATE", value = "true" }
       ]
       portMappings = [
         {
