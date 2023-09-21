@@ -60,7 +60,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   memory                   = each.value.memory
   cpu                      = each.value.cpu
 
-
   container_definitions = jsonencode([
     {
       name      = each.value.name
@@ -68,6 +67,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       cpu       = each.value.cpu
       memory    = each.value.memory
       essential = true
+      enable_execute_command   = true
+
       environment = [
         {
           name  = "VERBECC_API"
@@ -91,6 +92,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
           value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
+        }, {
+          name = "Cookies"
+          value = "fudge"
         }
       ]
       portMappings = [
