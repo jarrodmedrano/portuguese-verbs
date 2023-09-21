@@ -71,7 +71,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       environment = [
         {
           name  = "VERBECC_API"
-          value = "http://verbecc-service.private-service.local"
+          value = "http://${var.service_config.verbecc.name}:${tostring(var.service_config.verbecc.container_port)}"
         },
         {
           name  = "NODE_ENV"
@@ -79,18 +79,18 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         },
         {
           name  = "TRPC_PORT"
-          value = "4000"
+          value = tostring(var.service_config.api.container_port)
         },
         {
           name  = "CLIENT_PORT"
-          value = "3000"
+          value = tostring(var.service_config.client.container_port)
         },
         {
           name  = "VERBECC_PORT"
-          value = "8000"
+          value = tostring(var.service_config.verbecc.container_port)
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "http://api-service.private-service.local" 
+          value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
         }
       ]
       portMappings = [
@@ -143,8 +143,7 @@ resource "aws_ecs_service" "private_service" {
   # launch_type = "EC2"
   desired_count   = each.value.desired_count
   platform_version = "LATEST"
-
-
+  
   network_configuration {
     subnets          = each.value.is_public == true ? var.public_subnets : var.private_subnets
     assign_public_ip = each.value.is_public == true ? true : false
