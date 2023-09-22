@@ -60,6 +60,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   memory                   = each.value.memory
   cpu                      = each.value.cpu
 
+  task_role_arn            = var.ecs_task_execution_role_arn
+
   container_definitions = jsonencode([
     {
       name      = each.value.name
@@ -147,6 +149,8 @@ resource "aws_ecs_service" "private_service" {
   # launch_type = "EC2"
   desired_count   = each.value.desired_count
   platform_version = "LATEST"
+  enable_execute_command   = true
+
   
   network_configuration {
     subnets          = each.value.is_public == true ? var.public_subnets : var.private_subnets
