@@ -9,7 +9,3 @@ output "aws_ecs_task_definition" {
 output "aws_service_discovery_service" {
   value = [for service in aws_service_discovery_service.public_service : service]
 }
-
-output "domain_validations" {
-  value = aws_acm_certificate.conjugame_url.domain_validation_options
-}

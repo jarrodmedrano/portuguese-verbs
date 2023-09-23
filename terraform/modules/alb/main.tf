@@ -31,31 +31,35 @@ resource "aws_alb_listener" "alb_listener" {
 
   default_action {
     type = "redirect"
+
     redirect {
-        port        = "443"
-        protocol    = "HTTPS"
-       status_code = "HTTP_301"
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
 }
 
-resource "aws_acm_certificate" "conjugame_url" {
+resource "aws_acm_certificate" "portuguese-verbs" {
   domain_name       = "conjugame.org"
   validation_method = "DNS"
-}
-
-resource "aws_alb_listener" "alb_listener_https" {
-  for_each = var.target_groups
-  load_balancer_arn = aws_alb.alb.id
-  port              = "443"
-  protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.conjugame_url.arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.alb_target_group[each.key].arn
+  lifecycle {
+    create_before_destroy = true
   }
 }
+
+# resource "aws_alb_listener" "alb_listener_https" {
+#   for_each = var.target_groups
+#   load_balancer_arn = aws_alb.alb.id
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   certificate_arn   = aws_acm_certificate.portuguese-verbs.arn
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_alb_target_group.alb_target_group[each.key].arn
+#   }
+# }
 
 #Creat listener rules
 resource "aws_alb_listener_rule" "alb_listener_rule" {

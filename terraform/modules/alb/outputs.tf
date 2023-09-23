@@ -16,3 +16,7 @@ output "aws_alb_listener" {
 output "internal_alb" {
   value = aws_alb.alb
 }
+
+output "domain_validations" {
+  value = aws_acm_certificate.portuguese-verbs.domain_validation_options
+}
