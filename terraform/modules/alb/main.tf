@@ -30,12 +30,30 @@ resource "aws_alb_listener" "alb_listener" {
   protocol = each.value["listener_protocol"]
 
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "No routes defined"
-      status_code  = "200"
+    type = "redirect"
+    redirect {
+        port        = "443"
+        protocol    = "HTTPS"
+       status_code = "HTTP_301"
     }
+  }
+}
+
+resource "aws_acm_certificate" "conjugame_url" {
+  domain_name       = "conjugame.org"
+  validation_method = "DNS"
+}
+
+resource "aws_alb_listener" "alb_listener_https" {
+  for_each = var.target_groups
+  load_balancer_arn = aws_alb.alb.id
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.conjugame_url.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.alb_target_group[each.key].arn
   }
 }
 

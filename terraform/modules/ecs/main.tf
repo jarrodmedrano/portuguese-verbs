@@ -252,3 +252,22 @@ resource "aws_security_group" "webapp_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_acm_certificate" "conjugame_url" {
+  domain_name       = "conjugame.org"
+  validation_method = "DNS"
+}
+
+# These comments are here so Terraform doesn't try to create the listener
+# before we have a valid certificate.
+# resource "aws_alb_listener" "sun_api_https" {
+#   load_balancer_arn = aws_alb.sun_api.arn
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   certificate_arn   = aws_acm_certificate.sun_api.arn
+#
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.sun_api.arn
+#   }
+# }
