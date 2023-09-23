@@ -34,3 +34,6 @@ override.tf.json
 terraform.rc
 .env
 backend.conf
+tf.plan
+tfplan
+tfplan.txt
