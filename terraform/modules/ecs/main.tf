@@ -74,7 +74,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       environment = [
         {
           name  = "VERBECC_API"
-          value = "http://localhost:${tostring(var.service_config.verbecc.container_port)}"
+          value = "http://${var.service_config.verbecc.name}:${tostring(var.service_config.verbecc.container_port)}"
         },
         {
           name  = "NODE_ENV"
@@ -93,10 +93,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           value = tostring(var.service_config.verbecc.container_port)
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "http://localhost:${tostring(var.service_config.api.container_port)}"
+          value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
         }, {
-          name = "cheese"
-          value = "chocolate"
+          name = "Cookies"
+          value = "fudge"
         }
       ]
       portMappings = [
