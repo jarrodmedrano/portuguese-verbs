@@ -1,0 +1,30 @@
+#cloud-config
+# Adding groups to the system
+groups:
+  - devops: [root, sys]
+  - hashicorp
+
+# Adding users to the system. Users are added after groups are added
+users:
+  - default
+  - name: terraform
+    gecos: terraform
+    shell: /bin/bash
+    primary_group: hashicorp
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ${MY_SSH_KEY}
+
+# Downloading and installing packages
+packages:
+  - httpd
+  - docker
+
+# Running commands
+runcmd:
+  - sudo systemctl start httpd
+  - sudo systemctl start docker
+  - sudo usermod -aG docker ec2-user
+  - sudo docker run -d -p 8080:80 nginx
