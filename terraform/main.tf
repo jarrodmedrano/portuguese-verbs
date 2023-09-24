@@ -6,7 +6,15 @@ terraform {
       version = "~> 3.0"
     }
   }
+  backend "s3" {
+    bucket         	   = "portuguese-verbs-bucket"
+    key              	   = "state/terraform.tfstate"
+    region         	   = "us-east-2"
+    encrypt        	   = true
+  }
 }
+
+
 
 provider "aws" {
   region = var.region
@@ -108,3 +116,4 @@ module "ecs" {
   internal_alb_target_groups  = module.internal_alb.target_groups
   public_alb_target_groups    = module.public_alb.target_groups
 }
+

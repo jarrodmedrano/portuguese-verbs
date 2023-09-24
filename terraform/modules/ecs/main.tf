@@ -94,6 +94,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
           value = "http://localhost:${tostring(var.service_config.api.container_port)}"
+        }, {
+          name = "cheese"
+          value = "chocolate"
         }
       ]
       portMappings = [
