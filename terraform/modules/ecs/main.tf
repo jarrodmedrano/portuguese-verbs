@@ -96,7 +96,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
         }, {
           name = "Cookies"
-          value = "fudge"
+          value = "butter"
         }
       ]
       portMappings = [

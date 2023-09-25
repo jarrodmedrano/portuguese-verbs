@@ -6,12 +6,12 @@ terraform {
       version = "~> 3.0"
     }
   }
-  backend "s3" {
-    bucket         	   = "portuguese-verbs-bucket"
-    key              	   = "state/terraform.tfstate"
-    region         	   = "us-east-2"
-    encrypt        	   = true
-  }
+  # backend "s3" {
+  #   bucket         	   = "portuguese-verbs-bucket"
+  #   key              	   = "state/terraform.tfstate"
+  #   region         	   = "us-east-2"
+  #   encrypt        	   = true
+  # }
 }
 
 
