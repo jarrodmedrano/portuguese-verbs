@@ -59,7 +59,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   execution_role_arn       = var.ecs_task_execution_role_arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-    # network_mode             = "bridge"
 
   memory                   = each.value.memory
   cpu                      = each.value.cpu
@@ -103,9 +102,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
           value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
-        }, {
-          name = "Cookies"
-          value = "butter"
         }
       ]
       portMappings = [
@@ -151,7 +147,7 @@ resource "aws_ecs_service" "private_service" {
   enable_execute_command   = true
 
   service_connect_configuration {
-    enabled   = true
+    enabled   = each.value.name == "api" || each.value.name == "client" ? true : false
     namespace = aws_service_discovery_http_namespace.main.arn
 
     service {

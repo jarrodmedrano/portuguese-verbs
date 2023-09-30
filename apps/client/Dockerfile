@@ -56,7 +56,7 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps
 # COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/client/start.sh ./
 # COPY /app/apps/client/server.js ./
-# COPY --from=builder /app/apps/client/.env.local ./
+COPY --from=builder /app/apps/client/.env.local ./
 
 USER nextjs
 
