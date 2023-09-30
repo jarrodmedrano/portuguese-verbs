@@ -112,7 +112,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         {
           name = each.value.name
           containerPort = each.value.container_port
-          hostPort : each.value.host_port
+          hostPort = each.value.host_port
           protocol      = "tcp"
           appProtocol   = "http"
         }
@@ -156,11 +156,11 @@ resource "aws_ecs_service" "private_service" {
 
     service {
       client_alias {
-        dns_name = each.value.name
-        port     = each.value.container_port
+        dns_name = var.service_config.api.name
+        port     = var.service_config.api.container_port
       }
 
-      port_name = each.value.name
+      port_name = var.service_config.api.name
     }
   }
 

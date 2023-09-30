@@ -20,7 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      url: `${publicRuntimeConfig.trpc_api}/api/trpc`,
+      url: `${publicRuntimeConfig.trpc_api}/trpc`,
     }),
   );
 
