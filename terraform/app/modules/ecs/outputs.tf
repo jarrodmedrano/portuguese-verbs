@@ -6,6 +6,6 @@ output "aws_ecs_task_definition" {
   value = [for taskdef in aws_ecs_task_definition.ecs_task_definition : taskdef]
 }
 
-output "aws_service_discovery_service" {
-  value = [for service in aws_service_discovery_service.public_service : service]
-}
+# output "aws_service_discovery_service" {
+#   value = [for service in aws_service_discovery_service.public_service : service]
+# }

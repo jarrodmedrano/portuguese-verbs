@@ -110,6 +110,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       ]
       portMappings = [
         {
+          name = each.value.name
           containerPort = each.value.container_port
           hostPort : each.value.host_port
           protocol      = "tcp"

@@ -3,17 +3,20 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = ">= 4.0.0, < 5.0.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.4.3"
     }
   }
-  # backend "s3" {
-  #   bucket         	   = "portuguese-verbs-bucket"
-  #   key              	   = "state/terraform.tfstate"
-  #   region         	   = "us-east-2"
-  #   encrypt        	   = true
-  # }
+  backend "s3" {
+    bucket         	   = "portuguese-verbs-bucket"
+    key              	   = "state/terraform.tfstate"
+    region         	   = "us-east-2"
+    encrypt        	   = true
+  }
 }
-
 
 
 provider "aws" {
@@ -92,12 +95,6 @@ module "route53_private_zone" {
   internal_url_name = var.internal_url_name
   alb               = module.internal_alb.internal_alb
   vpc_id            = module.vpc.vpc_id
-}
-
-module "ecr" {
-  source           = "./modules/ecr"
-  app_name         = var.app_name
-  ecr_repositories = var.app_services
 }
 
 module "ecs" {

@@ -9,54 +9,39 @@
 - [ExpressJS](https://expressjs.com/)
 - [NextJS](https://nextjs.org/)
 
-## Startup
-
-Create a network, which allows containers to communicate with each other, by using their container name as a hostname
-
-`docker network create app_network`
+## Startup dev
 
 `sh docker.dev.sh`
 
-# Build prod using new BuildKit engine
-
-`COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build`
+Open http://localhost:3000.
 
 # Start prod in detached mode
 
-`docker-compose -f docker-compose.yml up -d`
+`sh docker.prod.sh`
 
 Open http://localhost:3000.
 
-To shutdown all running containers:
+# Build AWS Infrastructure
 
-# Stop all running containers
+Building the base in AWS
 
-`docker kill $(docker ps -q) && docker rm $(docker ps -a -q)`
+`cd terraform/base`
 
-# Build terraform
+Add the required variables in terraform.tfvars
 
-`cd terraform && terraform apply`
+`terraform apply`
 
-Make sure to configure your aws cli using
+Building the app in AWS
 
-`aws configure`
+`cd terraform/app`
 
-Retrieve an authentication token and authenticate your Docker client to your registry. Use the AWS CLI:
+Add the required variables in terraform.tfvars
 
-`aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${ID}.dkr.ecr.${REGION}.amazonaws.com`
+`terraform apply`
 
-Note: If you receive an error using the AWS CLI, make sure that you have the latest version of the AWS CLI and Docker
-installed. Build your Docker image using the following command. For information on building a Docker file from scratch
-see the instructions here . You can skip this step if your image is already built:
+# Build ECR repositories
 
-`docker build -t portuguese-verbs .`
-
-After the build completes, tag your image so you can push the image to this repository:
-
-`docker tag portuguese-verbs:latest ${ID}.dkr.ecr.${REGION}.amazonaws.com/portuguese-verbs:latest`
-
-Run the following command to push this image to your newly created AWS repository:
-
-`docker push ${ID}.dkr.ecr.${REGION}.amazonaws.com/portuguese-verbs:latest`
+Repositories will be created for api, client and verbecc and pushed up to AWS on each commit. You will need to add your
+secret variables in Github.
 
 #### Author: Jarrod Medrano 👨🏻‍💻
