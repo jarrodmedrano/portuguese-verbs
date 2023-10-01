@@ -80,3 +80,7 @@ variable "public_alb_target_groups" {
     arn = string
   }))
 }
+
+variable "dns_name" {
+  type = string
+}

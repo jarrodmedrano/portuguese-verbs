@@ -103,8 +103,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           name  = "NEXT_PUBLIC_TRPC_API"
           value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
         }, {
-          name  = "ssss"
-          value = "bbb"
+          name  = "NEXT_PUBLIC_APP_URL"
+          value = "http://${var.dns_name}"
         }
       ]
       portMappings = [

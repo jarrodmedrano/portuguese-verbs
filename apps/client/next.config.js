@@ -1,31 +1,36 @@
 const path = require('path');
-const isDevelopment = process.env.NODE_ENV !== 'production';
-const server = process.env.NEXT_PUBLIC_TRPC_API;
+// const isDevelopment = process.env.NODE_ENV !== 'production';
+// const server = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:4000';
 
 // eslint-disable-next-line no-console
-console.log('why isnt this working', process.env.NEXT_PUBLIC_TRPC_API);
-const rewritesConfig = isDevelopment
-  ? [
-      {
-        source: '/trpc/:path*',
-        destination: `${server}/bees/:path*`,
-      },
-    ]
-  : [
-      {
-        source: '/trpc/:path*',
-        destination: `${server}/bees/:path*`,
-      },
-    ];
+// console.log('why isnt this working', process.env.NEXT_PUBLIC_APP_URL);
+// const rewritesConfig = isDevelopment
+//   ? [
+//       {
+//         source: '/trpc/:path*',
+//         destination: `${server}/bees/:path*`,
+//       },
+//     ]
+//   : [
+//       {
+//         source: '/trpc/:path*',
+//         destination: `${server}/bees/:path*`,
+//       },
+//     ];
 
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  async rewrites() {
-    // eslint-disable-next-line no-console
-    console.log('the server', rewritesConfig);
-    return rewritesConfig;
-  },
+  /**
+   * Asynchronously retrieves the headers.
+   *
+   * @return {Array} An array of header objects.
+   */
+  // async rewrites() {
+  //   // eslint-disable-next-line no-console
+  //   console.log('the server', rewritesConfig);
+  //   return rewritesConfig;
+  // },
   output: 'standalone',
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
@@ -37,6 +42,11 @@ module.exports = {
     };
     return config;
   },
+  /**
+   * Retrieves the headers.
+   *
+   * @return {Array} An array of header objects.
+   */
   publicRuntimeConfig: {
     // Will be available on both server and client
     trpc_api: process.env.NEXT_PUBLIC_TRPC_API,

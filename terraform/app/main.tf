@@ -112,5 +112,6 @@ module "ecs" {
   internal_alb_security_group = module.internal_alb_security_group
   internal_alb_target_groups  = module.internal_alb.target_groups
   public_alb_target_groups    = module.public_alb.target_groups
+  dns_name = module.public_alb.internal_alb-dns
 }
 
