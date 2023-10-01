@@ -91,7 +91,7 @@
     "nps": "5.10.0",
     "prettier": "2.5.1",
     "prettier-plugin-tailwindcss": "0.1.13",
-    "turbo": "1.10.13",
+    "turbo": "^1.10.14",
     "vite-plugin-istanbul": "4.0.0",
     "vitest": "0.26.2"
   },
