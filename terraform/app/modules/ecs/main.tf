@@ -102,6 +102,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         }, {
           name  = "NEXT_PUBLIC_TRPC_API"
           value = "http://${var.service_config.api.name}:${tostring(var.service_config.api.container_port)}"
+        }, {
+          name  = "ssss"
+          value = "bbb"
         }
       ]
       portMappings = [
@@ -150,14 +153,27 @@ resource "aws_ecs_service" "private_service" {
     enabled   = each.value.name == "api" || each.value.name == "client" ? true : false
     namespace = aws_service_discovery_http_namespace.main.arn
 
-    service {
-      client_alias {
-        dns_name = var.service_config.api.name
-        port     = var.service_config.api.container_port
-      }
 
-      port_name = var.service_config.api.name
+    dynamic "service" {
+      for_each = each.value.name == "api" ? [var.service_config.api] : []
+      content {
+        client_alias {
+          dns_name = var.service_config.api.name
+          port     = var.service_config.api.container_port
+        }
+
+        port_name = var.service_config.api.name
+      }
     }
+
+    # service {
+    #   client_alias {
+    #     dns_name = var.service_config.api.name
+    #     port     = var.service_config.api.container_port
+    #   }
+
+    #   port_name = var.service_config.api.name
+    # }
   }
 
   
