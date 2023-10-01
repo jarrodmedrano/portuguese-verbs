@@ -8,7 +8,7 @@ import { client, trpc } from '../src/services';
 export const getServerSideProps = async () => {
   return {
     props: {
-      apiUrl: process.env.API_URL || 'http://localhost:4000',
+      apiUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:4000',
     },
   };
 };

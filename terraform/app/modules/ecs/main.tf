@@ -105,6 +105,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         }, {
           name  = "NEXT_PUBLIC_APP_URL"
           value = "http://${var.dns_name}"
+        }, {
+          name  = "chockolate",
+          value = "true"
         }
       ]
       portMappings = [
