@@ -39,7 +39,7 @@ RUN adduser --system --uid 1001 expressjs
 RUN apt-get update && apt-get install -y openssl
 USER expressjs
 
-EXPOSE 4000
-ENV PORT 4000
+EXPOSE 8080
+ENV PORT 8080
 COPY --from=installer /app .
 CMD node apps/api/dist/index.js
