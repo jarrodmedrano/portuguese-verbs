@@ -147,6 +147,11 @@ resource "aws_ecs_task_definition" "api" {
           containerPort = local.api.container.port
           protocol      = "tcp"
           appProtocol   = "http"
+        }, {
+          name          = local.verbecc.container.name
+          containerPort = local.verbecc.container.port
+          protocol      = "tcp"
+          appProtocol   = "http"
         }
       ]
       # healthCheck = {

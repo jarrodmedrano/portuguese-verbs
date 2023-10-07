@@ -10,7 +10,11 @@ declare module 'react-query/types/react/QueryClientProvider' {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+    </>
+  );
 };
 
 export default App;

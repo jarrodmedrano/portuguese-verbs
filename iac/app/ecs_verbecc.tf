@@ -1,7 +1,7 @@
 resource "aws_ecs_service" "verbecc" {
   name                               = "verbecc"
   cluster                            = aws_ecs_cluster.main.id
-  task_definition                    = aws_ecs_task_definition.api.id 
+  task_definition                    = aws_ecs_task_definition.verbecc.id 
   desired_count                      = 1
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
@@ -10,28 +10,28 @@ resource "aws_ecs_service" "verbecc" {
   platform_version                   = "LATEST"
   enable_execute_command   = true
 
-  # service_connect_configuration {
-  #   enabled   = true
-  #   namespace = aws_service_discovery_http_namespace.main.arn
+  service_connect_configuration {
+    enabled   = true
+    namespace = aws_service_discovery_http_namespace.main.arn
 
-  #   service {
-  #     client_alias {
-  #       dns_name = local.verbecc.container.name
-  #       port     = local.verbecc.container.port
-  #     }
+    service {
+      client_alias {
+        dns_name = local.verbecc.container.name
+        port     = local.verbecc.container.port
+      }
 
-  #     port_name = local.verbecc.container.name
-  #   }
+      port_name = local.verbecc.container.name
+    }
 
-  #   log_configuration {
-  #     log_driver = "awslogs"
-  #     options = {
-  #       awslogs-group         = "/ecs-fargate/${var.application}/service/service-connect-proxy"
-  #       awslogs-region        = var.aws_region
-  #       awslogs-stream-prefix = "verbecc"
-  #     }
-  #   }
-  # }
+    log_configuration {
+      log_driver = "awslogs"
+      options = {
+        awslogs-group         = "/ecs-fargate/${var.application}/service/service-connect-proxy"
+        awslogs-region        = var.aws_region
+        awslogs-stream-prefix = "verbecc"
+      }
+    }
+  }
 
   network_configuration {
     subnets          = aws_subnet.private.*.id
@@ -60,7 +60,7 @@ resource "aws_security_group" "verbecc_service" {
     to_port   = 0
     protocol  = "-1"
     # Only allow traffic in from the app service security group
-    security_groups = [aws_security_group.app_service.id]
+    security_groups = [aws_security_group.app_service.id, aws_security_group.api_service.id]
   }
 
   egress {
@@ -128,27 +128,33 @@ resource "aws_ecs_task_definition" "verbecc" {
           name  = "VERBECC_API"
           value = "http://${local.verbecc.container.name}:${tostring(local.verbecc.container.port)}"
         },
-        {
-          name  = "NODE_ENV"
-          value = "development"
-        },
-        {
+       {
           name  = "TRPC_PORT"
-          value = "8080"
+          value = "${tostring(local.api.container.port)}"
         },
         {
           name  = "CLIENT_PORT"
-          value = "8080"
+          value = "${tostring(local.app.container.port)}"
         },
         {
           name  = "VERBECC_PORT"
-          value = "8000"
+          value = "${tostring(local.verbecc.container.port)}"
+        },
+        {
+          name  = "REDIS_URL"
+          value = "bb"
         }
       ]
       portMappings = [
-        {
+       {
           name          = local.verbecc.container.name
           containerPort = local.verbecc.container.port
+          protocol      = "tcp"
+          appProtocol   = "http"
+        },
+        {
+          name          = local.api.container.name
+          containerPort = local.api.container.port
           protocol      = "tcp"
           appProtocol   = "http"
         }

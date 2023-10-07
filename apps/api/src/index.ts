@@ -18,6 +18,8 @@ const app = express();
 app.use(cors());
 
 app.use('/health', (_, res) => {
+  // eslint-disable-next-line no-console
+  console.log('health checked!');
   res.sendStatus(200);
 });
 

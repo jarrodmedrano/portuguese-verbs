@@ -20,7 +20,7 @@ declare module 'react-query/types/react/QueryClientProvider' {
   }
 }
 
-const Home = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Verbs = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   // eslint-disable-next-line no-console
   console.log('api url', apiUrl);
 
@@ -56,4 +56,4 @@ const Home = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps>
   );
 };
 
-export default Home;
+export default Verbs;
