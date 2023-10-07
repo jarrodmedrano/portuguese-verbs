@@ -5,7 +5,7 @@ import Table from 'react-tailwind-table';
 import { useConjugation } from './hooks/useConjugation';
 import { SearchContext, withSearchContext } from '../contexts/SearchContext';
 import { Loading } from './Loading';
-import { Sidebar } from './Sidebar';
+// import { Sidebar } from './Sidebar';
 import classNames from 'classnames';
 
 export type CheckBoxVals = {
@@ -22,13 +22,13 @@ export type VerbTableProps = {
   verb: string;
   mood: string;
   filters: string[];
+  sidebarIsOpen: boolean;
 };
 
-const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableProps) => {
+const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpen }: VerbTableProps) => {
   const { search } = useContext(SearchContext);
   // @ts-ignore this
   const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb: search ? search : verb, mood }]);
-  const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
 
   const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
@@ -51,10 +51,6 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableP
       setValues(newVals);
     }
   }, [filters, data]);
-
-  const handleClickSidebar = () => {
-    setSidebarIsOpen(!sidebarIsOpen);
-  };
 
   return (
     <div className={`dark:bg-gray-700 dark:text-white`}>
@@ -87,14 +83,6 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters }: VerbTableP
           Error: {JSON.stringify(error?.message)}
         </div>
       ) : null}
-
-      <aside
-        id="default-sidebar"
-        className="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
-        aria-label="Sidebar"
-      >
-        <Sidebar handleClick={handleClickSidebar} isOpen={sidebarIsOpen} />
-      </aside>
 
       <div className={classNames(`p-4 ${sidebarIsOpen ? 'sm:ml-64' : 'sm:ml-20'}`)}>
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
