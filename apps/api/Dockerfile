@@ -8,7 +8,7 @@ RUN apt-get update
 WORKDIR /app
 
 COPY . .
-RUN npm global add turbo
+RUN pnpm global add turbo
 RUN turbo prune --scope=api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
