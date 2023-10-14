@@ -1,7 +1,8 @@
 import { ChangeEventHandler } from 'react';
 import { useDarkSide } from './hooks/useDarkSide';
+import { PropsWithChildren } from 'react';
 
-export const Switcher = ({ showLabel }: { showLabel: boolean }) => {
+export const Switcher = ({ showLabel }: { showLabel: boolean }): PropsWithChildren<any> => {
   const [theme, setTheme] = useDarkSide();
 
   const toggleDarkMode: ChangeEventHandler<HTMLInputElement> = (e) => {

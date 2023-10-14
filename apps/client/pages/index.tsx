@@ -1,6 +1,6 @@
 import { InferGetServerSidePropsType } from 'next';
 import WithQueryWrapper from '../src/components/QueryWrapper';
-import { VerbTableWithSearchContext } from '../src/components/VerbTable';
+import QuizApp from '../src/components/Quiz/QuizApp';
 
 export const getServerSideProps = async () => {
   return {
@@ -13,22 +13,7 @@ export const getServerSideProps = async () => {
 const Home = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <WithQueryWrapper apiUrl={apiUrl}>
-      <VerbTableWithSearchContext
-        filters={[
-          'presente',
-          'pretérito-imperfeito',
-          'pretérito-perfeito',
-          // 'pretérito-mais-que-perfeito',
-          'futuro-do-presente',
-          // 'pretérito-perfeito-composto',
-          // 'pretérito-mais-que-perfeito-composto',
-          // 'pretérito-mais-que-perfeito-anterior',
-          // 'futuro-do-presente-composto',
-        ]}
-        verb="fazer"
-        key="fazer"
-        mood="indicativo"
-      />
+      <QuizApp />
     </WithQueryWrapper>
   );
 };

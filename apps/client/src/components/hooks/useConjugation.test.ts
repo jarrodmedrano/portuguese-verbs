@@ -39,8 +39,8 @@ describe('use conjugation hook', () => {
     const { rows } = useConjugation({ data, values });
     expect(rows).toEqual([
       { pronoun: 'eu', present: 'a', imperfect: 'd', future: 'g' },
-      { pronoun: 'tu', present: 'b', imperfect: 'e', future: 'h' },
-      { pronoun: 'ele/ela', present: 'c', imperfect: 'f', future: 'i' },
+      { pronoun: 'ele/ela/voce', present: 'b', imperfect: 'e', future: 'h' },
+      { pronoun: 'nós', present: 'c', imperfect: 'f', future: 'i' },
     ]);
   });
 });

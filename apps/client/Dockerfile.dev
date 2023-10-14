@@ -1,41 +1,49 @@
 FROM node:18-slim AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
+
 # Set working directory
 WORKDIR /app
-RUN yarn global add turbo
 COPY . .
 # Only Take packages that are needed to compile this app
-RUN turbo prune --scope=client --docker
+RUN npx turbo prune --scope=client --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM --platform=linux/amd64 node:18-slim AS installer
-RUN apt-get autoclean
-RUN apt-get clean
-RUN apt-get update
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
 COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/turbo.json ./turbo.json
-RUN yarn install --frozen-lockfile
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
+RUN pnpm install --no-frozen-lockfile
 
 FROM --platform=linux/amd64 node:18-slim AS sourcer
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get autoclean
 RUN apt-get clean
-RUN apt-get update
 WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
-RUN apt-get install -y openssl
+# RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
-RUN cd apps/api && yarn run prebuild
+RUN apt-get update -y && apt-get install -y openssl
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
+RUN cd apps/api && pnpm run prebuild
+RUN npx prisma
 COPY .gitignore .gitignore
-RUN yarn turbo run build  --filter=client...
+RUN npx turbo run build  --filter=client...
 
 FROM --platform=linux/amd64 node:18-slim as runner
-RUN apt-get update
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
 COPY --from=sourcer /app/ .
 WORKDIR /app/apps/client/
-CMD [ "yarn", "dev" ]
+CMD [ "pnpm", "dev" ]

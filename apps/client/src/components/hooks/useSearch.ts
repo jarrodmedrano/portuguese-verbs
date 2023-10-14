@@ -1,3 +1,4 @@
+'use client';
 import { trpc } from './../../services/index';
 import { useState, useEffect } from 'react';
 import { useDebounce } from './useDebounce';
@@ -5,10 +6,8 @@ import { UseQueryResult } from 'react-query';
 export const useSearch = (query: string) => {
   const [isSearching, setIsSearching] = useState(false);
   const debouncedQuery = useDebounce(query, 1000);
-  const results: UseQueryResult<unknown> = trpc.useQuery([
-    'verb.get',
-    debouncedQuery ? { name: debouncedQuery } : { name: '' },
-  ]);
+  //@ts-ignore bullshit
+  const results: UseQueryResult<unknown> = trpc.useQuery(['verb.get']);
 
   useEffect(() => {
     if (debouncedQuery) {

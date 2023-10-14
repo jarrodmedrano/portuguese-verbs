@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '../contexts/SearchContext';
 import { SearchBar } from './SearchBar';
 import { Switcher } from './Switcher';
+import Link from 'next/link';
 
 export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOpen: boolean }) => {
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
@@ -62,6 +63,38 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
             )}
           >
             <Switcher showLabel={isOpen} />
+          </li>
+
+          <li
+            className={classNames(
+              `flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ${isOpenClass}`,
+            )}
+          >
+            <Link
+              className={classNames(
+                `mt-2 flex h-12 w-full items-center justify-start rounded hover:bg-gray-700 hover:text-gray-300 `,
+              )}
+              href="/#"
+              onClick={handleClick}
+            >
+              Home
+            </Link>
+          </li>
+
+          <li
+            className={classNames(
+              `flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:text-white dark:text-white ${isOpenClass}`,
+            )}
+          >
+            <Link
+              className={classNames(
+                `mt-2 flex h-12 w-full items-center justify-start rounded hover:bg-gray-700 hover:text-gray-300 `,
+              )}
+              href="/verbs"
+              onClick={handleClick}
+            >
+              Table of Verbs
+            </Link>
           </li>
 
           <li

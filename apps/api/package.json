@@ -25,9 +25,9 @@
     "migrate dev": "npx prisma migrate dev --create-only --name init",
     "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",
-    "dev": "yarn run prebuild && tsnd --respawn src/index.ts",
+    "dev": "npx pnpm run prebuild && tsnd --respawn src/index.ts",
     "db:seed": "npx prisma db seed",
-    "prebuild": "yarn run generate && yarn run migrate && yarn run db:seed",
+    "prebuild": "npx pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed",
     "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {

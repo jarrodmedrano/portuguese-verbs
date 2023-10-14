@@ -1,10 +1,10 @@
 {
-  "name": "turborepo-trpc",
+  "name": "portuguese-verbs",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "private": true,
-  "packageManager": "yarn@1.22.19",
+  "private": false,
+  "packageManager": "pnpm@8.8.0",
   "scripts": {
     "start": "nps",
     "prepare": "npx husky install",
@@ -101,11 +101,11 @@
   },
   "lint-staged": {
     "./*/**/*.{js,jsx,ts,tsx}": [
-      "yarn run prettier:fix",
-      "yarn run eslint:fix"
+      "pnpm run prettier:fix",
+      "pnpm run eslint:fix"
     ],
     "*.{json,md}": [
-      "yarn run prettier:fix"
+      "pnpm run prettier:fix"
     ]
   },
   "dependencies": {
