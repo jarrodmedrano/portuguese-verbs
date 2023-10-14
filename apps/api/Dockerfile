@@ -6,7 +6,7 @@ RUN apt-get clean
 RUN apt-get update
 # Set working directory
 WORKDIR /app
-
+RUN corepack enable
 COPY . .
 RUN pnpm global add turbo
 RUN turbo prune --scope=api --docker
