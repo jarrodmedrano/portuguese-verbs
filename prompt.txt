@@ -1,15 +1,18 @@
-Write 20 sentences in portuguese that have a missing verb. Also include the answers to guess from. The questions should be a javascript array like this: {
-      text: 'What is the capital of France?',
-translation: 'What is the capital of France?'
-      answers: [
-        { id: 'a1', text: 'Paris', isCorrect: true },
-        { id: 'a2', text: 'London', isCorrect: false },
-        { id: 'a3', text: 'Berlin', isCorrect: false },
-        { id: 'a4', text: 'Madrid', isCorrect: false },
-      ],
+Write 3 sentences in portuguese that have a missing verb. Also include the answers to guess from. The questions should be a javascript array like this: {
+      "tense": "presente",
+      "regularity": "regular",
+      "verbType": "er",
+      "text": "Eu ______ café todas as manhãs.",
+      "translation": "I drink coffee every morning.",
+      "answers": [
+        { "id": "a1", "text": "bebo", "isCorrect": true },
+        { "id": "a2", "text": "bebe", "isCorrect": false },
+        { "id": "a3", "text": "bebemos", "isCorrect": false },
+        { "id": "a4", "text": "bebem", "isCorrect": false }
+      ]
     },
 
 the english translation should not have a blank space. 
-the answer should be the same verb but in different conjugations. Do not include Voce form. Do not include the mais que perfecto form.
+the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form.
 
 
