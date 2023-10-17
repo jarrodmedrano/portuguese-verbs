@@ -30,10 +30,14 @@ const Quiz = ({ questions }: { questions: Question[] }) => {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('currentIndex', currentIndex);
     setCurrentQuestion(questions[currentIndex]);
   }, [currentIndex, questions]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('currentQuestion', currentQuestion);
     if (currentQuestion) {
       const answers = currentQuestion.answers;
       let shuffled = [...answers];
@@ -46,6 +50,8 @@ const Quiz = ({ questions }: { questions: Question[] }) => {
   }, [currentQuestion]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('questions', questions);
     setCurrentIndex(0);
   }, [questions]);
 

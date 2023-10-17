@@ -14,7 +14,7 @@
     "prisma": "5.1.1",
     "@prisma/client": "5.1.1",
     "dotenv-expand": "10.0.0",
-    "openai": "3.1.0"
+    "openai": "3.2.1"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",
@@ -25,10 +25,10 @@
   "scripts": {
     "migrate dev": "npx prisma migrate dev --create-only --name init",
     "migrate": "npx prisma migrate dev",
-    "generate": "npx prisma generate",
+    "generate": "pnpm exec prisma generate",
     "dev": "npx pnpm run prebuild && tsnd --respawn src/index.ts",
-    "db:seed": "npx prisma db seed",
-    "prebuild": "npx pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed",
+    "db:seed": "pnpm exec prisma db seed",
+    "prebuild": "pnpm exec pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed",
     "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {

@@ -4,7 +4,9 @@ import cors from 'cors';
 import { createRouter } from './app/app.router';
 import { verbecc } from './verbecc/verbecc.router';
 import { verb } from './verb/verb.router';
-const appRouter = createRouter().merge('verbecc.', verbecc).merge('verb.', verb);
+import { openaiRouter } from './openai/openai.router';
+
+const appRouter = createRouter().merge('verbecc.', verbecc).merge('verb.', verb).merge('openai.', openaiRouter);
 
 const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand');
@@ -13,7 +15,11 @@ dotenvExpand.expand(config);
 
 export type AppRouter = typeof appRouter;
 
+export * as OpenAITypes from './openai/types';
+
 const app = express();
+
+app.use(express.json());
 
 app.use(cors());
 

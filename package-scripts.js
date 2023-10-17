@@ -16,12 +16,12 @@ module.exports = {
     },
     prepare: {
       default: 'nps prepare.install prepare.format',
-      install: 'npx husky install && yarn install',
+      install: 'npx husky install && pnpm install',
       format: 'prettier --write "**/*.{ts,tsx,md}',
       docker: 'docker compose up',
       ci: {
-        web: `npx turbo prune --scope=web && cd out && yarn install --frozen-lockfile`,
-        api: `npx turbo prune --scope=api && cd out && yarn install --frozen-lockfile && nps prisma.generate`,
+        web: `npx turbo prune --scope=web && cd out && pnpm install --frozen-lockfile`,
+        api: `npx turbo prune --scope=api && cd out && pnpm install --frozen-lockfile && nps prisma.generate`,
       },
     },
     prebuild: {

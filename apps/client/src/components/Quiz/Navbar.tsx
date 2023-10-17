@@ -16,35 +16,101 @@ const Navbar = ({}: NavbarProps) => {
     setSidebarIsOpen((prev) => !prev);
   };
   const defaultQuestions: Question[] = questionsJSON.questions as Question[];
+  const [newQuestions, setNewQuestions] = useState<Question[]>([]);
   const { setIsLoading, setQuizQuestions } = useContext(AppContext);
   const [regularity, setRegularity] = useState<string>('regular');
   const [tense, setTense] = useState<string>('presente');
   const [verbType, setVerbType] = useState<string>('ar');
   const [difficulty] = useState<string>('A1');
   const [preferredLanguage] = useState<string>('en-us');
-  const [language] = useState<string>('english');
+  const [language] = useState<string>('brazilian portuguese');
 
-  const handleGetMore = () => {
-    const {
-      data,
-      isLoading: openaiIsLoading,
-      error,
-    } = trpc.useQuery([
-      'openai.get',
-      // @ts-ignore this error
-      { tense, regularity, verbType, difficulty, language, preferredLanguage },
-    ]);
+  function findFirstArrayInString(
+    str: string,
+    index: number = 0,
+    firstArrayStart: number = -1,
+    bracketsCount: number = 0,
+  ): string {
+    // Base case: if we've reached the end of the string, return null
+    if (index === str.length) {
+      return '';
+    }
 
-    // eslint-disable-next-line no-console
-    console.log('data', data);
-    // eslint-disable-next-line no-console
-    console.log('err', error);
-    // eslint-disable-next-line no-console
-    console.log('openaiIsLoading', openaiIsLoading);
+    // Current character in the string
+    const char = str[index];
 
-    if (data && !openaiIsLoading) {
-      const dataJSON = JSON.parse(data);
-      setQuizQuestions(dataJSON);
+    // If we encounter an opening bracket, we need to increase our count
+    if (char === '[') {
+      bracketsCount++;
+      // If it's the first opening bracket we've found, mark its position
+      if (firstArrayStart === -1) {
+        firstArrayStart = index;
+      }
+    }
+    // If we encounter a closing bracket, we decrease our count
+    else if (char === ']') {
+      bracketsCount--;
+      // If our count is back to zero, we've found the end of the first complete array
+      if (bracketsCount === 0 && firstArrayStart !== -1) {
+        return str.substring(firstArrayStart, index + 1);
+      }
+    }
+
+    // Move to the next character in the string
+    return findFirstArrayInString(str, index + 1, firstArrayStart, bracketsCount);
+  }
+
+  const mutation = trpc.useMutation(['openai.mutate'], {
+    onSuccess: (data) => {
+      // eslint-disable-next-line no-console
+      console.log('data', data);
+      const content = data.choices[0].message.content;
+      // eslint-disable-next-line no-console
+      console.log('content', content);
+
+      let initialStr = '';
+      if (content[0] === '[') {
+        initialStr = content;
+      } else if (content[0] === '{') {
+        initialStr = `[${content}]`;
+      } else {
+        initialStr = findFirstArrayInString(content);
+      }
+      // eslint-disable-next-line no-console
+      console.log('inti str', initialStr);
+      const dataJSON = JSON.parse(initialStr);
+      setNewQuestions([...newQuestions, ...dataJSON]);
+      setQuizQuestions([...dataJSON, ...defaultQuestions]);
+    },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.log('err', error);
+    },
+  });
+
+  const handleGetMore = async () => {
+    try {
+      await mutation.mutateAsync({
+        tense,
+        regularity,
+        verbType,
+        difficulty,
+        language,
+        preferredLanguage,
+        messages: [
+          {
+            role: 'assistant',
+            content: JSON.stringify(newQuestions),
+          },
+          {
+            role: 'user',
+            content: 'Write three more questions.',
+          },
+        ],
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('err', error);
     }
   };
 
@@ -63,30 +129,33 @@ const Navbar = ({}: NavbarProps) => {
   const handleNavClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const value = (event.target as HTMLInputElement).value;
 
+    // eslint-disable-next-line no-console
+    console.log('value', value);
+
     switch (value) {
       case undefined:
         handleShuffle();
         break;
-      case 'getmore':
+      case 'get-questions':
         handleGetMore();
         break;
       case 'shuffle':
         handleShuffle();
         break;
       case 'ar':
-        const arQuestions = defaultQuestions.filter((q) => q.verbType === 'ar');
+        const arQuestions = defaultQuestions.filter((q) => q.verbType === value);
         setQuizQuestions(arQuestions);
-        setVerbType('ar');
+        setVerbType(value);
         break;
       case 'ir':
         const irQuestions = defaultQuestions.filter((q) => q.verbType === 'ir');
         setQuizQuestions(irQuestions);
-        setVerbType('ir');
+        setVerbType(value);
         break;
       case 'er':
         const erQuestions = defaultQuestions.filter((q) => q.verbType === 'er');
         setQuizQuestions(erQuestions);
-        setVerbType('er');
+        setVerbType(value);
         break;
       case 'presente':
         const presenteQuestions = defaultQuestions.filter((q) => q.tense === 'presente');
@@ -150,7 +219,7 @@ const Navbar = ({}: NavbarProps) => {
 
   return (
     <>
-      <nav className="bg-gray-800">
+      <nav className="z-40 bg-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -325,7 +394,7 @@ const Navbar = ({}: NavbarProps) => {
       </nav>
       <aside
         id="default-sidebar"
-        className="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className="fixed left-0 top-0 -z-30 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
         <Sidebar handleClick={handleSidebarClick} isOpen={sidebarIsOpen} />
