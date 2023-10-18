@@ -11,7 +11,7 @@ const chatCompletionRequestMessageSchema = z.object({
   name: z.string().optional(),
 });
 
-export const inputQuestion = z.object({
+export const inputOpenAIQuestion = z.object({
   tense: z.string(),
   regularity: z.string(),
   verbType: z.string(),
@@ -21,5 +21,5 @@ export const inputQuestion = z.object({
   messages: z.array(chatCompletionRequestMessageSchema),
 });
 
-export type GetQuestionInput = z.infer<typeof inputQuestion>;
+export type GetQuestionInput = z.infer<typeof inputOpenAIQuestion>;
 export type GetQuestionResponse = GetQuestionOutput;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as fs from 'fs';
 import * as path from 'path';
 import { PrismaClient } from '@prisma/client';
@@ -43,9 +44,47 @@ const seedVerbs = async () => {
   });
 };
 
+const seedQuestions = async () => {
+  const filePath = path.join(__dirname, 'questions.json');
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+
+  try {
+    const questionsData = JSON.parse(fileContent);
+
+    console.log('questions', questionsData);
+
+    if (!Array.isArray(questionsData)) {
+      console.error('Invalid format: JSON file must contain an array of questions.');
+      return;
+    }
+
+    // Create questions in database
+    for (const q of questionsData) {
+      try {
+        const question = await prisma.question.create({
+          data: {
+            ...q,
+            answers: JSON.stringify(q.answers),
+          },
+        });
+        console.log(`Created question with id: ${question.id}`);
+      } catch (err) {
+        console.error(`Error creating question: ${err.message}`);
+      }
+    }
+  } catch (err) {
+    console.error(`Error parsing JSON: ${err.message}`);
+    return;
+  }
+};
+
 const main = async () => {
   try {
     await seedVerbs();
+    await seedQuestions().catch((e) => {
+      console.error(e);
+      process.exit(1);
+    });
     // eslint-disable-next-line no-console
     console.info('[SEED] Successfully seeded database');
   } catch (error) {

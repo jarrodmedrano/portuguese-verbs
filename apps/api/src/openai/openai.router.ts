@@ -1,10 +1,10 @@
 import { createRouter } from '../app/app.router';
 import { getQuestion } from './openai.controller';
 import * as trpc from '@trpc/server';
-import { inputQuestion } from './types';
+import { inputOpenAIQuestion } from './types';
 
 export const openaiRouter = createRouter().mutation('mutate', {
-  input: inputQuestion,
+  input: inputOpenAIQuestion,
   resolve: async ({ input }) => {
     if (!input) {
       throw new trpc.TRPCError({

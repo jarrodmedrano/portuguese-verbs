@@ -25,7 +25,7 @@ Open http://localhost:3000.
 
 Building the base in AWS
 
-`cd terraform/base`
+`cd iac/base`
 
 Add the required variables in terraform.tfvars
 
@@ -33,7 +33,7 @@ Add the required variables in terraform.tfvars
 
 Building the app in AWS
 
-`cd terraform/app`
+`cd iac/app`
 
 Add the required variables in terraform.tfvars
 

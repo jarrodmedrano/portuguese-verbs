@@ -4,23 +4,14 @@ const config = dotenv.config();
 import { ChatCompletionRequestMessage } from 'openai';
 
 dotenvExpand.expand(config);
-// import { Configuration, OpenAIApi } from 'openai';
 
-// const configuration = new Configuration({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-// const openai = new OpenAIApi(configuration);
-
-export type Question = {
+export type OpenAiQuestion = {
   value: {
     [key: string]: Array<string>;
   };
 };
 
-// the english translation should not have a blank space.
-// the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form.
-
-export type InputQuestion = {
+export type InputOpenAiQuestion = {
   tense: string;
   regularity: string;
   verbType: string;
@@ -30,7 +21,7 @@ export type InputQuestion = {
   messages: ChatCompletionRequestMessage[];
 };
 
-export const getQuestion = async (input: InputQuestion): Promise<string | undefined> => {
+export const getQuestion = async (input: InputOpenAiQuestion): Promise<string | undefined> => {
   const { language = 'portuguese', preferredLanguage, tense, regularity, verbType, difficulty, messages } = input;
   const apiKey = process.env.OPENAI_API_KEY;
   const url = 'https://api.openai.com/v1/chat/completions';
@@ -38,13 +29,13 @@ export const getQuestion = async (input: InputQuestion): Promise<string | undefi
   const msg = [
     {
       role: 'system',
-      content: `You are a ${language} teacher. Respond only with the javascript array of new questions, do not include the question or explanation of any kind.`,
+      content: `You are a ${language} teacher. Respond only with the javascript array of new questions, do not include an explanation. Your output must start with [ and end with ] always.`,
     },
     {
       role: 'user',
       content: `Write 3 sentence(s) in ${language} of ${difficulty} that have a missing verb. Also include the answers to guess from. include a translation for ${
         preferredLanguage ?? 'en-us'
-      }. The questions should be an object containing an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
+      }. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
         [
           {
             tense: tense,

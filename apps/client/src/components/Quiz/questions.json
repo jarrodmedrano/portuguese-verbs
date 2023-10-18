@@ -1,6 +1,9 @@
 {
   "questions": [
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "regular",
       "verbType": "er",
@@ -14,6 +17,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "irregular",
       "verbType": "ar",
@@ -27,6 +33,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "regular",
       "verbType": "ir",
@@ -40,6 +49,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-imperfeito",
       "regularity": "regular",
       "verbType": "ar",
@@ -53,6 +65,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "irregular",
       "verbType": "er",
@@ -66,6 +81,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-mais-que-perfeito",
       "regularity": "regular",
       "verbType": "ar",
@@ -79,6 +97,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "regular",
       "verbType": "er",
@@ -92,6 +113,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "irregular",
       "verbType": "ir",
@@ -105,6 +129,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "regular",
       "verbType": "ar",
@@ -118,6 +145,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-imperfeito",
       "regularity": "regular",
       "verbType": "er",
@@ -131,6 +161,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "regular",
       "verbType": "ir",
@@ -144,6 +177,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "regular",
       "verbType": "er",
@@ -157,6 +193,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "irregular",
       "verbType": "er",
@@ -170,6 +209,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-imperfeito",
       "regularity": "regular",
       "verbType": "ar",
@@ -183,6 +225,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "irregular",
       "verbType": "ir",
@@ -196,6 +241,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "regular",
       "verbType": "ar",
@@ -209,6 +257,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "regular",
       "verbType": "ir",
@@ -222,6 +273,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-imperfeito",
       "regularity": "irregular",
       "verbType": "er",
@@ -235,6 +289,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "regular",
       "verbType": "er",
@@ -248,6 +305,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "irregular",
       "verbType": "ar",
@@ -261,6 +321,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente-progressivo",
       "regularity": "regular",
       "verbType": "ar",
@@ -274,6 +337,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-preterito",
       "regularity": "regular",
       "verbType": "er",
@@ -287,6 +353,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "irregular",
       "verbType": "ir",
@@ -300,6 +369,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "regular",
       "verbType": "ar",
@@ -313,6 +385,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "regular",
       "verbType": "ir",
@@ -326,6 +401,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente-progressivo",
       "regularity": "regular",
       "verbType": "er",
@@ -339,6 +417,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-preterito",
       "regularity": "irregular",
       "verbType": "ir",
@@ -352,6 +433,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "regular",
       "verbType": "ar",
@@ -365,6 +449,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "regular",
       "verbType": "er",
@@ -378,6 +465,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente-progressivo",
       "regularity": "irregular",
       "verbType": "ir",
@@ -391,6 +481,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-presente",
       "regularity": "regular",
       "verbType": "ar",
@@ -404,6 +497,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente",
       "regularity": "regular",
       "verbType": "er",
@@ -417,6 +513,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "preterito-perfeito",
       "regularity": "irregular",
       "verbType": "ir",
@@ -430,6 +529,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "presente-progressivo",
       "regularity": "regular",
       "verbType": "ar",
@@ -443,6 +545,9 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
       "tense": "futuro-do-preterito",
       "regularity": "irregular",
       "verbType": "ir",
@@ -456,6 +561,12 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "irregular",
+      "verbType": "ir",
       "text": "Nós ___ ao museu na semana passada.",
       "translation": "We went to the museum last week.",
       "answers": [
@@ -466,6 +577,12 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "encontrar",
       "text": "Eu ___ um livro interessante.",
       "translation": "I found an interesting book.",
       "answers": [
@@ -476,6 +593,12 @@
       ]
     },
     {
+      "difficulty": "A1",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "caminhar",
       "text": "Ele ___ pela rua quando a viu.",
       "translation": "He walked down the street when he saw her.",
       "answers": [
@@ -486,6 +609,60 @@
       ]
     },
     {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "irregular",
+      "verbType": "ir",
+      "text": "Nós ___ ao museu na semana passada.",
+      "translation": "We went to the museum last week.",
+      "answers": [
+        { "id": "a1", "text": "fomos", "isCorrect": true },
+        { "id": "a2", "text": "vai", "isCorrect": false },
+        { "id": "a3", "text": "vamos", "isCorrect": false },
+        { "id": "a4", "text": "ia", "isCorrect": false }
+      ]
+    },
+    {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "encontrar",
+      "text": "Eu ___ um livro interessante.",
+      "translation": "I found an interesting book.",
+      "answers": [
+        { "id": "a1", "text": "encontro", "isCorrect": false },
+        { "id": "a2", "text": "encontras", "isCorrect": false },
+        { "id": "a3", "text": "encontrei", "isCorrect": true },
+        { "id": "a4", "text": "encontramos", "isCorrect": false }
+      ]
+    },
+    {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "caminhar",
+      "text": "Ele ___ pela rua quando a viu.",
+      "translation": "He walked down the street when he saw her.",
+      "answers": [
+        { "id": "a1", "text": "caminhou", "isCorrect": true },
+        { "id": "a2", "text": "correu", "isCorrect": false },
+        { "id": "a3", "text": "voou", "isCorrect": false },
+        { "id": "a4", "text": "navegou", "isCorrect": false }
+      ]
+    },
+    {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "irregular",
+      "verbType": "ver",
       "text": "Elas ___ o show inteiro.",
       "translation": "They watched the whole show.",
       "answers": [
@@ -496,6 +673,12 @@
       ]
     },
     {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "lavar",
       "text": "Nós ___ o carro porque estava sujo.",
       "translation": "We washed the car because it was dirty.",
       "answers": [
@@ -506,6 +689,12 @@
       ]
     },
     {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "completar",
       "text": "Ele ___ a tarefa em duas horas.",
       "translation": "He finished the task in two hours.",
       "answers": [
@@ -516,6 +705,12 @@
       ]
     },
     {
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "encontrar",
       "text": "Eu ___ meu irmão na estação.",
       "translation": "I met my brother at the station.",
       "answers": [
@@ -526,133 +721,19 @@
       ]
     },
     {
-      "text": "Elas ___ um novo restaurante na cidade.",
-      "translation": "They opened a new restaurant in the city.",
+      "difficulty": "A2",
+      "likes": 0,
+      "dislikes": 0,
+      "tense": "preterito-perfeito",
+      "regularity": "regular",
+      "verbType": "abrir",
+      "text": "Ela ___ a janela para entrar ar.",
+      "translation": "She opened the window to let in some air.",
       "answers": [
-        { "id": "a1", "text": "fecharam", "isCorrect": false },
-        { "id": "a2", "text": "comeram", "isCorrect": false },
-        { "id": "a3", "text": "abriram", "isCorrect": true },
-        { "id": "a4", "text": "venderam", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Ele ___ o celular no sofá.",
-      "translation": "He left the cellphone on the couch.",
-      "answers": [
-        { "id": "a1", "text": "colocou", "isCorrect": false },
-        { "id": "a2", "text": "jogou", "isCorrect": false },
-        { "id": "a3", "text": "perdeu", "isCorrect": false },
-        { "id": "a4", "text": "deixou", "isCorrect": true }
-      ]
-    },
-    {
-      "text": "Nós ___ a viagem por causa da chuva.",
-      "translation": "We canceled the trip because of the rain.",
-      "answers": [
-        { "id": "a1", "text": "cancelamos", "isCorrect": true },
-        { "id": "a2", "text": "planejamos", "isCorrect": false },
-        { "id": "a3", "text": "continuamos", "isCorrect": false },
-        { "id": "a4", "text": "aproveitamos", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Eu ___ com ela sobre o projeto.",
-      "translation": "I talked with her about the project.",
-      "answers": [
-        { "id": "a1", "text": "falei", "isCorrect": true },
-        { "id": "a2", "text": "discuti", "isCorrect": false },
-        { "id": "a3", "text": "briguei", "isCorrect": false },
-        { "id": "a4", "text": "ri", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Eles ___ o contrato sem ler.",
-      "translation": "They signed the contract without reading.",
-      "answers": [
-        { "id": "a1", "text": "assinaram", "isCorrect": true },
-        { "id": "a2", "text": "rasgaram", "isCorrect": false },
-        { "id": "a3", "text": "escreveram", "isCorrect": false },
-        { "id": "a4", "text": "perderam", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Elas ___ as novidades no jornal.",
-      "translation": "They read the news in the newspaper.",
-      "answers": [
-        { "id": "a1", "text": "ouviram", "isCorrect": false },
-        { "id": "a2", "text": "assistiram", "isCorrect": false },
-        { "id": "a3", "text": "leram", "isCorrect": true },
-        { "id": "a4", "text": "viram", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Eu ___ o jantar para você.",
-      "translation": "I prepared dinner for you.",
-      "answers": [
-        { "id": "a1", "text": "preparei", "isCorrect": true },
-        { "id": "a2", "text": "comi", "isCorrect": false },
-        { "id": "a3", "text": "servi", "isCorrect": false },
-        { "id": "a4", "text": "compus", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Nós ___ para a festa juntos.",
-      "translation": "We went to the party together.",
-      "answers": [
-        { "id": "a1", "text": "fomos", "isCorrect": true },
-        { "id": "a2", "text": "estamos", "isCorrect": false },
-        { "id": "a3", "text": "ficamos", "isCorrect": false },
-        { "id": "a4", "text": "sentamos", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Ele ___ a chave de casa.",
-      "translation": "He lost the house key.",
-      "answers": [
-        { "id": "a1", "text": "encontrou", "isCorrect": false },
-        { "id": "a2", "text": "comprou", "isCorrect": false },
-        { "id": "a3", "text": "usou", "isCorrect": false },
-        { "id": "a4", "text": "perdeu", "isCorrect": true }
-      ]
-    },
-    {
-      "text": "Elas ___ os sapatos na loja.",
-      "translation": "They bought the shoes in the store.",
-      "answers": [
-        { "id": "a1", "text": "venderam", "isCorrect": false },
-        { "id": "a2", "text": "procuraram", "isCorrect": false },
-        { "id": "a3", "text": "compraram", "isCorrect": true },
-        { "id": "a4", "text": "usaram", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Nós ___ a conferência às 10h.",
-      "translation": "We started the conference at 10am.",
-      "answers": [
-        { "id": "a1", "text": "terminamos", "isCorrect": false },
-        { "id": "a2", "text": "ouvimos", "isCorrect": false },
-        { "id": "a3", "text": "começamos", "isCorrect": true },
-        { "id": "a4", "text": "faltamos", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Eu ___ a proposta para eles.",
-      "translation": "I presented the proposal to them.",
-      "answers": [
-        { "id": "a1", "text": "apresentei", "isCorrect": true },
-        { "id": "a2", "text": "escrevi", "isCorrect": false },
-        { "id": "a3", "text": "escondi", "isCorrect": false },
-        { "id": "a4", "text": "recusei", "isCorrect": false }
-      ]
-    },
-    {
-      "text": "Eles ___ em casa o dia todo.",
-      "translation": "They stayed at home all day.",
-      "answers": [
-        { "id": "a1", "text": "andaram", "isCorrect": false },
-        { "id": "a2", "text": "trabalharam", "isCorrect": false },
-        { "id": "a3", "text": "jogaram", "isCorrect": false },
-        { "id": "a4", "text": "ficaram", "isCorrect": true }
+        { "id": "a1", "text": "abriu", "isCorrect": true },
+        { "id": "a2", "text": "fechou", "isCorrect": false },
+        { "id": "a3", "text": "trancou", "isCorrect": false },
+        { "id": "a4", "text": "quebrou", "isCorrect": false }
       ]
     }
   ]

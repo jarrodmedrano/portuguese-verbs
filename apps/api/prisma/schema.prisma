@@ -17,3 +17,21 @@ model Verb {
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 }
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  tense       String
+  regularity  String
+  verbType    String
+  text        String
+  translation String
+  // answers are stringified json
+  answers     String
+  rating      Int
+  likes       Int
+  dislikes    Int
+  difficulty  String
+  language    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}

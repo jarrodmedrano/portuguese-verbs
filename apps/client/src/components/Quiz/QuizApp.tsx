@@ -10,6 +10,11 @@ export interface Question {
   tense: string;
   regularity: string;
   verbType: string;
+  difficulty: string;
+  likes: number;
+  dislikes: number;
+  preferredLanguage: string;
+  language: string;
 }
 
 const QuizApp = () => {
