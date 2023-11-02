@@ -1,34 +1,57 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { createRouter } from '../app/app.router';
-import { getVerb, getVerbs, createVerb } from './verb.controller';
+import { t } from '../app/app.router';
+import { getVerb, createVerb, getVerbs } from './verb.controller';
 
-export const verbs = createRouter().query('get', {
-  resolve: getVerbs,
-});
-
-export const verb = createRouter()
-  .query('get', {
-    input: z.object({
-      name: z.string(),
-    }),
-    async resolve({ input }) {
+export const verbRouter = t.router({
+  verb: t.router({
+    get: t.procedure
+      .input(
+        z.object({
+          name: z.string(),
+        }),
+      )
+      .query(async ({ input }) => {
+        if (!input) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: `please supply proper formatted params`,
+          });
+        }
+        return await getVerb(input);
+      }),
+    getMany: t.procedure
+      .input(
+        z.object({
+          name: z.string(),
+        }),
+      )
+      .query(async ({ input }) => {
+        if (!input) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: `please supply proper formatted params`,
+          });
+        }
+        return await getVerbs();
+      }),
+    create: t.procedure.input(z.string().min(3)).mutation(async ({ input }) => {
       if (!input) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: `please supply a verb name`,
+          message: `please supply proper formatted params`,
         });
       }
-      return getVerb(input);
-    },
-  })
-  .mutation('create', {
-    input: z.string().min(3),
-    resolve: ({ input }) => createVerb(input),
-  })
-  .mutation('createMany', {
-    input: z.array(z.string().min(3)),
-    resolve: ({ input }) => {
-      return input.map((verb) => createVerb(verb));
-    },
-  });
+      return await createVerb(input);
+    }),
+    createMany: t.procedure.input(z.array(z.string().min(3))).mutation(async ({ input }) => {
+      if (!input) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `please supply proper formatted params`,
+        });
+      }
+      return input.map(async (verb) => await createVerb(verb));
+    }),
+  }),
+});

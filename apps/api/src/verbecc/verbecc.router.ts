@@ -1,20 +1,25 @@
 import { z } from 'zod';
-import { createRouter } from '../app/app.router';
+import { t } from '../app/app.router';
 import { getConjugation } from './verbecc.controller';
 import trpc from '@trpc/server';
 
-export const verbecc = createRouter().query('get', {
-  input: z.object({
-    verb: z.string(),
-    mood: z.string().optional(),
+export const verbeccRouter = t.router({
+  verb: t.router({
+    get: t.procedure
+      .input(
+        z.object({
+          verb: z.string(),
+          mood: z.string().optional(),
+        }),
+      )
+      .query(async ({ input }) => {
+        if (!input) {
+          throw new trpc.TRPCError({
+            code: 'BAD_REQUEST',
+            message: `please supply proper formatted params`,
+          });
+        }
+        return await getConjugation(input);
+      }),
   }),
-  async resolve({ input }) {
-    if (!input) {
-      throw new trpc.TRPCError({
-        code: 'BAD_REQUEST',
-        message: `please supply a verb and mood`,
-      });
-    }
-    return getConjugation(input);
-  },
 });

@@ -2,19 +2,19 @@
   "name": "api",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "types": "src/index.ts",
+  "types": "src/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "@trpc/server": "9.20.0",
+    "@prisma/client": "5.1.1",
+    "@trpc/server": "10.41.0",
     "axios": "1.2.6",
     "cors": "2.8.5",
     "dotenv": "16.0.3",
-    "express": "4.17.3",
-    "zod": "3.20.2",
-    "prisma": "5.1.1",
-    "@prisma/client": "5.1.1",
     "dotenv-expand": "10.0.0",
-    "openai": "3.2.1"
+    "express": "4.17.3",
+    "openai": "3.2.1",
+    "prisma": "5.1.1",
+    "zod": "3.20.2"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",
@@ -25,10 +25,10 @@
   "scripts": {
     "migrate dev": "npx prisma migrate dev --create-only --name init",
     "migrate": "npx prisma migrate dev",
-    "generate": "pnpm exec prisma generate",
+    "generate": "npx prisma generate",
     "dev": "npx pnpm run prebuild && tsnd --respawn src/index.ts",
-    "db:seed": "pnpm exec prisma db seed",
-    "prebuild": "pnpm exec pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed",
+    "db:seed": "npx prisma db seed",
+    "prebuild": "npx yarn run generate && npx pnpm run migrate && npx pnpm run db:seed",
     "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {

@@ -4,6 +4,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
+RUN apt-get install -y openssl
 # Set working directory
 WORKDIR /app
 
@@ -15,6 +16,7 @@ FROM --platform=linux/arm64 node:18-slim AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update
+RUN apt-get install -y openssl
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
@@ -22,6 +24,7 @@ COPY .gitignore .gitignore
 COPY package.json ./package.json
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN apt-get update && apt-get install -y openssl
 RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
 RUN npx prisma
@@ -30,6 +33,7 @@ RUN npx prisma
 COPY --from=builder /app/out/full/ .
 RUN apt-get update -y && apt-get install -y openssl
 RUN pnpm run prebuild
+RUN npx prisma generate
 RUN npx turbo run build --filter=api...
 
 FROM --platform=linux/arm64 node:18-slim AS runner

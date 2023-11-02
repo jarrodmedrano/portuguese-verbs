@@ -1,23 +1,28 @@
 import express from 'express';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import cors from 'cors';
-import { createRouter } from './app/app.router';
-import { verbecc } from './verbecc/verbecc.router';
-import { verb } from './verb/verb.router';
-import { openaiRouter } from './openai/openai.router';
+import { appRouter, mergeRouters } from './app/app.router';
 
-const appRouter = createRouter().merge('verbecc.', verbecc).merge('verb.', verb).merge('openai.', openaiRouter);
+import { openaiRouter } from './openai/openai.router';
+import { questionsRouter } from './questions/question.router';
+import { verbRouter } from './verb/verb.router';
+import { verbeccRouter } from './verbecc/verbecc.router';
+
+export const router = mergeRouters(appRouter, questionsRouter, openaiRouter, verbRouter, verbeccRouter);
+
+export type AppRouter = typeof appRouter;
+export type TRPCRouter = typeof router;
 
 const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand');
 const config = dotenv.config();
 dotenvExpand.expand(config);
 
-export type AppRouter = typeof appRouter;
-
 export * as OpenAITypes from './openai/types';
 
 const app = express();
+
+const createContext = () => ({}); // no context
 
 app.use(express.json());
 
@@ -32,8 +37,8 @@ app.use('/health', (_, res) => {
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
-    router: appRouter,
-    createContext: () => null,
+    router,
+    createContext,
   }),
 );
 

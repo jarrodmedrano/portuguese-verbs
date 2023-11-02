@@ -14,7 +14,8 @@
     "prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
     "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
     "prebuild": "nps prebuild",
-    "build": "nps build"
+    "build": "nps build",
+    "postinstall": "manypkg check"
   },
   "pipeline": {
     "prebuild": {
@@ -72,12 +73,29 @@
     "packages/*",
     "apps/*"
   ],
-  "devDependencies": {
-    "@vitejs/plugin-react": "3.0.0",
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=18.0.0"
+  },
+  "lint-staged": {
+    "./*/**/*.{js,jsx,ts,tsx}": [
+      "pnpm run prettier:fix",
+      "pnpm run eslint:fix"
+    ],
+    "*.{json,md}": [
+      "pnpm run prettier:fix"
+    ]
+  },
+  "dependencies": {
+    "@manypkg/cli": "^0.21.0",
+    "@typescript-eslint/eslint-plugin": "5.50.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "@vitejs/plugin-react": "3.1.0",
     "@vitest/coverage-istanbul": "0.28.3",
+    "@vitest/ui": "0.28.4",
     "eslint": "8.21.0",
     "eslint-config-airbnb-typescript": "14.0.0",
-    "eslint-config-next": "11.1.2",
+    "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsx-a11y": "6.4.1",
@@ -94,22 +112,5 @@
     "turbo": "^1.10.14",
     "vite-plugin-istanbul": "4.0.0",
     "vitest": "0.26.2"
-  },
-  "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=18.0.0"
-  },
-  "lint-staged": {
-    "./*/**/*.{js,jsx,ts,tsx}": [
-      "pnpm run prettier:fix",
-      "pnpm run eslint:fix"
-    ],
-    "*.{json,md}": [
-      "pnpm run prettier:fix"
-    ]
-  },
-  "dependencies": {
-    "@typescript-eslint/eslint-plugin": "5.50.0",
-    "@vitest/ui": "0.28.4"
   }
 }

@@ -21,6 +21,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
     "baseUrl": "."
   },
   "exclude": ["node_modules"],

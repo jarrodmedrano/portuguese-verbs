@@ -1,42 +1,53 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { createRouter } from '../app/app.router';
-import { getQuestion, getQuestions, createQuestion } from './question.controller';
+import { t } from '../app/app.router';
+import { getQuestion, getQuestions, createQuestion, createQuestions } from './question.controller';
 import { inputGetQuestion, inputQuestion } from './types';
 
-export const questions = createRouter().query('get', {
-  resolve: getQuestions,
-});
+export const questionsRouter = t.router({
+  questions: t.procedure.input(inputGetQuestion).query(async ({ input }) => {
+    if (!input) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `please supply proper formatted params`,
+      });
+    }
+    const questions = await getQuestions(input);
+    return questions;
+  }),
 
-export const question = createRouter()
-  .query('get', {
-    input: inputGetQuestion,
-    async resolve({ input }) {
+  question: t.router({
+    get: t.procedure.input(inputQuestion).query(async ({ input }) => {
       if (!input) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: `please supply proper formatted question`,
+          message: `please supply proper formatted params`,
         });
       }
-      return getQuestion(input);
-    },
-  })
-  .mutation('create', {
-    input: inputQuestion,
-    resolve: ({ input }) =>
-      createQuestion({
-        ...input,
-        answers: JSON.stringify(input.answers),
-      }),
-  })
-  .mutation('createMany', {
-    input: z.array(inputQuestion),
-    resolve: ({ input }) => {
-      return input.map((question) =>
-        createQuestion({
-          ...question,
-          answers: JSON.stringify(question.answers),
-        }),
-      );
-    },
-  });
+      const questions = await getQuestion(input);
+      return questions;
+    }),
+
+    create: t.procedure.input(inputQuestion).mutation(async ({ input }) => {
+      if (!input) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `please supply proper formatted params`,
+        });
+      }
+      const question = await createQuestion(input);
+      return question;
+    }),
+
+    createMany: t.procedure.input(z.array(inputQuestion)).mutation(async ({ input }) => {
+      if (!input) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `please supply proper formatted params`,
+        });
+      }
+      const created = await createQuestions(input);
+      return created;
+    }),
+  }),
+});
