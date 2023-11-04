@@ -1,8 +1,8 @@
-// @ts-nocheck
 'use client';
 import { SearchContextProvider } from '../contexts/SearchContext';
 import React, { ReactNode, useState } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink } from '@trpc/client';
 import { trpc } from '../services';
 import { AppContextProvider } from '../contexts/AppContext';
 
@@ -12,26 +12,18 @@ type WithQueryWrapperProps = {
 };
 
 const WithQueryWrapper = ({ children, apiUrl }: WithQueryWrapperProps) => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 5 * 1000,
-          },
-        },
-      }),
-  );
-
+  const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      url: `${apiUrl}/trpc`,
+      links: [
+        httpBatchLink({
+          url: `${apiUrl}/trpc`,
+        }),
+      ],
     }),
   );
 
   return (
-    // TODO: FIX THESE STUPID ERRORS IN REACT QUERY
-    //@ts-ignore this
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <AppContextProvider>

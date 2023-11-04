@@ -16,11 +16,11 @@ interface AppContextProps {
 
 export const AppContext = React.createContext<AppContextProps>({
   sidebarIsOpen: false,
-  setSidebarIsOpen: () => {},
+  setSidebarIsOpen: () => false,
   quizQuestions: [],
-  setQuizQuestions: () => {},
+  setQuizQuestions: () => [],
   isLoading: false,
-  setIsLoading: () => {},
+  setIsLoading: () => false,
 });
 
 export const AppContextProvider = ({ children }: { children: any }) => {

@@ -9,9 +9,9 @@ interface SearchContextProps {
 
 export const SearchContext = React.createContext<SearchContextProps>({
   search: '',
-  setSearch: () => {},
+  setSearch: () => '',
   partialSearch: '',
-  setPartialSearch: () => {},
+  setPartialSearch: () => '',
 });
 
 export const SearchContextProvider = ({ children }: { children: any }) => {

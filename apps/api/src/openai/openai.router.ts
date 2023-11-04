@@ -1,10 +1,10 @@
 import { t } from '../app/app.router';
-import { getQuestion } from './openai.controller';
+import { getAIQuestion } from './openai.controller';
 import * as trpc from '@trpc/server';
 import { inputOpenAIQuestion } from './types';
 
 export const openaiRouter = t.router({
-  question: t.router({
+  aiQuestion: t.router({
     get: t.procedure.input(inputOpenAIQuestion).query(async ({ input }) => {
       if (!input) {
         throw new trpc.TRPCError({
@@ -12,7 +12,7 @@ export const openaiRouter = t.router({
           message: `please supply proper formatted params`,
         });
       }
-      return await getQuestion(input);
+      return await getAIQuestion(input);
     }),
   }),
 });

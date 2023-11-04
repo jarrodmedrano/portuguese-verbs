@@ -1,6 +1,7 @@
 import { InferGetServerSidePropsType } from 'next';
 import WithQueryWrapper from '../src/components/QueryWrapper';
 import { VerbTableWithSearchContext } from '../src/components/VerbTable';
+import Navbar from '../src/components/Quiz/Navbar';
 
 export const getServerSideProps = async () => {
   return {
@@ -29,6 +30,7 @@ const Verbs = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps
         key="fazer"
         mood="indicativo"
       />
+      <Navbar />
     </WithQueryWrapper>
   );
 };

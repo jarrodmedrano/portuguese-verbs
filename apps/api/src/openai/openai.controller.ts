@@ -21,7 +21,7 @@ export type InputOpenAiQuestion = {
   messages: ChatCompletionRequestMessage[];
 };
 
-export const getQuestion = async (input: InputOpenAiQuestion): Promise<string | undefined> => {
+export const getAIQuestion = async (input: InputOpenAiQuestion): Promise<string | undefined> => {
   const { language = 'portuguese', preferredLanguage, tense, regularity, verbType, difficulty, messages } = input;
   const apiKey = process.env.OPENAI_API_KEY;
   const url = 'https://api.openai.com/v1/chat/completions';

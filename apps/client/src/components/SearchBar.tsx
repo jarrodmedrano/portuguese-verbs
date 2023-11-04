@@ -21,7 +21,10 @@ export const SearchBar = ({
 
   useMemo(() => {
     if (results) {
+      // eslint-disable-next-line no-console
+      console.log('results', results);
       const {
+        // @ts-ignore this
         results: { data },
       } = results;
       // @ts-ignore this
@@ -84,7 +87,6 @@ export const SearchBar = ({
 
   useEffect(() => {
     const listener = (e: { target: any }) => {
-      // @ts-ignore
       if (ref?.current && !ref.current.contains(e.target)) {
         setShowOptions(false);
         setCursor(-1);

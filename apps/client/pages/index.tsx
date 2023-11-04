@@ -14,8 +14,8 @@ export const getServerSideProps = async () => {
 const Home = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <WithQueryWrapper apiUrl={apiUrl}>
-      <Navbar />
       <QuizApp />
+      <Navbar />
     </WithQueryWrapper>
   );
 };

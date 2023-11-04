@@ -26,7 +26,10 @@ export const useDarkSide = (): [string, Dispatch<SetStateAction<string>>] => {
       }
     });
 
-    return () => mql.removeEventListener('change', () => {});
+    return () =>
+      mql.removeEventListener('change', () => {
+        return null;
+      });
   }, []);
 
   return [theme, setTheme];

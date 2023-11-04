@@ -32,10 +32,10 @@ COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 # RUN apt-get install -y openssl
 # RUN npx prisma db pull && prisma generate
-RUN apt-get update -y && apt-get install -y openssl
+# RUN apt-get update -y && apt-get install -y openssl
 RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
-RUN cd apps/api && pnpm run prebuild
-RUN npx prisma
+# RUN cd apps/api && pnpm run prebuild
+# RUN npx prisma
 COPY .gitignore .gitignore
 RUN npx turbo run build  --filter=client...
 

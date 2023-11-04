@@ -1,7 +1,8 @@
-'use client';
-import { createReactQueryHooks } from '@trpc/react';
-import { QueryClient } from 'react-query';
+import { TRPCRouter } from 'api';
 
-export const trpc = createReactQueryHooks();
+import { createTRPCReact } from '@trpc/react-query';
+import { QueryClient } from '@tanstack/react-query';
+
+export const trpc = createTRPCReact<TRPCRouter>();
 
 export const client = new QueryClient();

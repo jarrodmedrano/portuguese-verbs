@@ -17,57 +17,60 @@
     "build": "nps build",
     "postinstall": "manypkg check"
   },
-  "pipeline": {
-    "prebuild": {
-      "dependsOn": [
-        "^prebuild"
-      ]
-    },
-    "build": {
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**"
-      ],
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "api#prebuild": {
-      "dependsOn": [
-        "^build",
-        "prebuild"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "public/dist/**"
-      ]
-    },
-    "api#build": {
-      "dependsOn": [
-        "^build",
-        "prebuild"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "public/dist/**"
-      ]
-    },
-    "client#build": {
-      "dependsOn": [
-        "api#build",
-        "^build",
-        "prebuild"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "public/dist/**"
-      ]
-    },
-    "test": {},
-    "lint": {}
+  "turbo": {
+    "npmClient": "pnpm",
+    "pipeline": {
+      "prebuild": {
+        "dependsOn": [
+          "^prebuild"
+        ]
+      },
+      "build": {
+        "outputs": [
+          ".next/**",
+          "!.next/cache/**"
+        ],
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "api#prebuild": {
+        "dependsOn": [
+          "^build",
+          "prebuild"
+        ],
+        "outputs": [
+          "dist/**",
+          ".next/**",
+          "public/dist/**"
+        ]
+      },
+      "api#build": {
+        "dependsOn": [
+          "^build",
+          "prebuild"
+        ],
+        "outputs": [
+          "dist/**",
+          ".next/**",
+          "public/dist/**"
+        ]
+      },
+      "client#build": {
+        "dependsOn": [
+          "api#build",
+          "^build",
+          "prebuild"
+        ],
+        "outputs": [
+          "dist/**",
+          ".next/**",
+          "public/dist/**"
+        ]
+      },
+      "test": {},
+      "lint": {}
+    }
   },
   "workspaces": [
     "packages/*",

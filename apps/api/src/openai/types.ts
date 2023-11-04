@@ -1,9 +1,9 @@
 import { inferAsyncReturnType } from '@trpc/server'; // Assume paths accordingly
 import { z } from 'zod';
-import { getQuestion } from './openai.controller';
+import { getAIQuestion } from './openai.controller';
 import { ChatCompletionRequestMessageRoleEnum } from 'openai';
 
-export type GetQuestionOutput = inferAsyncReturnType<typeof getQuestion>;
+export type GetAIQuestionOutput = inferAsyncReturnType<typeof getAIQuestion>;
 
 const chatCompletionRequestMessageSchema = z.object({
   role: z.enum([ChatCompletionRequestMessageRoleEnum.User, ChatCompletionRequestMessageRoleEnum.Assistant]), // use
@@ -22,4 +22,4 @@ export const inputOpenAIQuestion = z.object({
 });
 
 export type GetQuestionInput = z.infer<typeof inputOpenAIQuestion>;
-export type GetQuestionResponse = GetQuestionOutput;
+export type GetQuestionResponse = GetAIQuestionOutput;

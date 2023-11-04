@@ -10,7 +10,6 @@ import { verbeccRouter } from './verbecc/verbecc.router';
 
 export const router = mergeRouters(appRouter, questionsRouter, openaiRouter, verbRouter, verbeccRouter);
 
-export type AppRouter = typeof appRouter;
 export type TRPCRouter = typeof router;
 
 const dotenv = require('dotenv');

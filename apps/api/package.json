@@ -1,8 +1,8 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "src/index.ts",
-  "types": "src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "5.1.1",
@@ -28,7 +28,7 @@
     "generate": "npx prisma generate",
     "dev": "npx pnpm run prebuild && tsnd --respawn src/index.ts",
     "db:seed": "npx prisma db seed",
-    "prebuild": "npx yarn run generate && npx pnpm run migrate && npx pnpm run db:seed",
+    "prebuild": "npx pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed",
     "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ import { getConjugation } from './verbecc.controller';
 import trpc from '@trpc/server';
 
 export const verbeccRouter = t.router({
-  verb: t.router({
+  verbecc: t.router({
     get: t.procedure
       .input(
         z.object({
