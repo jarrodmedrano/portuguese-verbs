@@ -1,21 +1,70 @@
 import { useContext, useEffect, useState } from 'react';
-import { SearchContext } from '../contexts/SearchContext';
-import { SearchBar } from './SearchBar';
 import { Switcher } from './Switcher';
 import Link from 'next/link';
 import { Checkboxes } from './Quiz/Checkboxes';
+import { ChangeEvent } from 'react';
+import { trpc } from '../services';
+import { AppContext } from '../contexts/AppContext';
 
 export const Sidebar = ({
   handleClick,
   isOpen,
-  onCheckBoxSelect,
 }: {
   handleClick: () => void;
   isOpen: boolean;
   onCheckBoxSelect: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
 }) => {
+  const { setQuizQuestions } = useContext(AppContext);
+
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
-  const { partialSearch, setPartialSearch, setSearch } = useContext(SearchContext);
+  // const { partialSearch, setPartialSearch, setSearch } = useContext(SearchContext);
+  const [query, setQuery] = useState({});
+
+  const { data } = trpc.questions.useQuery({
+    language: 'pt-br',
+    ...query,
+  });
+
+  const handleCheckboxSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    switch (event.target.value) {
+      case 'ar' || 'ir' || 'er':
+        setQuery({
+          ...query,
+          verbType: event.target.value,
+        });
+        break;
+      case 'presente' ||
+        'preterito-perfeito' ||
+        'preterito-imperfeito' ||
+        'futuro-do-presente' ||
+        'presente-progressivo' ||
+        'futuro-do-preterito':
+        setQuery({
+          ...query,
+          tense: event.target.value,
+        });
+        break;
+      case 'regular' || 'irregular':
+        setQuery({
+          ...query,
+          regularity: event.target.value,
+        });
+        break;
+      default:
+        setQuery({
+          regularity: 'regular',
+          tense: 'presente',
+        });
+        break;
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setQuizQuestions(data);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -114,11 +163,12 @@ export const Sidebar = ({
                 </svg>
               </a>
             ) : (
-              <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
+              <div></div>
+              // <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
             )}
           </li>
         </ul>
-        <Checkboxes handleCheckbox={onCheckBoxSelect} />
+        <Checkboxes handleCheckbox={handleCheckboxSelect} />
       </div>
     </div>
   );

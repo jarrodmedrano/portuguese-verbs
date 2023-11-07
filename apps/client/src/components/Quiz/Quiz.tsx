@@ -14,6 +14,7 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
   const [shuffledAnswers, setShuffled] = useState<Answer[]>([]);
   const [lastQuestion, setLastQuestion] = useState(false);
+  const [formattedAnswers, setFormattedAnswers] = useState<Answer[]>([]);
 
   useEffect(() => {
     if (currentQuestion && questions?.length) {
@@ -45,7 +46,10 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
     // eslint-disable-next-line no-console
     console.log('currentQuestion', currentQuestion);
     if (currentQuestion) {
-      const answers = currentQuestion.answers;
+      const a =
+        typeof currentQuestion.answers === 'string' ? JSON.parse(currentQuestion.answers) : currentQuestion.answers;
+      setFormattedAnswers(a);
+      const answers = a;
       const shuffled = [...answers];
       for (let i = answers.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -61,26 +65,23 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
     setCurrentIndex(0);
   }, [questions]);
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('shuffledAnswers', shuffledAnswers);
+  }, [shuffledAnswers]);
+
   return (
     <div className="rounded-md bg-white p-6 text-gray-900 shadow-lg dark:bg-gray-800 dark:text-white">
       {currentQuestion && (
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-center">
           <span>
             {currentQuestion.tense}, {currentQuestion.regularity}, {currentQuestion.verbType} verb
           </span>
-          <div className="group relative">
-            <button className="rounded-md px-3 py-1 hover:bg-gray-600 dark:hover:bg-gray-400">
-              Hover for Translation
-            </button>
-            <div className="absolute left-0 mt-2 w-48 rounded-md bg-white p-2 opacity-0 shadow-lg transition group-hover:opacity-100 dark:bg-gray-800">
-              {currentQuestion.translation}
-            </div>
-          </div>
         </div>
       )}
 
       <div className="mb-4 mt-4 text-xl font-bold">{currentQuestion?.text}</div>
-
+      <div className="mb-4 mt-4 text-sm">{currentQuestion?.translation}</div>
       <div className="space-y-4">
         {shuffledAnswers.map((answer: Answer) => (
           <button
@@ -114,7 +115,7 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
               onClick={handleNextClick}
               disabled={
                 !selectedAnswer ||
-                !currentQuestion?.answers.find((a) => a.id === selectedAnswer?.id && a.isCorrect) ||
+                !formattedAnswers.find((a) => a.id === selectedAnswer?.id && a.isCorrect) ||
                 lastQuestion
               }
             >

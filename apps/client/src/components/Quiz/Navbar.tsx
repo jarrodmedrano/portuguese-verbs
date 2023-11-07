@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { trpc } from '../../services';
 import { Question } from './QuizApp';
-import questionsJSON from './questions.json';
+// import questionsJSON from './questions.json';
 import { Sidebar } from '../Sidebar';
 import { AppContext } from '../../contexts/AppContext';
 
@@ -15,9 +15,9 @@ const Navbar = ({}: NavbarProps) => {
   const handleSidebarClick = () => {
     setSidebarIsOpen((prev) => !prev);
   };
-  const defaultQuestions: Question[] = questionsJSON.questions as Question[];
+  // const  quizQuestions: Question[] = questionsJSON.questions as Question[];
   const [newQuestions, setNewQuestions] = useState<Question[]>([]);
-  const { setIsLoading, setQuizQuestions } = useContext(AppContext);
+  const { setIsLoading, setQuizQuestions, quizQuestions } = useContext(AppContext);
   const [regularity] = useState<string>('regular');
   const [tense] = useState<string>('presente');
   const [verbType] = useState<string>('ar');
@@ -70,7 +70,7 @@ const Navbar = ({}: NavbarProps) => {
         messages: [
           {
             role: 'assistant',
-            content: JSON.stringify(defaultQuestions),
+            content: JSON.stringify(quizQuestions),
           },
           {
             role: 'user',
@@ -101,7 +101,7 @@ const Navbar = ({}: NavbarProps) => {
       console.log('inti str', initialStr);
       const dataJSON = JSON.parse(initialStr);
       setNewQuestions([...newQuestions, ...dataJSON]);
-      setQuizQuestions([...dataJSON, ...defaultQuestions]);
+      setQuizQuestions([...dataJSON, ...quizQuestions]);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('err', error);
@@ -110,8 +110,8 @@ const Navbar = ({}: NavbarProps) => {
 
   const handleShuffle = () => {
     setIsLoading(true);
-    const shuffled = [...defaultQuestions];
-    for (let i = defaultQuestions.length - 1; i > 0; i--) {
+    const shuffled = [...quizQuestions];
+    for (let i = quizQuestions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
@@ -125,7 +125,7 @@ const Navbar = ({}: NavbarProps) => {
     // eslint-disable-next-line no-console
     console.log('value', value);
 
-    const filterAndSetQuestions = (key: keyof typeof defaultQuestions[0], filterValue: string) => {
+    const filterAndSetQuestions = (key: keyof typeof quizQuestions[0], filterValue: string) => {
       switch (key) {
         case 'verbType':
           setSelectedVerbTypes((prev) => {
@@ -162,7 +162,7 @@ const Navbar = ({}: NavbarProps) => {
           break;
       }
 
-      const filteredQuestions = defaultQuestions.filter(
+      const filteredQuestions = quizQuestions.filter(
         (q) =>
           (selectedVerbTypes.size === 0 || selectedVerbTypes.has(q.verbType)) &&
           (selectedTenses.size === 0 || selectedTenses.has(q.tense)) &&
@@ -196,7 +196,7 @@ const Navbar = ({}: NavbarProps) => {
     } else if (!value) {
       handleShuffle();
     } else {
-      setQuizQuestions(defaultQuestions);
+      setQuizQuestions(quizQuestions);
     }
   };
 

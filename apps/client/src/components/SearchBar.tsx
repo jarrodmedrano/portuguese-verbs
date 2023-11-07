@@ -86,19 +86,18 @@ export const SearchBar = ({
   };
 
   useEffect(() => {
-    const listener = (e: { target: any }) => {
-      if (ref?.current && !ref.current.contains(e.target)) {
-        setShowOptions(false);
-        setCursor(-1);
-      }
-    };
-
-    document.addEventListener('click', listener);
-    document.addEventListener('focusin', listener);
-    return () => {
-      document.removeEventListener('click', listener);
-      document.removeEventListener('focusin', listener);
-    };
+    // const listener = (e: { target: any }) => {
+    //   if (ref?.current && !ref.current.contains(e.target)) {
+    //     setShowOptions(false);
+    //     setCursor(-1);
+    //   }
+    // };
+    // document.addEventListener('click', listener);
+    // document.addEventListener('focusin', listener);
+    // return () => {
+    //   document.removeEventListener('click', listener);
+    //   document.removeEventListener('focusin', listener);
+    // };
   }, []);
 
   return (
@@ -146,8 +145,8 @@ export const SearchBar = ({
             !showOptions && 'hidden'
           } select-none`}
         >
-          {options.length > 0 ? (
-            options.map((option: string, i: number, arr: string | any[]) => {
+          {options?.length > 0 ? (
+            options?.map((option: string, i: number, arr: string | any[]) => {
               let className = 'px-4 hover:bg-gray-100 dark:hover:bg-gray-100';
 
               if (i === 0) className += 'pt-2 pb-1 rounded-t-lg';
