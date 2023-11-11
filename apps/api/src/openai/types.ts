@@ -12,9 +12,9 @@ const chatCompletionRequestMessageSchema = z.object({
 });
 
 export const inputOpenAIQuestion = z.object({
-  tense: z.string(),
-  regularity: z.string(),
-  verbType: z.string(),
+  tense: z.string().or(z.array(z.string())).optional(),
+  regularity: z.string().or(z.array(z.string())).optional(),
+  verbType: z.string().or(z.array(z.string())).optional(),
   difficulty: z.string(),
   language: z.string(),
   preferredLanguage: z.string(),

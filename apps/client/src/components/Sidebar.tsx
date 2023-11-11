@@ -6,20 +6,19 @@ import { ChangeEvent } from 'react';
 import { trpc } from '../services';
 import { AppContext } from '../contexts/AppContext';
 import { isArrayWithLength } from '../../utils/typeguards';
-
-export const Sidebar = ({
-  handleClick,
-  isOpen,
-}: {
-  handleClick: () => void;
-  isOpen: boolean;
-  onCheckBoxSelect: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
-}) => {
-  const { setQuizQuestions } = useContext(AppContext);
+export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOpen: boolean }) => {
+  const { setQuizQuestions, quizQuestions, setIsLoading } = useContext(AppContext);
 
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
   // const { partialSearch, setPartialSearch, setSearch } = useContext(SearchContext);
-  const [query, setQuery] = useState({});
+  const [query, setQuery] = useState<{
+    tense?: string | string[];
+    regularity?: string | string[];
+    verbType?: string | string[];
+    preferredLanguage?: string;
+    language?: string;
+    difficulty?: string;
+  }>({});
 
   const { data } = trpc.questions.useQuery({
     language: 'pt-br',
@@ -85,6 +84,141 @@ export const Sidebar = ({
     }
   }, [isOpen]);
 
+  const handleShuffle = () => {
+    setIsLoading(true);
+    const shuffled = [...quizQuestions];
+    for (let i = quizQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setQuizQuestions(shuffled);
+    setIsLoading(false);
+  };
+
+  // function findFirstArrayInString(str: string, index = 0, firstArrayStart = -1, bracketsCount = 0): string {
+  //   // Base case: if we've reached the end of the string, return null
+  //   if (index === str.length) {
+  //     return '';
+  //   }
+
+  //   // Current character in the string
+  //   const char = str[index];
+
+  //   // If we encounter an opening bracket, we need to increase our count
+  //   if (char === '[') {
+  //     bracketsCount++;
+  //     // If it's the first opening bracket we've found, mark its position
+  //     if (firstArrayStart === -1) {
+  //       firstArrayStart = index;
+  //     }
+  //   }
+  //   // If we encounter a closing bracket, we decrease our count
+  //   else if (char === ']') {
+  //     bracketsCount--;
+  //     // If our count is back to zero, we've found the end of the first complete array
+  //     if (bracketsCount === 0 && firstArrayStart !== -1) {
+  //       return str.substring(firstArrayStart, index + 1);
+  //     }
+  //   }
+
+  //   // Move to the next character in the string
+  //   return findFirstArrayInString(str, index + 1, firstArrayStart, bracketsCount);
+  // }
+  const mutation = trpc.aiQuestion.mutate.useMutation();
+
+  const handleGetMore = async () => {
+    try {
+      const result = await mutation.mutateAsync({
+        tense: query?.tense,
+        regularity: query?.regularity,
+        verbType: query?.verbType,
+        difficulty: query?.difficulty || '1',
+        language: 'pt-br',
+        preferredLanguage: 'en-us',
+        messages: [
+          {
+            role: 'assistant',
+            content: JSON.stringify(quizQuestions),
+          },
+          {
+            role: 'user',
+            content: 'Write three more questions.',
+          },
+        ],
+      });
+
+      // eslint-disable-next-line no-console
+      console.log('result', result);
+      // // eslint-disable-next-line no-console
+      // console.log('result', result);
+      // const { data: openAiData } = result;
+      // // @ts-ignore this line
+      // const content = openAiData?.choices[0].message.content;
+      // // eslint-disable-next-line no-console
+      // console.log('content', content);
+      // let initialStr = '';
+      // if (content[0] === '[') {
+      //   initialStr = content;
+      // } else if (content[0] === '{') {
+      //   initialStr = `[${content}]`;
+      // } else {
+      //   initialStr = findFirstArrayInString(content);
+      // }
+      // // eslint-disable-next-line no-console
+      // console.log('inti str', initialStr);
+      // const dataJSON = JSON.parse(initialStr);
+      // // setNewQuestions([...newQuestions, ...dataJSON]);
+      // setQuizQuestions([...dataJSON, ...quizQuestions]);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('err', error);
+    }
+
+    // try {
+    //   const result = trpc.aiQuestion.get.useQuery({
+    //     tense: query?.tense,
+    //     regularity: query?.regularity,
+    //     verbType: query?.verbType,
+    //     difficulty: query?.difficulty || '1',
+    //     language: 'pt-br',
+    //     preferredLanguage: 'en-us',
+    //     messages: [
+    //       {
+    //         role: 'assistant',
+    //         content: JSON.stringify(quizQuestions),
+    //       },
+    //       {
+    //         role: 'user',
+    //         content: 'Write three more questions.',
+    //       },
+    //     ],
+    //   });
+    //   // eslint-disable-next-line no-console
+    //   console.log('result', result);
+    //   const { data: openAiData } = result;
+    //   // @ts-ignore this line
+    //   const content = openAiData?.choices[0].message.content;
+    //   // eslint-disable-next-line no-console
+    //   console.log('content', content);
+    //   let initialStr = '';
+    //   if (content[0] === '[') {
+    //     initialStr = content;
+    //   } else if (content[0] === '{') {
+    //     initialStr = `[${content}]`;
+    //   } else {
+    //     initialStr = findFirstArrayInString(content);
+    //   }
+    //   // eslint-disable-next-line no-console
+    //   console.log('inti str', initialStr);
+    //   const dataJSON = JSON.parse(initialStr);
+    //   // setNewQuestions([...newQuestions, ...dataJSON]);
+    //   setQuizQuestions([...dataJSON, ...quizQuestions]);
+    // } catch (error) {
+    //   // eslint-disable-next-line no-console
+    //   console.log('err', error);
+    // }
+  };
+
   return (
     <div
       className={`flex h-full flex-col items-center overflow-hidden bg-gray-900 text-gray-400 transition-all duration-300 ease-in-out ${
@@ -149,7 +283,7 @@ export const Sidebar = ({
             </Link>
           </li>
 
-          <li
+          {/* <li
             className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
           >
             {!isOpen ? (
@@ -177,8 +311,20 @@ export const Sidebar = ({
               <div></div>
               // <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
             )}
-          </li>
+          </li> */}
         </ul>
+        <button
+          onClick={handleGetMore}
+          className="me-2 mb-5 w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Get More Questions
+        </button>
+        <button
+          onClick={handleShuffle}
+          className="me-2 mb-5 w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Shuffle
+        </button>
         <Checkboxes isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />
       </div>
     </div>

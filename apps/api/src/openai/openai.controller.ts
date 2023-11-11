@@ -12,9 +12,9 @@ export type OpenAiQuestion = {
 };
 
 export type InputOpenAiQuestion = {
-  tense: string;
-  regularity: string;
-  verbType: string;
+  tense?: string | string[];
+  regularity?: string | string[];
+  verbType?: string | string[];
   difficulty: string;
   language: string;
   preferredLanguage: string;

@@ -111,7 +111,13 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
               </button>
             )}
             <button
-              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+              className={`rounded  px-4 py-2 focus:outline-none ${
+                !selectedAnswer ||
+                !formattedAnswers.find((a) => a.id === selectedAnswer?.id && a.isCorrect) ||
+                lastQuestion
+                  ? 'bg-gray-50 text-gray-500'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
               onClick={handleNextClick}
               disabled={
                 !selectedAnswer ||

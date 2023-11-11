@@ -14,5 +14,14 @@ export const openaiRouter = t.router({
       }
       return await getAIQuestion(input);
     }),
+    mutate: t.procedure.input(inputOpenAIQuestion).mutation(async ({ input }) => {
+      if (!input) {
+        throw new trpc.TRPCError({
+          code: 'BAD_REQUEST',
+          message: `please supply proper formatted params`,
+        });
+      }
+      return await getAIQuestion(input);
+    }),
   }),
 });
