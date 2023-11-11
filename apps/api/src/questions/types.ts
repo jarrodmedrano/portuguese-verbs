@@ -1,10 +1,18 @@
 import { z } from 'zod';
 
+export const regularity = z.array(z.string().optional()).optional().or(z.string().optional());
+export const verbType = z.array(z.string().optional()).optional().or(z.string().optional());
+export const tense = z.array(z.string().optional()).optional().or(z.string().optional());
+
+export type RegularityType = z.infer<typeof regularity>;
+export type VerbType = z.infer<typeof verbType>;
+export type TenseType = z.infer<typeof tense>;
+
 export const inputGetQuestion = z.object({
   id: z.number().optional(),
-  tense: z.string().optional(),
-  regularity: z.string().optional(),
-  verbType: z.string().optional(),
+  tense,
+  regularity,
+  verbType,
   difficulty: z.string().optional(),
   language: z.string().optional(),
   preferredLanguage: z.string().optional(),

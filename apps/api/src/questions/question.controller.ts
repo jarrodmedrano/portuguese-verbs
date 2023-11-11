@@ -1,11 +1,39 @@
 import { inferredQuestionType, inferredGetQuestionType } from './types';
 import prisma from '../db';
+import { isRegularityType, isTenseType, isVerbType } from '../typeguards';
 
 export const getQuestions = async (input: inferredGetQuestionType): Promise<any[]> => {
   const where = Object.fromEntries(Object.entries(input).filter(([, value]) => value !== undefined));
 
+  let verbsWhere = {};
+  let regularityWhere = {};
+  let tenseWhere = {};
+
+  if (where.verbType && isVerbType(where.verbType) && Array.isArray(where.verbType)) {
+    verbsWhere = {
+      verbType: { in: where.verbType },
+    };
+  }
+
+  if (where.regularity && isRegularityType(where.regularity) && Array.isArray(where.regularity)) {
+    regularityWhere = {
+      regularity: { in: where.regularity },
+    };
+  }
+
+  if (where.tense && isTenseType(where.tense) && Array.isArray(where.tense)) {
+    tenseWhere = {
+      tense: { in: where.tense },
+    };
+  }
+
   return prisma.question.findMany({
-    where,
+    where: {
+      ...where,
+      ...verbsWhere,
+      ...regularityWhere,
+      ...tenseWhere,
+    },
   });
 };
 

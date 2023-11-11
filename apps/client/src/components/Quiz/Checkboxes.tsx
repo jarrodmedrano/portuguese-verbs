@@ -1,8 +1,14 @@
 import { ChangeEvent } from 'react';
 
-export const Checkboxes = ({ handleCheckbox }: { handleCheckbox: (event: ChangeEvent<HTMLInputElement>) => void }) => {
+export const Checkboxes = ({
+  handleCheckbox,
+  isOpen,
+}: {
+  handleCheckbox: (event: ChangeEvent<HTMLInputElement>) => void;
+  isOpen: boolean;
+}) => {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className={`${isOpen ? 'gap-4 md:grid-cols-3' : 'md:grid-cols-1'} grid  `} id="grid gap-4 md:grid-cols-3">
       {[
         { value: 'ar', color: 'bg-blue-600', label: 'AR' },
         { value: 'ir', color: 'bg-blue-600', label: 'IR' },

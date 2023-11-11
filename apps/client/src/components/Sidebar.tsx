@@ -5,6 +5,7 @@ import { Checkboxes } from './Quiz/Checkboxes';
 import { ChangeEvent } from 'react';
 import { trpc } from '../services';
 import { AppContext } from '../contexts/AppContext';
+import { isArrayWithLength } from '../../utils/typeguards';
 
 export const Sidebar = ({
   handleClick,
@@ -25,37 +26,47 @@ export const Sidebar = ({
     ...query,
   });
 
+  const switchHandler = (event: ChangeEvent<HTMLInputElement>, queryParam: 'verbType' | 'regularity' | 'tense') => {
+    const newQuery: {
+      verbType?: string[] | string;
+      regularity?: string[] | string;
+      tense?: string[] | string;
+    } = { ...query };
+
+    if (event.target.checked) {
+      if (newQuery?.[queryParam] && Array.isArray(newQuery[queryParam])) {
+        newQuery[queryParam] = [...(newQuery[queryParam] as string[]), event.target.value];
+      } else if (newQuery?.[queryParam]) {
+        newQuery[queryParam] = [newQuery[queryParam] as string, event.target.value];
+      } else {
+        newQuery[queryParam] = [event.target.value];
+      }
+    } else {
+      if (Array.isArray(newQuery[queryParam]) && isArrayWithLength(newQuery?.[queryParam]?.length)) {
+        newQuery[queryParam] = (newQuery[queryParam] as string[])?.filter(
+          (item: string) => item !== event.target.value,
+        );
+      } else if (newQuery[queryParam]) {
+        delete newQuery[queryParam];
+      }
+    }
+    setQuery(newQuery);
+  };
+
   const handleCheckboxSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    switch (event.target.value) {
-      case 'ar' || 'ir' || 'er':
-        setQuery({
-          ...query,
-          verbType: event.target.value,
-        });
-        break;
-      case 'presente' ||
-        'preterito-perfeito' ||
-        'preterito-imperfeito' ||
-        'futuro-do-presente' ||
-        'presente-progressivo' ||
-        'futuro-do-preterito':
-        setQuery({
-          ...query,
-          tense: event.target.value,
-        });
-        break;
-      case 'regular' || 'irregular':
-        setQuery({
-          ...query,
-          regularity: event.target.value,
-        });
-        break;
-      default:
-        setQuery({
-          regularity: 'regular',
-          tense: 'presente',
-        });
-        break;
+    if (event.target.value === 'ar' || event.target.value === 'ir' || event.target.value === 'er') {
+      switchHandler(event, 'verbType');
+    } else if (event.target.value === 'regular' || event.target.value === 'irregular') {
+      switchHandler(event, 'regularity');
+    } else if (
+      event.target.value === 'presente' ||
+      event.target.value === 'preterito-perfeito' ||
+      event.target.value === 'preterito-imperfeito' ||
+      event.target.value === 'futuro-do-presente' ||
+      event.target.value === 'presente-progressivo' ||
+      event.target.value === 'futuro-do-preterito'
+    ) {
+      switchHandler(event, 'tense');
     }
   };
 
@@ -168,7 +179,7 @@ export const Sidebar = ({
             )}
           </li>
         </ul>
-        <Checkboxes handleCheckbox={handleCheckboxSelect} />
+        <Checkboxes isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />
       </div>
     </div>
   );
