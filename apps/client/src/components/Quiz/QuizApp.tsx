@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import Quiz from './Quiz';
-import Loader from './Loader';
 import { AppContext } from '../../contexts/AppContext';
 import { trpc } from '../../services';
+import { Spinner } from '../Spinner';
 
 export interface Question {
   text: string;
@@ -36,7 +36,16 @@ const QuizApp = () => {
       <div className="flex h-screen ">
         <div className="m-auto w-full max-w-md rounded border px-10 py-10 text-center  dark:bg-gray-800 dark:text-white">
           <h1 className="text-3xl font-bold">Conjugame</h1>
-          {isLoading ? <Loader /> : <Quiz questions={quizQuestions} />}
+          {isLoading ? (
+            <>
+              <div className="m-10 flex items-center justify-center">
+                <Spinner size="lg" />
+              </div>
+              Please be patient as Open AI is slow...
+            </>
+          ) : (
+            <Quiz questions={quizQuestions} />
+          )}
         </div>
       </div>
     </>

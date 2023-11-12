@@ -6,8 +6,30 @@ import { ChangeEvent } from 'react';
 import { trpc } from '../services';
 import { AppContext } from '../contexts/AppContext';
 import { isArrayWithLength } from '../../utils/typeguards';
+import { Spinner } from './Spinner';
+import { z } from 'zod';
+
+const questionType = z.array(
+  z.object({
+    tense: z.string().optional().or(z.array(z.string()).optional()),
+    regularity: z.string().optional().or(z.array(z.string()).optional()),
+    verbType: z.string().optional().or(z.array(z.string()).optional()),
+    preferredLanguage: z.string().optional(),
+    language: z.string().optional(),
+    difficulty: z.string().optional(),
+    text: z.string(),
+    translation: z.string(),
+    answers: z.array(
+      z.object({
+        id: z.string(),
+        text: z.string(),
+        isCorrect: z.boolean(),
+      }),
+    ),
+  }),
+);
 export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOpen: boolean }) => {
-  const { setQuizQuestions, quizQuestions, setIsLoading } = useContext(AppContext);
+  const { setQuizQuestions, quizQuestions, setIsLoading, isLoading } = useContext(AppContext);
 
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
   // const { partialSearch, setPartialSearch, setSearch } = useContext(SearchContext);
@@ -18,7 +40,14 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     preferredLanguage?: string;
     language?: string;
     difficulty?: string;
-  }>({});
+  }>({
+    tense: 'any',
+    regularity: 'any',
+    verbType: 'any',
+    preferredLanguage: 'en-us',
+    language: 'pt-br',
+    difficulty: 'A1',
+  });
 
   const { data } = trpc.questions.useQuery({
     language: 'pt-br',
@@ -95,128 +124,130 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     setIsLoading(false);
   };
 
-  // function findFirstArrayInString(str: string, index = 0, firstArrayStart = -1, bracketsCount = 0): string {
-  //   // Base case: if we've reached the end of the string, return null
-  //   if (index === str.length) {
-  //     return '';
-  //   }
+  function findFirstArrayInString(str: string, index = 0, firstArrayStart = -1, bracketsCount = 0): string {
+    // Base case: if we've reached the end of the string, return null
+    if (index === str.length) {
+      return '';
+    }
 
-  //   // Current character in the string
-  //   const char = str[index];
+    // Current character in the string
+    const char = str[index];
 
-  //   // If we encounter an opening bracket, we need to increase our count
-  //   if (char === '[') {
-  //     bracketsCount++;
-  //     // If it's the first opening bracket we've found, mark its position
-  //     if (firstArrayStart === -1) {
-  //       firstArrayStart = index;
-  //     }
-  //   }
-  //   // If we encounter a closing bracket, we decrease our count
-  //   else if (char === ']') {
-  //     bracketsCount--;
-  //     // If our count is back to zero, we've found the end of the first complete array
-  //     if (bracketsCount === 0 && firstArrayStart !== -1) {
-  //       return str.substring(firstArrayStart, index + 1);
-  //     }
-  //   }
+    // If we encounter an opening bracket, we need to increase our count
+    if (char === '[') {
+      bracketsCount++;
+      // If it's the first opening bracket we've found, mark its position
+      if (firstArrayStart === -1) {
+        firstArrayStart = index;
+      }
+    }
+    // If we encounter a closing bracket, we decrease our count
+    else if (char === ']') {
+      bracketsCount--;
+      // If our count is back to zero, we've found the end of the first complete array
+      if (bracketsCount === 0 && firstArrayStart !== -1) {
+        return str.substring(firstArrayStart, index + 1);
+      }
+    }
 
-  //   // Move to the next character in the string
-  //   return findFirstArrayInString(str, index + 1, firstArrayStart, bracketsCount);
-  // }
-  const mutation = trpc.aiQuestion.mutate.useMutation();
+    // Move to the next character in the string
+    return findFirstArrayInString(str, index + 1, firstArrayStart, bracketsCount);
+  }
+  const mutation = trpc.aiQuestion.mutate.useMutation({
+    onSuccess: (data) => {
+      // eslint-disable-next-line no-console
+      console.log('success', data);
+    },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.log('error', error);
+    },
+  });
+
+  const stringifyArrays = (value: any) => {
+    if (typeof value !== 'object') {
+      return value;
+    } else if (Array.isArray(value)) {
+      return value.join(', ');
+    }
+  };
 
   const handleGetMore = async () => {
+    setIsLoading(true);
     try {
+      const { difficulty, tense, verbType, regularity, language, preferredLanguage } = query;
+
       const result = await mutation.mutateAsync({
-        tense: query?.tense,
-        regularity: query?.regularity,
-        verbType: query?.verbType,
-        difficulty: query?.difficulty || '1',
-        language: 'pt-br',
+        tense,
+        regularity,
+        verbType,
+        difficulty: difficulty || 'A1',
+        language: language || 'pt-br',
         preferredLanguage: 'en-us',
         messages: [
           {
             role: 'assistant',
-            content: JSON.stringify(quizQuestions),
+            content: JSON.stringify(quizQuestions[0]),
           },
           {
             role: 'user',
-            content: 'Write three more questions.',
+            content: `Write 10 sentence(s) in ${language} of ${difficulty || 'A1'} that have a missing verb of ${
+              verbType ? stringifyArrays(verbType) : 'any'
+            } type in ${regularity ? stringifyArrays(regularity) : 'any'} form and in ${
+              tense ? stringifyArrays(tense) : 'any'
+            } tense. Also include the answers to guess from. include a translation for ${
+              preferredLanguage ?? 'en-us'
+            }. The translation SHOULD include the verb, not a blank space. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. Do not repeat questions. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
+              [
+                {
+                  tense: query?.tense,
+                  regularity: query?.regularity,
+                  verbType: query?.verbType,
+                  text: 'Eu ______ café todas as manhãs.',
+                  translation: 'I drink coffee every morning.',
+                  answers: [
+                    { id: 'a1', text: 'bebo', isCorrect: true },
+                    { id: 'a2', text: 'bebe', isCorrect: false },
+                    { id: 'a3', text: 'bebemos', isCorrect: false },
+                    { id: 'a4', text: 'bebem', isCorrect: false },
+                  ],
+                },
+              ],
+            )}}`,
           },
         ],
       });
 
       // eslint-disable-next-line no-console
       console.log('result', result);
-      // // eslint-disable-next-line no-console
-      // console.log('result', result);
-      // const { data: openAiData } = result;
-      // // @ts-ignore this line
-      // const content = openAiData?.choices[0].message.content;
-      // // eslint-disable-next-line no-console
-      // console.log('content', content);
-      // let initialStr = '';
-      // if (content[0] === '[') {
-      //   initialStr = content;
-      // } else if (content[0] === '{') {
-      //   initialStr = `[${content}]`;
-      // } else {
-      //   initialStr = findFirstArrayInString(content);
-      // }
-      // // eslint-disable-next-line no-console
-      // console.log('inti str', initialStr);
-      // const dataJSON = JSON.parse(initialStr);
-      // // setNewQuestions([...newQuestions, ...dataJSON]);
-      // setQuizQuestions([...dataJSON, ...quizQuestions]);
+      // @ts-ignore this line
+      const content = result?.choices[0].message.content;
+      // eslint-disable-next-line no-console
+      console.log('content', content);
+      let initialStr = '';
+      if (content[0] === '[') {
+        initialStr = content;
+      } else if (content[0] === '{') {
+        initialStr = `[${content}]`;
+      } else {
+        initialStr = findFirstArrayInString(content);
+      }
+      // eslint-disable-next-line no-console
+      console.log('inti str', initialStr);
+      const dataJSON = JSON.parse(initialStr);
+      const parsedQuestion = questionType.safeParse(dataJSON);
+      // eslint-disable-next-line no-console
+      console.log('parsed', parsedQuestion);
+      if (parsedQuestion.success) {
+        // // setNewQuestions([...newQuestions, ...dataJSON]);
+        setQuizQuestions([...dataJSON, ...quizQuestions]);
+      }
+      setIsLoading(false);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('err', error);
+      setIsLoading(false);
     }
-
-    // try {
-    //   const result = trpc.aiQuestion.get.useQuery({
-    //     tense: query?.tense,
-    //     regularity: query?.regularity,
-    //     verbType: query?.verbType,
-    //     difficulty: query?.difficulty || '1',
-    //     language: 'pt-br',
-    //     preferredLanguage: 'en-us',
-    //     messages: [
-    //       {
-    //         role: 'assistant',
-    //         content: JSON.stringify(quizQuestions),
-    //       },
-    //       {
-    //         role: 'user',
-    //         content: 'Write three more questions.',
-    //       },
-    //     ],
-    //   });
-    //   // eslint-disable-next-line no-console
-    //   console.log('result', result);
-    //   const { data: openAiData } = result;
-    //   // @ts-ignore this line
-    //   const content = openAiData?.choices[0].message.content;
-    //   // eslint-disable-next-line no-console
-    //   console.log('content', content);
-    //   let initialStr = '';
-    //   if (content[0] === '[') {
-    //     initialStr = content;
-    //   } else if (content[0] === '{') {
-    //     initialStr = `[${content}]`;
-    //   } else {
-    //     initialStr = findFirstArrayInString(content);
-    //   }
-    //   // eslint-disable-next-line no-console
-    //   console.log('inti str', initialStr);
-    //   const dataJSON = JSON.parse(initialStr);
-    //   // setNewQuestions([...newQuestions, ...dataJSON]);
-    //   setQuizQuestions([...dataJSON, ...quizQuestions]);
-    // } catch (error) {
-    //   // eslint-disable-next-line no-console
-    //   console.log('err', error);
-    // }
   };
 
   return (
@@ -258,32 +289,34 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
           >
             <Switcher showLabel={isOpen} />
           </li>
-
-          <li
-            className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
-          >
-            <Link
-              className="flex h-10 w-full items-center justify-start hover:text-gray-300"
-              href="/#"
-              onClick={handleClick}
+        </ul>
+        {isOpen && (
+          <ul className="space-y-1">
+            <li
+              className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
             >
-              Home
-            </Link>
-          </li>
+              <Link
+                className="flex h-10 w-full items-center justify-start hover:text-gray-300"
+                href="/#"
+                onClick={handleClick}
+              >
+                Home
+              </Link>
+            </li>
 
-          <li
-            className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
-          >
-            <Link
-              className="flex h-10 w-full items-center justify-start hover:text-gray-300"
-              href="/verbs"
-              onClick={handleClick}
+            <li
+              className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
             >
-              Table of Verbs
-            </Link>
-          </li>
+              <Link
+                className="flex h-10 w-full items-center justify-start hover:text-gray-300"
+                href="/verbs"
+                onClick={handleClick}
+              >
+                Table of Verbs
+              </Link>
+            </li>
 
-          {/* <li
+            {/* <li
             className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
           >
             {!isOpen ? (
@@ -312,20 +345,27 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
               // <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
             )}
           </li> */}
-        </ul>
-        <button
-          onClick={handleGetMore}
-          className="me-2 mb-5 w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Get More Questions
-        </button>
-        <button
-          onClick={handleShuffle}
-          className="me-2 mb-5 w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Shuffle
-        </button>
-        <Checkboxes isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />
+          </ul>
+        )}
+
+        {isOpen && (
+          <button
+            onClick={handleGetMore}
+            className="me-2 mb-5 inline-flex w-full items-center items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            {isLoading && <Spinner size="sm" />}
+            {isLoading ? 'Loading...' : 'Get More Questions'}
+          </button>
+        )}
+        {isOpen && (
+          <button
+            onClick={handleShuffle}
+            className="me-2 mb-5 w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Shuffle
+          </button>
+        )}
+        {isOpen && <Checkboxes isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />}
       </div>
     </div>
   );

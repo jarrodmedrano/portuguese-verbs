@@ -1,16 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Sidebar } from '../Sidebar';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 type NavbarProps = {
   // eslint-disable-next-line no-unused-vars
 };
 
 const Navbar = ({}: NavbarProps) => {
+  const [screenWidth] = useWindowSize();
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
   const handleSidebarClick = () => {
     setSidebarIsOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (screenWidth > 768) {
+      setSidebarIsOpen(true);
+    }
+  }, [screenWidth]);
 
   return (
     <>

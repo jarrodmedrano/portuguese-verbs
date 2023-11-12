@@ -21,6 +21,14 @@ export type InputOpenAiQuestion = {
   messages: ChatCompletionRequestMessage[];
 };
 
+const stringifyArrays = (value: any) => {
+  if (typeof value !== 'object') {
+    return value;
+  } else if (Array.isArray(value)) {
+    return value.join(', ');
+  }
+};
+
 export const getAIQuestion = async (input: InputOpenAiQuestion): Promise<string | undefined> => {
   const { language = 'portuguese', preferredLanguage, tense, regularity, verbType, difficulty, messages } = input;
   const apiKey = process.env.OPENAI_API_KEY;
@@ -33,9 +41,13 @@ export const getAIQuestion = async (input: InputOpenAiQuestion): Promise<string 
     },
     {
       role: 'user',
-      content: `Write 3 sentence(s) in ${language} of ${difficulty} that have a missing verb. Also include the answers to guess from. include a translation for ${
+      content: `Write 10 sentence(s) in ${language} of ${difficulty || 'A1'} that have a missing verb of ${
+        verbType ? stringifyArrays(verbType) : 'any'
+      } type in ${regularity ? stringifyArrays(regularity) : 'any'} form and in ${
+        tense ? stringifyArrays(tense) : 'any'
+      } tense. Also include the answers to guess from. include a translation for ${
         preferredLanguage ?? 'en-us'
-      }. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
+      }. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. Do not repeat questions. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
         [
           {
             tense: tense,
@@ -58,7 +70,7 @@ export const getAIQuestion = async (input: InputOpenAiQuestion): Promise<string 
 
   const body = JSON.stringify({
     messages: msg,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-16k-0613',
     stream: false,
   });
   // eslint-disable-next-line no-console
