@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Question } from '../components/Quiz/QuizApp';
-import questionsJSON from '../components/Quiz/questions.json';
+// import questionsJSON from '../components/Quiz/questions.json';
 
 interface AppContextProps {
   sidebarIsOpen: boolean;
@@ -24,9 +24,9 @@ export const AppContext = React.createContext<AppContextProps>({
 });
 
 export const AppContextProvider = ({ children }: { children: any }) => {
-  const defaultQuestions: Question[] = questionsJSON.questions as Question[];
+  // const defaultQuestions: Question[] = questionsJSON.questions as Question[];
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const [quizQuestions, setQuizQuestions] = useState<Question[]>(defaultQuestions);
+  const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   return (

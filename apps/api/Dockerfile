@@ -1,49 +1,58 @@
-FROM node:18-slim AS builder
-ENV PNPM_HOME=/usr/local/bin
-RUN corepack enable
+FROM --platform=linux/arm64 node:18-slim AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get autoclean
 RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y openssl
 # Set working directory
 WORKDIR /app
-RUN corepack enable
+
 COPY . .
-RUN pnpm global add turbo
-RUN turbo prune --scope=api --docker
+RUN npx turbo prune --scope=api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM node:18-slim AS installer
+FROM --platform=linux/arm64 node:18-slim AS installer
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update
 RUN apt-get install -y openssl
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
+COPY package.json ./package.json
 COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm.lock ./pnpm.lock
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN apt-get update -y && apt-get install -y openssl
-RUN corepack enable
-RUN pnpm install --frozen-lockfile
-RUN pnpm prisma
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
+RUN npx prisma
 
 # Build the project
 COPY --from=builder /app/out/full/ .
 RUN apt-get update -y && apt-get install -y openssl
-RUN corepack enable
 RUN pnpm run prebuild
-RUN turbo run build --filter=api...
+RUN npx prisma generate
+RUN npx turbo run build --filter=api...
 
-FROM node:18-slim AS runner
+FROM --platform=linux/arm64 node:18-slim AS runner
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
-RUN apt-get update -y && apt-get install -y openssl
+RUN apt-get update && apt-get install -y openssl
+COPY --from=installer /app/apps/api/package.json .
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
+COPY --from=installer /app/apps/api/dist .
+COPY --from=installer /app/apps/api/prisma ./prisma
 USER expressjs
 
 EXPOSE 8080
 ENV PORT 8080
-COPY --from=installer /app .
+COPY --from=installer /app/apps/api/ .
 CMD node apps/api/dist/index.js

@@ -1,62 +1,63 @@
-FROM node:18-alpine AS base
-ENV PNPM_HOME=/usr/local/bin
+FROM node:18-slim AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN apt-get autoclean
+RUN apt-get clean
+RUN apt-get update
 
-RUN corepack enable
-# This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
-# Make sure you update both files!
-
-FROM base AS builder
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN corepack enable
-RUN apk add --no-cache libc6-compat
-RUN apk update
 # Set working directory
 WORKDIR /app
 COPY . .
-RUN pnpm global add turbo
-RUN turbo prune --scope=client --docker
+# Only Take packages that are needed to compile this app
+RUN npx turbo prune --scope=client --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
+FROM --platform=linux/amd64 node:18-slim AS installer
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
-
-# First install the dependencies (as they change less often)
-COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm.lock ./pnpm.lock
-RUN pnpm install
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/turbo.json ./turbo.json
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
+RUN pnpm install --no-frozen-lockfile
 
-# Build the project
-COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
-
-# Uncomment and use build args to enable remote caching
-# ARG TURBO_TEAM
-# ENV TURBO_TEAM=$TURBO_TEAM
-
-# ARG TURBO_TOKEN
-# ENV TURBO_TOKEN=$TURBO_TOKEN
-RUN corepack enable
-RUN pnpm turbo run build --filter=client...
-
-FROM base AS runner
+FROM --platform=linux/amd64 node:18-slim AS sourcer
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN apt-get autoclean
+RUN apt-get clean
 WORKDIR /app
+COPY --from=installer /app/ .
+COPY --from=builder /app/out/full/ .
+RUN apt-get update -y && apt-get install -y openssl
+# RUN apt-get install -y openssl
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
+RUN cd apps/api && pnpm run prebuild
+# RUN cd apps/api && npx prisma db pull && prisma generate
+# RUN npx prisma
+# COPY /apps/api/prisma .
+COPY .gitignore .gitignore
+RUN npx turbo run build  --filter=client...
 
+FROM --platform=linux/amd64 node:18-slim as runner
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer /app/apps/client/next.config.js .
-COPY --from=installer /app/apps/client/package.json .
+COPY --from=sourcer /app/apps/client/next.config.js .
+COPY --from=sourcer /app/apps/client/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
-# COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
+COPY --from=sourcer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
+COPY --from=sourcer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
+# COPY --from=sourcer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/client/start.sh ./
 # COPY /app/apps/client/server.js ./
 # COPY --from=builder /app/apps/client/.env.local ./

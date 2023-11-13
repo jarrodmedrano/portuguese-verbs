@@ -197,7 +197,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
               tense ? stringifyArrays(tense) : 'any'
             } tense. Also include the answers to guess from. include a translation for ${
               preferredLanguage ?? 'en-us'
-            }. The translation SHOULD include the verb, not a blank space. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. Do not repeat questions. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
+            }. The translation SHOULD include the verb, not a blank space. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. Do not repeat questions. Answer text should be unique and not repeat. Only one answer can be correct. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
               [
                 {
                   tense: query?.tense,
@@ -351,6 +351,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
         {isOpen && (
           <button
             onClick={handleGetMore}
+            disabled={isLoading}
             className="me-2 mb-5 inline-flex w-full items-center items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             {isLoading && <Spinner size="sm" />}

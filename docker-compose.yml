@@ -32,9 +32,6 @@ services:
       - TRPC_PORT=4000
     volumes:
       - ./apps/api:/app/apps/api
-      - /app/node_modules
-      - /app/dist
-      - /app/
     image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
   client:
     container_name: client
