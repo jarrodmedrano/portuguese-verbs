@@ -8,6 +8,7 @@
   "scripts": {
     "start": "nps",
     "prepare": "npx husky install",
+    "preinstall": "npx only-allow pnpm",
     "precommit": "nps precommit",
     "eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
     "eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
