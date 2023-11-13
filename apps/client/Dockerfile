@@ -30,7 +30,7 @@ RUN apt-get clean
 WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
-RUN apt-get update -y && apt-get install -y openssl
+# RUN apt-get update -y && apt-get install -y openssl
 # RUN apt-get install -y openssl
 RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
 COPY .gitignore .gitignore

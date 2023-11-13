@@ -41,7 +41,7 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
-RUN apt-get update && apt-get install -y openssl
+# RUN apt-get update && apt-get install -y openssl
 COPY --from=installer /app/apps/api/package.json .
 RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
