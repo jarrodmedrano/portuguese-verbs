@@ -1,54 +1,61 @@
-FROM --platform=linux/arm64 node:18-slim AS builder
+FROM --platform=linux/arm64 node:18-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN apt-get autoclean
-RUN apt-get clean
-RUN apt-get update
-RUN apt-get install -y openssl
+
+# The web Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
+# Make sure you update this Dockerfile, the Dockerfile in the web workspace and copy that over to Dockerfile in the docs.
+
+FROM base AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+RUN apk update
 # Set working directory
 WORKDIR /app
-
+RUN yarn global add turbo
 COPY . .
-RUN npx turbo prune --scope=api --docker
+RUN turbo prune database --docker
+RUN turbo prune api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM --platform=linux/arm64 node:18-slim AS installer
+FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN apt-get update
-RUN apt-get install -y openssl
+RUN apk add --no-cache libc6-compat
+RUN apk update
 WORKDIR /app
-
-# First install the dependencies (as they change less often)
+RUN yarn global add pnpm
+# First install dependencies (as they change less often)
 COPY .gitignore .gitignore
-COPY package.json ./package.json
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-# RUN apt-get update -y && apt-get install -y openssl
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
+# COPY --from=builder packages/database/prisma /app/packages/database
 
-# Build the project
+RUN pnpm install
+
+# Build the project and its dependencies
+
+# RUN mkdir -p packages/database
+# RUN mkdir -p apps/api
 # COPY --from=builder /app/out/full/ .
-# RUN apt-get update -y && apt-get install -y openssl
-RUN npx turbo run build --filter=api...
+COPY turbo.json turbo.json
 
-FROM --platform=linux/arm64 node:18-slim AS runner
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+# Uncomment and use build args to enable remote caching
+# ARG TURBO_TEAM
+# ENV TURBO_TEAM=$TURBO_TEAM
+
+# ARG TURBO_TOKEN
+# ENV TURBO_TOKEN=$TURBO_TOKEN
+RUN pnpm turbo run build --filter=api...
+
+FROM base AS runner
 WORKDIR /app
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
-# RUN apt-get update && apt-get install -y openssl
-COPY --from=installer /app/apps/api/package.json .
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
-COPY --from=installer /app/apps/api/dist .
 USER expressjs
+COPY --from=installer /app .
 
-EXPOSE 8080
-ENV PORT 8080
-COPY --from=installer /app/apps/api/ .
 CMD node apps/api/dist/index.js
