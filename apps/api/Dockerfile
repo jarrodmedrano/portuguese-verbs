@@ -24,16 +24,13 @@ COPY .gitignore .gitignore
 COPY package.json ./package.json
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-RUN apt-get update -y && apt-get install -y openssl
+# RUN apt-get update -y && apt-get install -y openssl
 RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
-RUN npx prisma
 
 # Build the project
-COPY --from=builder /app/out/full/ .
-RUN apt-get update -y && apt-get install -y openssl
-RUN pnpm run prebuild
-RUN npx prisma generate
+# COPY --from=builder /app/out/full/ .
+# RUN apt-get update -y && apt-get install -y openssl
 RUN npx turbo run build --filter=api...
 
 FROM --platform=linux/arm64 node:18-slim AS runner
@@ -49,7 +46,6 @@ COPY --from=installer /app/apps/api/package.json .
 RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
 COPY --from=installer /app/apps/api/dist .
-COPY --from=installer /app/apps/api/prisma ./prisma
 USER expressjs
 
 EXPOSE 8080
