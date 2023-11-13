@@ -40,14 +40,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     preferredLanguage?: string;
     language?: string;
     difficulty?: string;
-  }>({
-    tense: 'any',
-    regularity: 'any',
-    verbType: 'any',
-    preferredLanguage: 'en-us',
-    language: 'pt-br',
-    difficulty: 'A1',
-  });
+  }>({});
 
   const { data } = trpc.questions.useQuery({
     language: 'pt-br',

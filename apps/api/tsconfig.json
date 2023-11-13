@@ -24,7 +24,10 @@
     "composite": false,
     "declaration": true,
     "declarationMap": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "database": ["../../packages/database"]
+    }
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts", "./src/**/*.mjs"]

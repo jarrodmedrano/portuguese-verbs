@@ -1,7 +1,6 @@
 FROM --platform=linux/arm64 node:18-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update both files!
 
@@ -13,7 +12,8 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune client --docker
+#RUN pnpm global add turbo
+RUN turbo prune --scope=client --docker
 
 # Add lockfile and package.json's of  isolated subworkspace
 FROM base AS installer
@@ -28,6 +28,10 @@ RUN yarn global add pnpm
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY packages/database /app/packages/database
+COPY apps/api /app/apps/api
+COPY apps/client /app/apps/client
+COPY apps/client /app/apps/client
 RUN pnpm install
 
 # Build the project
@@ -42,22 +46,30 @@ COPY turbo.json turbo.json
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
 RUN pnpm turbo run build --filter=client...
+# CMD ["tail", "-f", "/dev/null"]
 
 FROM base AS runner
 WORKDIR /app
+ENV NODE_ENV production
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-USER nextjs
+
 
 COPY --from=installer /app/apps/client/next.config.js .
 COPY --from=installer /app/apps/client/package.json .
-
+USER nextjs
+EXPOSE 3000
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
+# COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next ./apps/client/.next
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
 
-CMD node apps/client/server.js
+ENV PORT 3000
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+# CMD ["tail", "-f", "/dev/null"]
+CMD ["node", "apps/client/server.js"]

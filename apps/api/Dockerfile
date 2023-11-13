@@ -15,8 +15,9 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune database --docker
-RUN turbo prune api --docker
+
+# RUN turbo prune database --docker
+RUN turbo prune --scope=api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -30,8 +31,11 @@ RUN yarn global add pnpm
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-# COPY --from=builder packages/database/prisma /app/packages/database
+COPY packages/database /app/packages/database
+COPY apps/api /app/apps/api
+COPY apps/api/tsconfig.json /app/apps/api/tsconfig.json
 
+## console log the contents of this directory
 RUN pnpm install
 
 # Build the project and its dependencies
@@ -40,7 +44,6 @@ RUN pnpm install
 # RUN mkdir -p apps/api
 # COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-
 # Uncomment and use build args to enable remote caching
 # ARG TURBO_TEAM
 # ENV TURBO_TEAM=$TURBO_TEAM
@@ -52,7 +55,7 @@ RUN pnpm turbo run build --filter=api...
 FROM base AS runner
 WORKDIR /app
 
-# Don't run production as root
+# # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
 USER expressjs

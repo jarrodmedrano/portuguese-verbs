@@ -1,8 +1,8 @@
 {
   "name": "database",
   "version": "0.0.0",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.js",
   "dependencies": {
     "@prisma/client": "5.1.1"
   },
@@ -26,7 +26,8 @@
     "db:push": "prisma db push --skip-generate",
     "migrate dev": "npx prisma migrate dev --create-only --name init",
     "migrate": "npx prisma migrate dev",
-    "build": "npx pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed",
+    "prebuild": "ls -a",
+    "build": "npx pnpm run generate && npx pnpm run migrate && npx pnpm run db:seed && tsc -p tsconfig.json",
     "generate": "npx prisma generate",
     "dev": "npx pnpm run build && tsnd --respawn src/index.ts",
     "db:seed": "npx prisma db seed"

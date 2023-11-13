@@ -27,5 +27,5 @@
     "baseUrl": "."
   },
   "exclude": ["node_modules"],
-  "include": ["./prisma/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mjs"]
 }

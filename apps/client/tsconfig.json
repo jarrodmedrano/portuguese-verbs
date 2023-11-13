@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "api": ["../../apps/api"]
+      "api": ["../../apps/api"],
+      "database": ["../../packages/database"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", "next.config.cjs"],
