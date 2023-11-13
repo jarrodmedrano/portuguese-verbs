@@ -25,14 +25,24 @@
           "^prebuild"
         ]
       },
+      "dev": {
+        "dependsOn": [
+          "^db:generate"
+        ],
+        "cache": false
+      },
       "build": {
         "outputs": [
           ".next/**",
           "!.next/cache/**"
         ],
         "dependsOn": [
-          "^build"
+          "^build",
+          "^db:generate"
         ]
+      },
+      "db:generate": {
+        "cache": false
       },
       "api#prebuild": {
         "dependsOn": [
