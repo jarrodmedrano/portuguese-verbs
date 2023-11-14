@@ -5,6 +5,8 @@ ENV PATH="$PNPM_HOME:$PATH"
 # Make sure you update both files!
 
 FROM base AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 RUN apk update
@@ -48,7 +50,9 @@ COPY turbo.json turbo.json
 RUN pnpm turbo run build --filter=client...
 # CMD ["tail", "-f", "/dev/null"]
 
-FROM base AS runner
+FROM --platform=linux/arm64 node:18-alpine AS runner
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
 ENV NODE_ENV production
 

@@ -52,7 +52,9 @@ COPY turbo.json turbo.json
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 RUN pnpm turbo run build --filter=api...
 
-FROM base AS runner
+FROM --platform=linux/arm64 node:18-alpine AS runner
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
 
 # # Don't run production as root
