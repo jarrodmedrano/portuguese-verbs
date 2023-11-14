@@ -16,7 +16,6 @@ FROM --platform=linux/arm64 node:18-slim AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update
-RUN apt-get install -y openssl
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
