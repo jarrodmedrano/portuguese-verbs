@@ -8,7 +8,6 @@ FROM base AS builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apt-get add --no-cache libc6-compat
 RUN apt-get update
 # Set working directory
 WORKDIR /app
@@ -21,7 +20,6 @@ RUN turbo prune --scope=client --docker
 FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN apt-get add --no-cache libc6-compat
 RUN apt-get update
 WORKDIR /app
 RUN yarn global add pnpm
