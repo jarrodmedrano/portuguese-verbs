@@ -52,15 +52,16 @@ COPY turbo.json turbo.json
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 RUN pnpm turbo run build --filter=api...
 
-FROM --platform=linux/arm64 node:18-alpine AS runner
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+FROM node:18-slim AS runner
 WORKDIR /app
 
 # # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
 USER expressjs
+
+EXPOSE 8080
+ENV PORT 8080
 COPY --from=installer /app .
 
 CMD node apps/api/dist/index.js
