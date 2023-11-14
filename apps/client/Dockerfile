@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 node:18-alpine AS base
+FROM node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
