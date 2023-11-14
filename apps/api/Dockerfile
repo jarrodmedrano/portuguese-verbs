@@ -52,7 +52,7 @@ COPY turbo.json turbo.json
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 RUN pnpm turbo run build --filter=api...
 
-FROM node:18-slim AS runner
+FROM base AS runner
 WORKDIR /app
 
 # # Don't run production as root

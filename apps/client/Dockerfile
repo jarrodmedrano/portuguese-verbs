@@ -50,7 +50,7 @@ COPY turbo.json turbo.json
 RUN pnpm turbo run build --filter=client...
 # CMD ["tail", "-f", "/dev/null"]
 
-FROM node:18-slim AS runner
+FROM base as runner
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
