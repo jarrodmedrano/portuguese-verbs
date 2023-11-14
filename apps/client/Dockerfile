@@ -54,7 +54,6 @@ FROM --platform=linux/arm64 node:18-alpine AS runner
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
-ENV NODE_ENV production
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
@@ -71,7 +70,7 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
 # COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next ./apps/client/.next
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
-
+ENV NODE_ENV production
 ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
