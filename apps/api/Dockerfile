@@ -23,8 +23,8 @@ RUN turbo prune --scope=api --docker
 FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN apk add --no-cache libc6-compat
 RUN apt-get update
+RUN apt-get update -y && apt-get install -y openssl
 WORKDIR /app
 RUN yarn global add pnpm
 # First install dependencies (as they change less often)
