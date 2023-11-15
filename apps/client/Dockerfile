@@ -1,6 +1,7 @@
 FROM node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+RUN apt-get update -qq && apt-get install -y openssl
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update both files!
 
@@ -8,9 +9,6 @@ FROM base AS builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apt-get update
-RUN apt-get update -qq && \
-    apt-get install -y openssl
 # Set working directory
 WORKDIR /app
 RUN yarn global add turbo
@@ -73,9 +71,6 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps
 COPY --from=builder --chown=nextjs:nodejs /app/apps/client/start.sh ./
 # COPY /app/apps/client/server.js ./
 # COPY --from=builder /app/apps/client/.env.local ./
-RUN apt-get update
-RUN apt-get update -qq && \
-    apt-get install -y openssl
 USER nextjs
 
 EXPOSE 3000

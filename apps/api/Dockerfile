@@ -3,12 +3,12 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get autoclean
 RUN apt-get clean
+RUN apt-get update -qq && apt-get install -y openssl
+
 FROM base AS builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apt-get update
-RUN apt-get install -y openssl
 # Set working directory
 WORKDIR /app
 RUN yarn global add turbo
@@ -52,9 +52,6 @@ RUN pnpm turbo run build --filter=api...
 
 FROM base AS runner
 WORKDIR /app
-RUN apt-get update
-RUN apt-get update -qq && \
-    apt-get install -y openssl
 # # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
