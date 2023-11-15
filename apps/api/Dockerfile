@@ -50,9 +50,11 @@ COPY turbo.json turbo.json
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 RUN pnpm turbo run build --filter=api...
 
-FROM node:18-slim AS runner
+FROM base AS runner
 WORKDIR /app
-
+RUN apt-get update
+RUN apt-get update -qq && \
+    apt-get install -y openssl
 # # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
