@@ -6,7 +6,7 @@ import Navbar from '../src/components/Quiz/Navbar';
 export const getServerSideProps = async () => {
   return {
     props: {
-      apiUrl: process.env.APP_URL || 'http://localhost:4000',
+      apiUrl: process.env.API_URL || 'http://localhost:4000',
     },
   };
 };
