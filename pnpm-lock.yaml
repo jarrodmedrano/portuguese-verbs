@@ -199,6 +199,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: 13.4.19
         version: registry.npmjs.org/@next/eslint-plugin-next@13.4.19
+      '@prisma/nextjs-monorepo-workaround-plugin':
+        specifier: ^5.6.0
+        version: registry.npmjs.org/@prisma/nextjs-monorepo-workaround-plugin@5.6.0
       '@testing-library/react':
         specifier: 12.1.5
         version: registry.npmjs.org/@testing-library/react@12.1.5(react-dom@18.2.0)(react@18.2.0)
@@ -1116,6 +1119,12 @@ packages:
     name: '@prisma/engines'
     version: 5.1.1
     requiresBuild: true
+
+  registry.npmjs.org/@prisma/nextjs-monorepo-workaround-plugin@5.6.0:
+    resolution: {integrity: sha512-bDl8k0buzRdAi533jZShSEAqmD9ijz/35fjKXxJ9vTb3DG3bG+SDG4FC2iVwhYqeFRpWD+srdmmULgoGsTJu4Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@prisma/nextjs-monorepo-workaround-plugin/-/nextjs-monorepo-workaround-plugin-5.6.0.tgz}
+    name: '@prisma/nextjs-monorepo-workaround-plugin'
+    version: 5.6.0
+    dev: true
 
   registry.npmjs.org/@rushstack/eslint-patch@1.5.1:
     resolution: {integrity: sha512-6i/8UoL0P5y4leBIGzvkZdS85RDMG9y1ihZzmTZQ5LdHUYmZ7pKFoj8X0236s3lusPs1Fa5HTQUpwI+UfTcmeA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.5.1.tgz}
