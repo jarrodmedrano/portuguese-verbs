@@ -1,10 +1,8 @@
 FROM node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-
-# The web Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
-# Make sure you update this Dockerfile, the Dockerfile in the web workspace and copy that over to Dockerfile in the docs.
-
+RUN apt-get autoclean
+RUN apt-get clean
 FROM base AS builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -24,7 +22,7 @@ FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update
-RUN apt-get update -y && apt-get install -y openssl
+RUN apt-get install -y openssl
 WORKDIR /app
 RUN yarn global add pnpm
 # First install dependencies (as they change less often)
@@ -52,7 +50,7 @@ COPY turbo.json turbo.json
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 RUN pnpm turbo run build --filter=api...
 
-FROM base AS runner
+FROM node:18-slim AS runner
 WORKDIR /app
 
 # # Don't run production as root

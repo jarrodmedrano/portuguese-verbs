@@ -33,7 +33,6 @@ COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY packages/database /app/packages/database
 COPY apps/api /app/apps/api
 COPY apps/client /app/apps/client
-COPY apps/client /app/apps/client
 RUN pnpm install
 
 # Build the project
