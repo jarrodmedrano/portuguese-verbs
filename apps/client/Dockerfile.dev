@@ -1,49 +1,59 @@
-FROM node:18-slim AS builder
+FROM node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN apt-get autoclean
-RUN apt-get clean
-RUN apt-get update
+RUN apt-get update -qq && apt-get install -y openssl
+# This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
+# Make sure you update both files!
 
+FROM base AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 # Set working directory
 WORKDIR /app
+RUN yarn global add turbo
 COPY . .
-# Only Take packages that are needed to compile this app
-RUN npx turbo prune --scope=client --docker
+#RUN pnpm global add turbo
+RUN turbo prune --scope=client --docker
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM --platform=linux/amd64 node:18-slim AS installer
+# Add lockfile and package.json's of  isolated subworkspace
+FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+RUN apt-get update
+RUN apt-get update -qq && \
+    apt-get install -y openssl
 WORKDIR /app
+RUN yarn global add pnpm
+
+# First install the dependencies (as they change less often)
+COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/turbo.json ./turbo.json
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
-RUN pnpm install --no-frozen-lockfile
+COPY packages/database /app/packages/database
+COPY apps/api /app/apps/api
+COPY apps/client /app/apps/client
+RUN pnpm install
 
-FROM --platform=linux/amd64 node:18-slim AS sourcer
+# Build the project
+# COPY --from=builder /app/out/full/ .
+COPY turbo.json turbo.json
+
+# Uncomment and use build args to enable remote caching
+# ARG TURBO_TEAM
+# ENV TURBO_TEAM=$TURBO_TEAM
+
+# ARG TURBO_TOKEN
+# ENV TURBO_TOKEN=$TURBO_TOKEN
+
+RUN pnpm turbo run build --filter=client...
+# CMD ["tail", "-f", "/dev/null"]
+
+FROM base as runner
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN apt-get autoclean
-RUN apt-get clean
 WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
 COPY --from=installer /app/ .
-COPY --from=builder /app/out/full/ .
-# RUN apt-get install -y openssl
-# RUN npx prisma db pull && prisma generate
-# RUN apt-get update -y && apt-get install -y openssl
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
-# RUN cd apps/api && pnpm run prebuild
-# RUN npx prisma
-COPY .gitignore .gitignore
-RUN npx turbo run build  --filter=client...
-
-FROM --platform=linux/amd64 node:18-slim as runner
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate
-COPY --from=sourcer /app/ .
 WORKDIR /app/apps/client/
 CMD [ "pnpm", "dev" ]

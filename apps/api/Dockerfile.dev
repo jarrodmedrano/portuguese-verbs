@@ -1,53 +1,64 @@
-FROM --platform=linux/arm64 node:18-slim AS builder
+FROM node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get autoclean
 RUN apt-get clean
-RUN apt-get update
-RUN apt-get install -y openssl
+RUN apt-get update -qq && apt-get install -y openssl
+
+FROM base AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 # Set working directory
 WORKDIR /app
-
+RUN yarn global add turbo
 COPY . .
-RUN npx turbo prune --scope=api --docker
+
+# RUN turbo prune database --docker
+RUN turbo prune --scope=api --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM --platform=linux/arm64 node:18-slim AS installer
+FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update
+RUN apt-get install -y openssl
 WORKDIR /app
-
-# First install the dependencies (as they change less often)
+RUN yarn global add pnpm
+# First install dependencies (as they change less often)
 COPY .gitignore .gitignore
-COPY package.json ./package.json
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-RUN apt-get update -y && apt-get install -y openssl
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
-RUN npx prisma
+COPY packages/database /app/packages/database
+COPY apps/api /app/apps/api
+COPY apps/api/tsconfig.json /app/apps/api/tsconfig.json
 
-# Build the project
-COPY --from=builder /app/out/full/ .
-RUN apt-get update -y && apt-get install -y openssl
-RUN pnpm run prebuild
-RUN npx prisma generate
-RUN npx turbo run build --filter=api...
+## console log the contents of this directory
+RUN pnpm install
 
-FROM --platform=linux/arm64 node:18-slim AS runner
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+# Build the project and its dependencies
+
+# RUN mkdir -p packages/database
+# RUN mkdir -p apps/api
+# COPY --from=builder /app/out/full/ .
+COPY turbo.json turbo.json
+# Uncomment and use build args to enable remote caching
+# ARG TURBO_TEAM
+# ENV TURBO_TEAM=$TURBO_TEAM
+
+# ARG TURBO_TOKEN
+# ENV TURBO_TOKEN=$TURBO_TOKEN
+RUN pnpm turbo run build --filter=api...
+
+FROM base AS runner
 WORKDIR /app
+# # Don't run production as root
+RUN addgroup --system --gid 1001 expressjs
+RUN adduser --system --uid 1001 expressjs
+USER expressjs
 
-# Don't run production as root
-# RUN addgroup --system --gid 1001 expressjs
-# RUN adduser --system --uid 1001 expressjs
-# USER expressjs
-COPY --from=installer /app/apps/api/package.json .
-RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --no-frozen-lockfile
-COPY --from=installer /app/apps/api/dist .
-COPY --from=installer /app/apps/api/prisma ./prisma
-RUN npx prisma generate
-CMD node index.js
+EXPOSE 8080
+ENV PORT 8080
+COPY --from=installer /app .
+
+CMD node apps/api/dist/index.js
