@@ -139,10 +139,6 @@ resource "aws_ecs_task_definition" "verbecc" {
         {
           name  = "VERBECC_PORT"
           value = "${tostring(local.verbecc.container.port)}"
-        },
-        {
-          name  = "REDIS_URL"
-          value = "bb"
         }
       ]
       portMappings = [
