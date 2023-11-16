@@ -117,35 +117,6 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     setIsLoading(false);
   };
 
-  function findFirstArrayInString(str: string, index = 0, firstArrayStart = -1, bracketsCount = 0): string {
-    // Base case: if we've reached the end of the string, return null
-    if (index === str.length) {
-      return '';
-    }
-
-    // Current character in the string
-    const char = str[index];
-
-    // If we encounter an opening bracket, we need to increase our count
-    if (char === '[') {
-      bracketsCount++;
-      // If it's the first opening bracket we've found, mark its position
-      if (firstArrayStart === -1) {
-        firstArrayStart = index;
-      }
-    }
-    // If we encounter a closing bracket, we decrease our count
-    else if (char === ']') {
-      bracketsCount--;
-      // If our count is back to zero, we've found the end of the first complete array
-      if (bracketsCount === 0 && firstArrayStart !== -1) {
-        return str.substring(firstArrayStart, index + 1);
-      }
-    }
-
-    // Move to the next character in the string
-    return findFirstArrayInString(str, index + 1, firstArrayStart, bracketsCount);
-  }
   const mutation = trpc.aiQuestion.mutate.useMutation({
     onSuccess: (data) => {
       // eslint-disable-next-line no-console
@@ -158,7 +129,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
   });
 
   const stringifyArrays = (value: any) => {
-    if (typeof value !== 'object') {
+    if (typeof value !== 'object' && typeof value === 'string') {
       return value;
     } else if (Array.isArray(value)) {
       return value.join(', ');
@@ -217,17 +188,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       const content = result?.choices[0].message.content;
       // eslint-disable-next-line no-console
       console.log('content', content);
-      let initialStr = '';
-      if (content[0] === '[') {
-        initialStr = content;
-      } else if (content[0] === '{') {
-        initialStr = `[${content}]`;
-      } else {
-        initialStr = findFirstArrayInString(content);
-      }
-      // eslint-disable-next-line no-console
-      console.log('inti str', initialStr);
-      const dataJSON = JSON.parse(initialStr);
+      const dataJSON = JSON.parse(content);
       const parsedQuestion = questionType.safeParse(dataJSON);
       // eslint-disable-next-line no-console
       console.log('parsed', parsedQuestion);

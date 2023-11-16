@@ -7,6 +7,7 @@ import { SearchContext, withSearchContext } from '../contexts/SearchContext';
 import { Loading } from './Loading';
 // import { Sidebar } from './Sidebar';
 import classNames from 'classnames';
+import { SearchBar } from './SearchBar';
 
 export type CheckBoxVals = {
   [checked: string]: boolean;
@@ -26,9 +27,13 @@ export type VerbTableProps = {
 };
 
 const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpen }: VerbTableProps) => {
-  const { search } = useContext(SearchContext);
+  const { search, partialSearch, setSearch, setPartialSearch } = useContext(SearchContext);
   // @ts-ignore this
-  const { data, isLoading, isError, error } = trpc.useQuery(['verbecc.get', { verb: search ? search : verb, mood }]);
+  const { data, isLoading, isError, error } = trpc.useQuery([
+    'verbecc.get',
+    { verb: search ? search : verb, mood },
+    { language: 'pt-br' },
+  ]);
 
   const [values, setValues] = useState<CheckBoxVals>({});
   const { rows, columns } = useConjugation({ data, values });
@@ -85,6 +90,8 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
       ) : null}
 
       <div className={classNames(`p-4 ${sidebarIsOpen ? 'sm:ml-64' : 'sm:ml-20'}`)}>
+        <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
+
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
           <div className="mb-4 flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <Table

@@ -30,7 +30,7 @@ export const SearchBar = ({
       // @ts-ignore this
       if (data && data.name) {
         // @ts-ignore this
-        onChange(data?.name);
+        // onChange(data?.name);
       }
     }
   }, [results, onChange]);
