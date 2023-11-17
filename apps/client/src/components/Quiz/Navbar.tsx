@@ -20,12 +20,11 @@ const Navbar = ({}: NavbarProps) => {
       setSidebarIsOpen(true);
     }
   }, [screenWidth]);
-
   return (
     <>
       <aside
         id="default-sidebar"
-        className={`fixed inset-0 z-30 w-full translate-x-0 transform transition-transform sm:translate-x-0 md:h-full ${
+        className={`fixed inset-0 left-0 top-0 z-30 h-screen transform transition-transform sm:w-full sm:translate-x-0 md:h-full md:w-64  ${
           sidebarIsOpen ? 'pointer-events-auto sm:h-full' : 'pointer-events-none sm:h-64'
         }`}
         aria-label="Sidebar"
