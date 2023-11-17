@@ -32,6 +32,7 @@ model Question {
   dislikes    Int
   difficulty  String
   language    String
+  src         String @default("initial")
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 }

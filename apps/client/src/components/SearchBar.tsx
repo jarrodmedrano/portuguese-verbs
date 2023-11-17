@@ -5,7 +5,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { useSearch } from './hooks/useSearch';
 
 export const SearchBar = ({
-  onChange,
   onSubmit,
   options,
 }: {
@@ -33,7 +32,7 @@ export const SearchBar = ({
         // onChange(data?.name);
       }
     }
-  }, [results, onChange]);
+  }, [results]);
 
   const formik = useFormik({
     initialValues: {

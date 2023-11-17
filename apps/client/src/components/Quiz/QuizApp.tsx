@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Quiz from './Quiz';
 import { AppContext } from '../../contexts/AppContext';
 import { trpc } from '../../services';
@@ -16,20 +16,34 @@ export interface Question {
   dislikes: number;
   preferredLanguage: string;
   language: string;
+  orderBy: [
+    {
+      [key: string]: 'asc' | 'desc';
+    },
+  ];
+  src: string;
 }
 
 const QuizApp = () => {
   const { isLoading, setQuizQuestions, quizQuestions } = useContext(AppContext);
-  const { data } = trpc.questions.useQuery({
-    language: 'pt-br',
-  });
-
-  useEffect(() => {
-    if (data) {
-      setQuizQuestions(data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  const { data } = trpc.questions.useQuery(
+    {
+      language: 'pt-br',
+      orderBy: [
+        {
+          created_at: 'desc',
+        },
+      ],
+    },
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        setQuizQuestions(data);
+      },
+    },
+  );
+  // eslint-disable-next-line no-console
+  console.log('data', data);
 
   return (
     <>
@@ -41,7 +55,7 @@ const QuizApp = () => {
               <div className="m-10 flex items-center justify-center">
                 <Spinner size="lg" />
               </div>
-              Please be patient as Open AI is slow...
+              Please be patient...
             </>
           ) : (
             <Quiz questions={quizQuestions} />

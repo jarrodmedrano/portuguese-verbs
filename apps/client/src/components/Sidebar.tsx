@@ -8,6 +8,7 @@ import { AppContext } from '../contexts/AppContext';
 import { isArrayWithLength } from '../../utils/typeguards';
 import { Spinner } from './Spinner';
 import { z } from 'zod';
+import { Question } from './Quiz/QuizApp';
 
 const questionType = z.array(
   z.object({
@@ -29,7 +30,7 @@ const questionType = z.array(
   }),
 );
 export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOpen: boolean }) => {
-  const { setQuizQuestions, quizQuestions, setIsLoading, isLoading } = useContext(AppContext);
+  const { setQuizQuestions, quizQuestions, setIsLoading, isLoadingButton, setIsLoadingButton } = useContext(AppContext);
 
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
   // const { partialSearch, setPartialSearch, setSearch } = useContext(SearchContext);
@@ -40,6 +41,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     preferredLanguage?: string;
     language?: string;
     difficulty?: string;
+    source?: string;
   }>({});
 
   const { data } = trpc.questions.useQuery({
@@ -52,6 +54,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       verbType?: string[] | string;
       regularity?: string[] | string;
       tense?: string[] | string;
+      source?: string;
     } = { ...query };
 
     if (event.target.checked) {
@@ -117,7 +120,18 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     setIsLoading(false);
   };
 
-  const mutation = trpc.aiQuestion.mutate.useMutation({
+  const getAiQuestions = trpc.aiQuestion.mutate.useMutation({
+    onSuccess: (data) => {
+      // eslint-disable-next-line no-console
+      console.log('success', data);
+    },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.log('error', error);
+    },
+  });
+
+  const addAiQuestions = trpc.question.createMany.useMutation({
     onSuccess: (data) => {
       // eslint-disable-next-line no-console
       console.log('success', data);
@@ -137,11 +151,11 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
   };
 
   const handleGetMore = async () => {
-    setIsLoading(true);
+    setIsLoadingButton(true);
     try {
       const { difficulty, tense, verbType, regularity, language, preferredLanguage } = query;
 
-      const result = await mutation.mutateAsync({
+      const result = await getAiQuestions.mutateAsync({
         tense,
         regularity,
         verbType,
@@ -164,9 +178,10 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
             }. The translation SHOULD include the verb, not a blank space. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. Do not repeat questions. Answer text should be unique and not repeat. Only one answer can be correct. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
               [
                 {
-                  tense: query?.tense,
-                  regularity: query?.regularity,
-                  verbType: query?.verbType,
+                  tense: query?.tense || 'presente',
+                  regularity: query?.regularity || 'regular',
+                  verbType: query?.verbType || 'ar',
+                  difficulty: query?.difficulty || 'A1',
                   text: 'Eu ______ café todas as manhãs.',
                   translation: 'I drink coffee every morning.',
                   answers: [
@@ -193,21 +208,31 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       // eslint-disable-next-line no-console
       console.log('parsed', parsedQuestion);
       if (parsedQuestion.success) {
+        setIsLoading(true);
         // // setNewQuestions([...newQuestions, ...dataJSON]);
-        setQuizQuestions([...dataJSON, ...quizQuestions]);
+        // setQuizQuestions([...dataJSON, ...quizQuestions]);
+        addAiQuestions.mutate(
+          dataJSON.map((question: Question) => ({
+            ...question,
+            language: 'pt-br',
+            answers: JSON.stringify(question.answers),
+            src: 'generated',
+          })),
+        );
+        setIsLoading(false);
       }
-      setIsLoading(false);
+      setIsLoadingButton(false);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('err', error);
-      setIsLoading(false);
+      setIsLoadingButton(false);
     }
   };
 
   return (
     <div
-      className={`flex h-full flex-col items-center overflow-hidden bg-gray-900 text-gray-400 transition-all duration-300 ease-in-out ${
-        isOpen ? 'w-64 shadow-lg' : 'w-16'
+      className={`flex flex-col overflow-hidden bg-gray-900 text-gray-400 transition-all duration-300 ease-in-out md:h-full md:items-center ${
+        isOpen ? 'shadow-lg md:w-64' : 'md:w-16'
       }`}
     >
       <div className="h-full overflow-y-auto bg-gray-50 px-2 py-2 dark:bg-gray-800">
@@ -216,7 +241,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
             className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
           >
             <a
-              className="flex h-10 w-full items-center justify-center hover:text-gray-300"
+              className="pointer-events-auto flex h-10 w-full items-center justify-center hover:text-gray-300"
               href="#"
               onClick={handleClick}
             >
@@ -239,7 +264,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
           </li>
 
           <li
-            className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
+            className={`pointer-events-auto flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
           >
             <Switcher showLabel={isOpen} />
           </li>
@@ -305,11 +330,11 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
         {isOpen && (
           <button
             onClick={handleGetMore}
-            disabled={isLoading}
-            className="me-2 mb-5 inline-flex w-full items-center items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            disabled={isLoadingButton}
+            className="me-2 mb-5 inline-flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            {isLoading && <Spinner size="sm" />}
-            {isLoading ? 'Loading...' : 'Get More Questions'}
+            {isLoadingButton && <Spinner size="sm" />}
+            {isLoadingButton ? 'Loading...' : 'Get More Questions'}
           </button>
         )}
         {isOpen && (

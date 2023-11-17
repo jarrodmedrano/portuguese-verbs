@@ -2,7 +2,12 @@ import { inferredQuestionType, inferredGetQuestionType } from './types';
 import prisma from '../db';
 import { isRegularityType, isTenseType, isVerbType } from '../typeguards';
 
-export const getQuestions = async (input: inferredGetQuestionType): Promise<any[]> => {
+export const getQuestions = async (
+  input: inferredGetQuestionType,
+  // orderBy?: {
+  //   [key: string]: 'asc' | 'desc';
+  // }[],
+): Promise<any[]> => {
   const where = Object.fromEntries(Object.entries(input).filter(([, value]) => value !== undefined));
 
   let verbsWhere = {};
@@ -27,7 +32,14 @@ export const getQuestions = async (input: inferredGetQuestionType): Promise<any[
     };
   }
 
+  delete where.orderBy;
+
   return prisma.question.findMany({
+    orderBy: input?.orderBy || [
+      {
+        created_at: 'desc',
+      },
+    ],
     where: {
       ...where,
       ...verbsWhere,
@@ -57,6 +69,7 @@ export const createQuestion = async ({
   dislikes,
   difficulty,
   language,
+  src,
 }: inferredQuestionType): Promise<any> => {
   const question = await prisma.question.create({
     data: {
@@ -66,11 +79,12 @@ export const createQuestion = async ({
       text,
       translation,
       answers,
-      rating,
-      likes,
-      dislikes,
+      rating: rating || 0,
+      likes: likes || 0,
+      dislikes: dislikes || 0,
       difficulty,
       language,
+      src,
     },
   });
 
@@ -80,8 +94,23 @@ export const createQuestion = async ({
 export const createQuestions = async (input: inferredQuestionType[]): Promise<any> => {
   const question = await prisma.$transaction(
     input.map((question) => {
+      // eslint-disable-next-line no-console
+      console.log('input', question);
       return prisma.question.create({
-        data: question,
+        data: {
+          tense: question.tense,
+          regularity: question.regularity,
+          verbType: question.verbType,
+          text: question.text,
+          translation: question.translation,
+          answers: question.answers,
+          rating: question.rating || 0,
+          likes: question.likes || 0,
+          dislikes: question.dislikes || 0,
+          difficulty: question.difficulty,
+          language: question.language,
+          src: question.src,
+        },
       });
     }),
   );

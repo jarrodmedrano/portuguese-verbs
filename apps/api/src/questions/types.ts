@@ -20,6 +20,8 @@ export const inputGetQuestion = z.object({
   translation: z.string().optional(),
   created_at: z.date().optional(),
   updated_at: z.date().optional(),
+  src: z.string().optional(),
+  orderBy: z.array(z.record(z.string())).optional(),
 });
 
 export const inputQuestion = z.object({
@@ -29,13 +31,13 @@ export const inputQuestion = z.object({
   verbType: z.string(),
   difficulty: z.string(),
   language: z.string(),
-  preferredLanguage: z.string(),
   answers: z.string(),
   text: z.string(),
   translation: z.string(),
-  rating: z.number(),
-  likes: z.number(),
-  dislikes: z.number(),
+  rating: z.number().optional().default(0),
+  likes: z.number().optional().default(0),
+  dislikes: z.number().optional().default(0),
+  src: z.string(),
 });
 
 export const getQuestion = z.object({
@@ -54,6 +56,8 @@ export const getQuestion = z.object({
   rating: z.number(),
   likes: z.number(),
   dislikes: z.number(),
+  src: z.string().optional(),
+  orderBy: z.array(z.record(z.string())).optional(),
 });
 
 export type inferredGetQuestionType = z.infer<typeof inputGetQuestion>;

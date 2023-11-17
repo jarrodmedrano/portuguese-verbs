@@ -19,6 +19,7 @@ export type InputOpenAiQuestion = {
   language: string;
   preferredLanguage: string;
   messages: ChatCompletionRequestMessage[];
+  source?: string;
 };
 
 const stringifyArrays = (value: any) => {
@@ -61,6 +62,7 @@ export const getAIQuestion = async (input: InputOpenAiQuestion): Promise<string 
               { id: 'a3', text: 'bebemos', isCorrect: false },
               { id: 'a4', text: 'bebem', isCorrect: false },
             ],
+            src: 'generated',
           },
         ],
       )}}`,

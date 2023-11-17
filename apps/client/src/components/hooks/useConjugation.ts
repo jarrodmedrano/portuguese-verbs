@@ -45,7 +45,15 @@ export const useConjugation = ({
     .map((row, index) => {
       return {
         pronoun:
-          index === 0 ? 'eu' : index === 1 ? 'ele/ela/voce' : index === 2 ? 'nós' : index === 3 ? 'eles/elas' : '',
+          index === 0
+            ? 'eu'
+            : index === 1
+            ? 'ele/ela/voce'
+            : index === 2
+            ? 'nós'
+            : index === 3
+            ? 'eles/elas/voces'
+            : '',
         ...row,
       };
     });

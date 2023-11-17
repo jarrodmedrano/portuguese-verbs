@@ -25,7 +25,9 @@ const Navbar = ({}: NavbarProps) => {
     <>
       <aside
         id="default-sidebar"
-        className="fixed left-0 top-0 z-30 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className={`fixed inset-0 z-30 w-full translate-x-0 transform transition-transform sm:translate-x-0 md:h-full ${
+          sidebarIsOpen ? 'pointer-events-auto sm:h-full' : 'pointer-events-none sm:h-64'
+        }`}
         aria-label="Sidebar"
       >
         <Sidebar handleClick={handleSidebarClick} isOpen={sidebarIsOpen} />

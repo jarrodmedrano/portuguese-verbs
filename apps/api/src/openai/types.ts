@@ -19,6 +19,7 @@ export const inputOpenAIQuestion = z.object({
   language: z.string(),
   preferredLanguage: z.string(),
   messages: z.array(chatCompletionRequestMessageSchema),
+  src: z.string().optional(),
 });
 
 export type GetQuestionInput = z.infer<typeof inputOpenAIQuestion>;

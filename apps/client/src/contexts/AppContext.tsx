@@ -4,14 +4,13 @@ import { Question } from '../components/Quiz/QuizApp';
 
 interface AppContextProps {
   sidebarIsOpen: boolean;
-  // eslint-disable-next-line no-unused-vars
   setSidebarIsOpen: (isOpen: boolean) => void;
   quizQuestions: Question[];
-  // eslint-disable-next-line no-unused-vars
   setQuizQuestions: (questions: Question[]) => void;
   isLoading: boolean;
-  // eslint-disable-next-line no-unused-vars
   setIsLoading: (isLoading: boolean) => void;
+  isLoadingButton: boolean;
+  setIsLoadingButton: (isLoadingButton: boolean) => void;
 }
 
 export const AppContext = React.createContext<AppContextProps>({
@@ -21,6 +20,8 @@ export const AppContext = React.createContext<AppContextProps>({
   setQuizQuestions: () => [],
   isLoading: false,
   setIsLoading: () => false,
+  setIsLoadingButton: () => false,
+  isLoadingButton: false,
 });
 
 export const AppContextProvider = ({ children }: { children: any }) => {
@@ -28,10 +29,20 @@ export const AppContextProvider = ({ children }: { children: any }) => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
 
   return (
     <AppContext.Provider
-      value={{ sidebarIsOpen, setSidebarIsOpen, quizQuestions, setQuizQuestions, isLoading, setIsLoading }}
+      value={{
+        sidebarIsOpen,
+        setSidebarIsOpen,
+        quizQuestions,
+        setQuizQuestions,
+        isLoading,
+        setIsLoading,
+        isLoadingButton,
+        setIsLoadingButton,
+      }}
     >
       {children}
     </AppContext.Provider>
