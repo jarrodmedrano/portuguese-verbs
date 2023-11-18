@@ -236,6 +236,8 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       }`}
     >
       <div className="h-full overflow-y-auto bg-gray-50 px-2 py-2 dark:bg-gray-800">
+        <a href="/api/auth/login">Login</a>
+
         <ul className="space-y-1">
           <li
             className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
@@ -294,36 +296,6 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
                 Table of Verbs
               </Link>
             </li>
-
-            {/* <li
-            className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
-          >
-            {!isOpen ? (
-              <a
-                className="flex h-10 w-10 items-center justify-center hover:text-gray-300"
-                href="#"
-                onClick={handleClick}
-              >
-                <svg
-                  className="h-5 w-5 stroke-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </a>
-            ) : (
-              <div></div>
-              // <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
-            )}
-          </li> */}
           </ul>
         )}
 
@@ -346,6 +318,15 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
           </button>
         )}
         {isOpen && <Checkboxes isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />}
+        {isOpen && (
+          <div className="size-sm fixed inset-x-0 bottom-0 m-2 justify-center text-center text-sm ">
+            Copyright{' '}
+            <Link href="https://jarrodmedrano.com" target="_blank">
+              Jarrod Medrano
+            </Link>{' '}
+            &copy; {new Date().getFullYear()}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,20 +1,9 @@
-import { InferGetServerSidePropsType } from 'next';
-import WithQueryWrapper from '../src/components/QueryWrapper';
-import { VerbTableWithSearchContext } from '../src/components/VerbTable';
-import Navbar from '../src/components/Quiz/Navbar';
+'use client';
+import WithQueryWrapper from '../../src/components/QueryWrapper';
+import { VerbTableWithSearchContext } from '../../src/components/VerbTable';
+import Navbar from '../../src/components/Quiz/Navbar';
 
-export const getServerSideProps = async () => {
-  // eslint-disable-next-line no-console
-  console.log('api url', process.env.API_URL);
-
-  return {
-    props: {
-      apiUrl: process.env.API_URL || 'http://localhost:4000',
-    },
-  };
-};
-
-const Verbs = ({ apiUrl }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Verbs = ({ apiUrl }: { apiUrl: string }) => {
   return (
     <WithQueryWrapper apiUrl={apiUrl}>
       <VerbTableWithSearchContext

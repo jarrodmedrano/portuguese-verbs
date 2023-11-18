@@ -17,8 +17,13 @@
     "paths": {
       "api": ["../../apps/api"],
       "database": ["../../packages/database"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", "next.config.cjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", "next.config.cjs", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
