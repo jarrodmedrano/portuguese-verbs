@@ -15,6 +15,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  {
+    // eslint-disable-next-line no-console
+    console.log('client id', process.env.AUTH0_CLIENT_ID);
+  }
+
   return (
     <html lang="en">
       <UserProvider>
