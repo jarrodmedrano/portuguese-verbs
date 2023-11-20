@@ -142,7 +142,7 @@ importers:
   apps/client:
     dependencies:
       '@auth0/nextjs-auth0':
-        specifier: ^3.3.0
+        specifier: 3.3.0
         version: registry.npmjs.org/@auth0/nextjs-auth0@3.3.0(next@13.4.19)
       '@tanstack/react-query':
         specifier: 4.35.3
