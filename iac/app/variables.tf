@@ -65,3 +65,12 @@ variable "aws_profile" {
   type    = string
   default = null
 }
+
+variable "domain_name" {
+  type = string
+}
+
+variable "ttl" {
+  type    = number
+  default = 60
+}

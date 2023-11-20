@@ -9,6 +9,7 @@ import { isArrayWithLength } from '../../utils/typeguards';
 import { Spinner } from './Spinner';
 import { z } from 'zod';
 import { Question } from './Quiz/QuizApp';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const questionType = z.array(
   z.object({
@@ -30,6 +31,7 @@ const questionType = z.array(
   }),
 );
 export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOpen: boolean }) => {
+  const { user } = useUser();
   const { setQuizQuestions, quizQuestions, setIsLoading, isLoadingButton, setIsLoadingButton } = useContext(AppContext);
 
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
@@ -236,8 +238,6 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       }`}
     >
       <div className="h-full overflow-y-auto bg-gray-50 px-2 py-2 dark:bg-gray-800">
-        <a href="/api/auth/login">Login</a>
-
         <ul className="space-y-1">
           <li
             className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
@@ -284,7 +284,19 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
                 Home
               </Link>
             </li>
-
+            <li
+              className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
+            >
+              {!user ? (
+                <a className="flex h-10 w-full items-center justify-start hover:text-gray-300" href="/api/auth/login">
+                  Login
+                </a>
+              ) : (
+                <a className="flex h-10 w-full items-center justify-start hover:text-gray-300" href="/api/auth/logout">
+                  Logout
+                </a>
+              )}
+            </li>
             <li
               className={`flex items-center rounded-lg p-1 text-sm font-medium text-gray-900 hover:bg-gray-700 dark:text-white ${isOpenClass}`}
             >
