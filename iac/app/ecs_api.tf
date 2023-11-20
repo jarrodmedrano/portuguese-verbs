@@ -139,21 +139,8 @@ resource "aws_ecs_task_definition" "api" {
         {
           name  = "VERBECC_PORT"
           value = "${tostring(local.verbecc.container.port)}"
-        }
-      ]
-      portMappings = [
-        {
-          name          = local.api.container.name
-          containerPort = local.api.container.port
-          protocol      = "tcp"
-          appProtocol   = "http"
-        }, {
-          name          = local.verbecc.container.name
-          containerPort = local.verbecc.container.port
-          protocol      = "tcp"
-          appProtocol   = "http"
         },
-         {
+        {
           name = "OPENAI_API_KEY"
           valueFrom = var.open_ai_api_key
         },
@@ -176,6 +163,20 @@ resource "aws_ecs_task_definition" "api" {
         {
           name = "AUTH0_ISSUER_BASE_URL"
           valueFrom = var.auth0_issuer_base_url
+        }
+      ]
+      portMappings = [
+        {
+          name          = local.api.container.name
+          containerPort = local.api.container.port
+          protocol      = "tcp"
+          appProtocol   = "http"
+        },
+        {
+          name          = local.verbecc.container.name
+          containerPort = local.verbecc.container.port
+          protocol      = "tcp"
+          appProtocol   = "http"
         }
       ]
       # healthCheck = {
