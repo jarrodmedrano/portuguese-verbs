@@ -51,8 +51,6 @@ const seedQuestions = async () => {
   try {
     const questionsData = JSON.parse(fileContent);
 
-    console.log('questions', questionsData);
-
     if (!Array.isArray(questionsData)) {
       console.error('Invalid format: JSON file must contain an array of questions.');
       return;

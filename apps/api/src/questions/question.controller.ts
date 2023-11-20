@@ -94,8 +94,6 @@ export const createQuestion = async ({
 export const createQuestions = async (input: inferredQuestionType[]): Promise<any> => {
   const question = await prisma.$transaction(
     input.map((question) => {
-      // eslint-disable-next-line no-console
-      console.log('input', question);
       return prisma.question.create({
         data: {
           tense: question.tense,

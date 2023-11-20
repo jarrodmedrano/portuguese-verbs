@@ -105,6 +105,18 @@ resource "aws_lb" "main" {
   tags = local.common_tags
 }
 
+resource "aws_route53_record" "alias_route53_record" {
+  zone_id = aws_route53_zone.my_hosted_zone.zone_id # Replace with your zone ID
+  name    = var.domain_name # Replace with your name/domain/subdomain
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
 resource "aws_security_group" "lb" {
   name   = "${var.application}-lb"
   vpc_id = aws_vpc.main.id

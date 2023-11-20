@@ -37,14 +37,10 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('currentIndex', currentIndex);
     setCurrentQuestion(questions?.[currentIndex]);
   }, [currentIndex, questions]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('currentQuestion', currentQuestion);
     if (currentQuestion) {
       const a =
         typeof currentQuestion.answers === 'string' ? JSON.parse(currentQuestion.answers) : currentQuestion.answers;
@@ -60,15 +56,8 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
   }, [currentQuestion]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('questions', questions);
     setCurrentIndex(0);
   }, [questions]);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('shuffledAnswers', shuffledAnswers);
-  }, [shuffledAnswers]);
 
   return (
     <div className="rounded-md bg-white p-6 text-gray-900 shadow-lg dark:bg-gray-800 dark:text-white">

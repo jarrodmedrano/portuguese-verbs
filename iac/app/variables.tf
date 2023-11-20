@@ -74,3 +74,27 @@ variable "ttl" {
   type    = number
   default = 60
 }
+
+variable "open_ai_api_key" {
+  type = string
+}
+
+variable "auth0_secret" {
+  type = string
+}
+
+variable "auth0_base_url" {
+  type = string
+}
+
+variable "auth0_client_id" {
+  type = string
+}
+
+variable "auth0_client_secret" {
+  type = string
+}
+
+variable "auth0_issuer_base_url" {
+  type = string
+}

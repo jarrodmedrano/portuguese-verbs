@@ -20,8 +20,6 @@ export const SearchBar = ({
 
   useMemo(() => {
     if (results) {
-      // eslint-disable-next-line no-console
-      console.log('results', results);
       const {
         // @ts-ignore this
         results: { data },

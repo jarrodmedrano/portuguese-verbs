@@ -26,7 +26,7 @@ export interface Question {
 
 const QuizApp = () => {
   const { isLoading, setQuizQuestions, quizQuestions } = useContext(AppContext);
-  const { data } = trpc.questions.useQuery(
+  trpc.questions.useQuery(
     {
       language: 'pt-br',
       orderBy: [
@@ -42,8 +42,6 @@ const QuizApp = () => {
       },
     },
   );
-  // eslint-disable-next-line no-console
-  console.log('data', data);
 
   return (
     <>
