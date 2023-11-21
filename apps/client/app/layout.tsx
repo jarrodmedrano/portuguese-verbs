@@ -1,5 +1,6 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import '../src/styles/global.css';
+import { PublicEnvProvider } from 'next-runtime-env';
 
 import { Metadata } from 'next';
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserProvider>
-        <body className="dark:bg-gray-700">{children}</body>
+        <body className="dark:bg-gray-700">
+          <PublicEnvProvider>{children}</PublicEnvProvider>
+        </body>
       </UserProvider>
     </html>
   );

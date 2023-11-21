@@ -3,5 +3,5 @@ import HomePage from './home-page';
 export default async function Page() {
   // Fetch data directly in a Server Component
   // Forward fetched data to your Client Component
-  return <HomePage apiUrl={process.env.API_URL || 'http://localhost:4000'} />;
+  return <HomePage />;
 }

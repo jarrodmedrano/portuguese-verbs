@@ -18,6 +18,9 @@ module.exports = {
     };
     return config;
   },
+  serverRuntimeConfig: {
+    trpc_api: process.env.NEXT_PUBLIC_TRPC_API,
+  },
   publicRuntimeConfig: {
     // Will be available on both server and client
     trpc_api: process.env.NEXT_PUBLIC_TRPC_API,

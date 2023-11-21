@@ -183,6 +183,9 @@ importers:
       next:
         specifier: 13.4.19
         version: registry.npmjs.org/next@13.4.19(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)
+      next-runtime-env:
+        specifier: 2.0.1
+        version: registry.npmjs.org/next-runtime-env@2.0.1(react@18.2.0)
       react:
         specifier: 18.2.0
         version: registry.npmjs.org/react@18.2.0
@@ -5586,6 +5589,17 @@ packages:
     name: negotiator
     version: 0.6.3
     engines: {node: '>= 0.6'}
+    dev: false
+
+  registry.npmjs.org/next-runtime-env@2.0.1(react@18.2.0):
+    resolution: {integrity: sha512-ItEmjn9dC3JXP+0v2GihVffVgdwDHh9ezHi+D20pzPXICUe9qf8MQOgX3Jhj5GtGdQ3ILhWDv3uQ2VDfKOCiVA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/next-runtime-env/-/next-runtime-env-2.0.1.tgz}
+    id: registry.npmjs.org/next-runtime-env/2.0.1
+    name: next-runtime-env
+    version: 2.0.1
+    peerDependencies:
+      react: ^18
+    dependencies:
+      react: registry.npmjs.org/react@18.2.0
     dev: false
 
   registry.npmjs.org/next@13.4.19(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0):
