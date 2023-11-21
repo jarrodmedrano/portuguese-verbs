@@ -73,6 +73,11 @@ output "ecs_verbecc_image" {
   description = "ECS verbecc image"
 }
 
+output "internal_service_dns" {
+  value       = aws_service_discovery_http_namespace.main
+  description = "Internal service DNS"
+}
+
 
 # output "lb_tls_cert_secret" {
 #   value = aws_secretsmanager_secret.lb_tls_cert.id

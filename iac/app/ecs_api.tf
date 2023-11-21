@@ -128,7 +128,7 @@ resource "aws_ecs_task_definition" "api" {
           name  = "VERBECC_API"
           value = "https://${aws_lb.main.dns_name}:${tostring(local.verbecc.container.port)}"
         },
-        {
+         {
           name  = "TRPC_PORT"
           value = "${tostring(local.api.container.port)}"
         },
@@ -142,28 +142,28 @@ resource "aws_ecs_task_definition" "api" {
         },
         {
           name = "OPENAI_API_KEY"
-          valueFrom = var.open_ai_api_key
+          value = "${tostring(var.open_ai_api_key)}"
         },
         {
           name = "AUTH0_SECRET"
-          valueFrom = var.auth0_secret
+          value = "${tostring(var.auth0_secret)}"
         },
         {
           name = "AUTH0_CLIENT_SECRET"
-          valueFrom = var.auth0_client_secret
+          value = "${tostring(var.auth0_client_secret)}"
         },
         {
           name = "AUTH0_CLIENT_ID"
-          valueFrom = var.auth0_client_id
+          value = "${tostring(var.auth0_client_id)}"
         },
         {
           name = "AUTH0_BASE_URL"
-          valueFrom = var.auth0_base_url
+          value = "${tostring(var.auth0_base_url)}"
         },
         {
           name = "AUTH0_ISSUER_BASE_URL"
-          valueFrom = var.auth0_issuer_base_url
-        }
+          value = "${tostring(var.auth0_issuer_base_url)}"
+        },
       ]
       portMappings = [
         {
