@@ -120,7 +120,7 @@ resource "aws_ecs_task_definition" "app" {
           value = "https://${aws_lb.main.dns_name}"
         },
         {
-          name  = "NEXT_PUBLIC_API_URL"
+          name  = "NEXT_PUBLIC_TRPC_API"
           value = "https://api.${aws_lb.main.dns_name}"
         },
          {
@@ -130,7 +130,7 @@ resource "aws_ecs_task_definition" "app" {
          {
           name  = "NEXT_PUBLIC_VERBECC_API"
           value = "https://${aws_lb.main.dns_name}:${tostring(local.verbecc.container.port)}"
-        },
+        }, 
        {
           name  = "NEXT_PUBLIC_TRPC_PORT"
           value = "${tostring(local.api.container.port)}"
@@ -166,6 +166,10 @@ resource "aws_ecs_task_definition" "app" {
         {
           name = "NEXT_PUBLIC_AUTH0_ISSUER_BASE_URL"
           value = "${tostring(var.auth0_issuer_base_url)}"
+        },
+        {
+          name = "Johhn"
+          value = "Doe"
         }
       ]
       portMappings = [
