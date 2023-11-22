@@ -1,25 +1,25 @@
-FROM node:18-slim AS base
+FROM --platform=linux/amd64 node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update -qq && apt-get install -y openssl
+
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update both files!
 
-FROM base AS builder
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+FROM --platform=linux/amd64 base AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 # Set working directory
 WORKDIR /app
+COPY ./entrypoint.sh .
+COPY ./.env.production .
+RUN chmod u+x entrypoint.sh
 RUN yarn global add turbo
 COPY . .
 #RUN pnpm global add turbo
 RUN turbo prune --scope=client --docker
 
 # Add lockfile and package.json's of  isolated subworkspace
-FROM base AS installer
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+FROM --platform=linux/amd64 base AS installer
 RUN apt-get update
 RUN apt-get update -qq && \
     apt-get install -y openssl
@@ -49,19 +49,22 @@ COPY turbo.json turbo.json
 RUN pnpm turbo run build --filter=client...
 # CMD ["tail", "-f", "/dev/null"]
 
-FROM base as runner
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-WORKDIR /app
+FROM --platform=linux/amd64 base as runner
+WORKDIR /apps
+COPY --from=builder /app/entrypoint.sh .
+COPY --from=builder /app/.env.production .
+RUN chmod u+x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
+
 # ENV NODE_ENV production
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
-
 COPY --from=installer /app/apps/client/next.config.js .
 COPY --from=installer /app/apps/client/package.json .
+
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
@@ -69,6 +72,7 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
 # COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/client/start.sh ./
+
 # COPY /app/apps/client/server.js ./
 # COPY --from=builder /app/apps/client/.env.local ./
 USER nextjs
@@ -79,4 +83,5 @@ ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 # CMD ["tail", "-f", "/dev/null"]
+# RUN ["/bin/sh", "entrypoint.sh"]
 CMD ["node", "apps/client/server.js"]
