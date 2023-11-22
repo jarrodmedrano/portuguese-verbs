@@ -16,7 +16,7 @@ const HomePage = ({ apiUrl }: { apiUrl: string }) => {
   // eslint-disable-next-line no-console
   console.log('env public', NEXT_PUBLIC_TRPC_API);
   // eslint-disable-next-line no-console
-  console.log('apiUrl', apiUrl);
+  console.log('apiUrl', process.env.NEXT_PUBLIC_TRPC_API);
 
   return (
     <WithQueryWrapper apiUrl={apiUrl}>
