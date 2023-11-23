@@ -1,6 +1,3 @@
-x-aws-vpc: ${AWS_VPC}
-x-aws-cluster: ${AWS_ECS_CLUSTER}
-x-aws-loadbalancer: ${AWS_ELB}
 volumes:
   database:
     driver: local

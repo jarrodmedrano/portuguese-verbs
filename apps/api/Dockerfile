@@ -53,8 +53,8 @@ RUN pnpm turbo run build --filter=api...
 FROM base AS runner
 WORKDIR /app
 # # Don't run production as root
-RUN addgroup --system --gid 1001 expressjs
-RUN adduser --system --uid 1001 expressjs
+RUN addgroup --system --gid 1005 expressjs
+RUN adduser --system --uid 1006 expressjs
 USER expressjs
 
 EXPOSE 8080

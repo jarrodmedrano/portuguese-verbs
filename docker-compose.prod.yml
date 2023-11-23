@@ -1,41 +1,37 @@
-x-aws-vpc: ${AWS_VPC}
-x-aws-cluster: ${AWS_ECS_CLUSTER}
-x-aws-loadbalancer: ${AWS_ELB}
-
 services:
-  verbecc:
-    container_name: verbecc
-    image: bretttolbert/verbecc-svc:latest
-    restart: always
-    ports:
-      - 8000:8000
-    networks:
-      - app_network
-    expose:
-      - '8000'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
-  api:
-    container_name: api
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile
-    restart: always
-    ports:
-      - 4000:4000
-    networks:
-      - app_network
-    expose:
-      - '4000'
-    environment:
-      - VERBECC_API_URL=verbecc
-      - TRPC_PORT=4000
-    volumes:
-      - ./apps/api:/app/apps/api
-      - /app/node_modules
-      - /app/dist
-      - /app/
-    image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
+  # verbecc:
+  #   container_name: verbecc
+  #   image: bretttolbert/verbecc-svc:latest
+  #   restart: always
+  #   ports:
+  #     - 8000:8000
+  #   networks:
+  #     - app_network
+  #   expose:
+  #     - '8000'
+  #   extra_hosts:
+  #     - 'host.docker.internal:host-gateway'
+  # api:
+  #   container_name: api
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/api/Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 4000:4000
+  #   networks:
+  #     - app_network
+  #   expose:
+  #     - '4000'
+  #   environment:
+  #     - VERBECC_API_URL=verbecc
+  #     - TRPC_PORT=4000
+  #   volumes:
+  #     - ./apps/api:/app/apps/api
+  #     - /app/node_modules
+  #     - /app/dist
+  #     - /app/
+  #   image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
   client:
     container_name: client
     build:
@@ -55,15 +51,15 @@ services:
       - /app/node_modules
       - /app/.next
     image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
-  reverse-proxy:
-    image: nginx:latest
-    container_name: nginx_container
-    ports:
-      - 3050:80
-    volumes:
-      - ./packages/config/nginx.conf:/etc/nginx/nginx.conf
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+  # reverse-proxy:
+  #   image: nginx:latest
+  #   container_name: nginx_container
+  #   ports:
+  #     - 3050:80
+  #   volumes:
+  #     - ./packages/config/nginx.conf:/etc/nginx/nginx.conf
+  #   extra_hosts:
+  #     - 'host.docker.internal:host-gateway'
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
 networks:
