@@ -23,7 +23,6 @@ RUN apt-get update -qq && \
     apt-get install -y openssl
 WORKDIR /app
 RUN yarn global add pnpm
-
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
@@ -44,7 +43,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN pnpm turbo run build --filter=client...
+# RUN pnpm turbo run build --filter=client...
 # CMD ["tail", "-f", "/dev/null"]
 
 FROM --platform=linux/amd64 base as runner
@@ -83,9 +82,9 @@ RUN chown -R nextjs:nodejs ./apps/client/.env.production
 USER nextjs
 
 EXPOSE 3000
-
+ENV NODE_ENV production
 ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 # RUN ["/bin/sh", "entrypoint.sh"]
-CMD ["node", "apps/client/server.js"]
+CMD ["sh", "./start.sh"]
