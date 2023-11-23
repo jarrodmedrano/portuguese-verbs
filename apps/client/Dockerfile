@@ -64,6 +64,8 @@ ENTRYPOINT ["sh", "./entrypoint.sh"]
 # Don't run production as root
 RUN addgroup --system --gid 1012 nodejs
 RUN adduser --system --uid 1013 nextjs
+RUN apt-get install grep
+RUN apt-get install sudo
 # RUN chmod u+x ./apps/client/.env.production
 # USER nextjs
 # COPY --from=installer /app/apps/client/next.config.js .

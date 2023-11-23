@@ -5,7 +5,7 @@ import Navbar from '../src/components/Quiz/Navbar';
 import { useEnvContext } from 'next-runtime-env';
 import getConfig from 'next/config';
 
-const HomePage = ({ apiUrl }: { apiUrl: string }) => {
+const HomePage = () => {
   const { publicRuntimeConfig, serverRuntimeConfig } = getConfig() || {};
   // eslint-disable-next-line no-console
   console.log('public', publicRuntimeConfig);
@@ -19,7 +19,7 @@ const HomePage = ({ apiUrl }: { apiUrl: string }) => {
   console.log('apiUrl', process.env.NEXT_PUBLIC_TRPC_API);
 
   return (
-    <WithQueryWrapper apiUrl={apiUrl}>
+    <WithQueryWrapper apiUrl={NEXT_PUBLIC_TRPC_API || 'localhost:4000'}>
       <QuizApp />
       <Navbar />
     </WithQueryWrapper>
