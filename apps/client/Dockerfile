@@ -43,7 +43,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-# RUN pnpm turbo run build --filter=client...
+RUN pnpm turbo run build --filter=client...
 # CMD ["tail", "-f", "/dev/null"]
 
 FROM --platform=linux/amd64 base as runner
