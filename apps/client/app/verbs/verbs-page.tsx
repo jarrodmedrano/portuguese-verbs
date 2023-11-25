@@ -2,6 +2,7 @@
 import WithQueryWrapper from '../../src/components/QueryWrapper';
 import { VerbTableWithSearchContext } from '../../src/components/VerbTable';
 import Navbar from '../../src/components/Quiz/Navbar';
+import { trpc } from '../../utils/trpc';
 
 const Verbs = () => {
   return (
@@ -27,4 +28,4 @@ const Verbs = () => {
   );
 };
 
-export default Verbs;
+export default trpc.withTRPC(Verbs);
