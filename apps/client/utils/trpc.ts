@@ -10,7 +10,7 @@ export const trpc = createTRPCNext<TRPCRouter>({
            * If you want to use SSR, you need to use the server's full URL
            * @link https://trpc.io/docs/ssr
            **/
-          url: `${process.env.NEXT_PUBLIC_TRPC_API}/api/trpc`,
+          url: `${process.env.NEXT_PUBLIC_TRPC_API}/trpc`,
           // You can pass any HTTP headers you wish here
           async headers() {
             return {
