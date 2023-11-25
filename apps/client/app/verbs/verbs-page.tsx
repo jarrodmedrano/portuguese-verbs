@@ -2,18 +2,10 @@
 import WithQueryWrapper from '../../src/components/QueryWrapper';
 import { VerbTableWithSearchContext } from '../../src/components/VerbTable';
 import Navbar from '../../src/components/Quiz/Navbar';
-import { useEnvContext } from 'next-runtime-env';
 
 const Verbs = () => {
-  const { NEXT_PUBLIC_TRPC_API } = useEnvContext();
-  // eslint-disable-next-line no-console
-  console.log('public', NEXT_PUBLIC_TRPC_API);
-
-  const myEnvVar = process.env.NEXT_PUBLIC_TRPC_API;
-  // eslint-disable-next-line no-console
-  console.log('myEnvVar', myEnvVar);
   return (
-    <WithQueryWrapper apiUrl={NEXT_PUBLIC_TRPC_API || ''}>
+    <WithQueryWrapper>
       <VerbTableWithSearchContext
         filters={[
           'presente',

@@ -36,7 +36,7 @@ resource "aws_ecs_service" "api" {
   network_configuration {
     subnets          = aws_subnet.private.*.id
     assign_public_ip = false
-    security_groups  = [aws_security_group.api_service.id]
+    security_groups  = [aws_security_group.api_service.id, aws_security_group.app_service.id]
   }
 
   deployment_controller {
@@ -60,7 +60,7 @@ resource "aws_security_group" "api_service" {
     to_port   = 0
     protocol  = "-1"
     # Only allow traffic in from the app service security group
-    security_groups = [aws_security_group.app_service.id]
+    security_groups = [aws_security_group.app_service.id, aws_security_group.lb.id]
   }
 
   egress {
@@ -114,19 +114,19 @@ resource "aws_ecs_task_definition" "api" {
         },
         {
           name  = "APP_URL"
-          value = "https://${aws_lb.main.dns_name}"
+          value = "http://${aws_lb.main.dns_name}"
         },
-         {
+        {
           name  = "API_URL"
-          value = "https://${aws_lb.main.dns_name}:${tostring(local.api.container.port)}"
+          value = "http://${local.api.container.name}:${tostring(local.api.container.port)}"
         },
          {
           name  = "VERBECC_URL"
-          value = "https://${aws_lb.main.dns_name}:${tostring(local.verbecc.container.port)}"
+          value = "http://${local.verbecc.container.name}:${tostring(local.verbecc.container.port)}"
         },
          {
           name  = "VERBECC_API"
-          value = "https://${aws_lb.main.dns_name}:${tostring(local.verbecc.container.port)}"
+          value = "http://${local.verbecc.container.name}:${tostring(local.verbecc.container.port)}"
         },
          {
           name  = "TRPC_PORT"
@@ -139,31 +139,7 @@ resource "aws_ecs_task_definition" "api" {
         {
           name  = "VERBECC_PORT"
           value = "${tostring(local.verbecc.container.port)}"
-        },
-        {
-          name = "OPENAI_API_KEY"
-          value = "${tostring(var.open_ai_api_key)}"
-        },
-        {
-          name = "AUTH0_SECRET"
-          value = "${tostring(var.auth0_secret)}"
-        },
-        {
-          name = "AUTH0_CLIENT_SECRET"
-          value = "${tostring(var.auth0_client_secret)}"
-        },
-        {
-          name = "AUTH0_CLIENT_ID"
-          value = "${tostring(var.auth0_client_id)}"
-        },
-        {
-          name = "AUTH0_BASE_URL"
-          value = "${tostring(var.auth0_base_url)}"
-        },
-        {
-          name = "AUTH0_ISSUER_BASE_URL"
-          value = "${tostring(var.auth0_issuer_base_url)}"
-        },
+        }
       ]
       portMappings = [
         {
@@ -171,8 +147,7 @@ resource "aws_ecs_task_definition" "api" {
           containerPort = local.api.container.port
           protocol      = "tcp"
           appProtocol   = "http"
-        },
-        {
+        }, {
           name          = local.verbecc.container.name
           containerPort = local.verbecc.container.port
           protocol      = "tcp"

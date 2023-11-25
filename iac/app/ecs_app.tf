@@ -116,60 +116,32 @@ resource "aws_ecs_task_definition" "app" {
           value = tostring(local.app.container.port)
         },
         {
-          name  = "NEXT_PUBLIC_APP_URL"
-          value = "https://${aws_lb.main.dns_name}"
+          name  = "APP_URL"
+          value = "http://${aws_lb.main.dns_name}"
         },
         {
           name  = "NEXT_PUBLIC_TRPC_API"
-          value = "https://api.${aws_lb.main.dns_name}"
+          value = "http://api:${tostring(local.api.container.port)}"
         },
          {
-          name  = "NEXT_PUBLIC_VERBECC_URL"
-          value = "https://${aws_lb.main.dns_name}:${tostring(local.verbecc.container.port)}"
+          name  = "VERBECC_URL"
+          value = "http://verbecc:${tostring(local.verbecc.container.port)}"
         },
          {
-          name  = "NEXT_PUBLIC_VERBECC_API"
-          value = "https://${aws_lb.main.dns_name}:${tostring(local.verbecc.container.port)}"
-        }, 
+          name  = "VERBECC_API"
+          value = "http://verbecc:${tostring(local.verbecc.container.port)}"
+        },
        {
-          name  = "NEXT_PUBLIC_TRPC_PORT"
+          name  = "TRPC_PORT"
           value = "${tostring(local.api.container.port)}"
         },
         {
-          name  = "NEXT_PUBLIC_CLIENT_PORT"
+          name  = "CLIENT_PORT"
           value = "${tostring(local.app.container.port)}"
         },
         {
-          name  = "NEXT_PUBLIC_VERBECC_PORT"
+          name  = "VERBECC_PORT"
           value = "${tostring(local.verbecc.container.port)}"
-        },
-        {
-          name = "NEXT_PUBLIC_OPENAI_API_KEY"
-          value = "${tostring(var.open_ai_api_key)}"
-        },
-        {
-          name = "NEXT_PUBLIC_AUTH0_SECRET"
-          value = "${tostring(var.auth0_secret)}"
-        },
-        {
-          name = "NEXT_PUBLIC_AUTH0_CLIENT_SECRET"
-          value = "${tostring(var.auth0_client_secret)}"
-        },
-        {
-          name = "NEXT_PUBLIC_AUTH0_CLIENT_ID"
-          value = "${tostring(var.auth0_client_id)}"
-        },
-        {
-          name = "NEXT_PUBLIC_AUTH0_BASE_URL"
-          value = "${tostring(var.auth0_base_url)}"
-        },
-        {
-          name = "NEXT_PUBLIC_AUTH0_ISSUER_BASE_URL"
-          value = "${tostring(var.auth0_issuer_base_url)}"
-        },
-        {
-          name = "Johhn"
-          value = "boe"
         }
       ]
       portMappings = [

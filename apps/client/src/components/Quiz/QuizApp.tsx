@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import Quiz from './Quiz';
 import { AppContext } from '../../contexts/AppContext';
-import { trpc } from '../../services';
 import { Spinner } from '../Spinner';
+import { trpc } from '../../../utils/trpc';
 
 export interface Question {
   text: string;
