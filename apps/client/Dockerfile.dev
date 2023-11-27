@@ -25,6 +25,7 @@ RUN apt-get update -qq && \
     apt-get install -y openssl
 WORKDIR /app
 RUN yarn global add pnpm
+ENTRYPOINT ["sh", "./entrypoint.sh"]
 
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore

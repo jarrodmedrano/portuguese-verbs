@@ -9,6 +9,7 @@ module.exports = {
     },
   },
   rules: {
+    // '@next/next/no-html-link-for-pages': ['error', 'apps/client/pages/'],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/no-default-export': ['warn'],
     'react/jsx-uses-react': 'off',
