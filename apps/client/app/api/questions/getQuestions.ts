@@ -9,7 +9,7 @@ export const getQuestions = async () => {
   // eslint-disable-next-line no-console
   console.log('me', process.env.NEXT_PUBLIC_TRPC_API);
   const res = await fetch(
-    `http://api:8080/trpc/questions,questions?batch=1&input=%7B%220%22%3A%7B%22language%22%3A%22pt-br%22%2C%22orderBy%22%3A%5B%7B%22created_at%22%3A%22desc%22%7D%5D%7D%2C%221%22%3A%7B%22language%22%3A%22pt-br%22%7D%7D`,
+    `${process.env.NEXT_PUBLIC_TRPC_API}/trpc/questions,questions?batch=1&input=%7B%220%22%3A%7B%22language%22%3A%22pt-br%22%2C%22orderBy%22%3A%5B%7B%22created_at%22%3A%22desc%22%7D%5D%7D%2C%221%22%3A%7B%22language%22%3A%22pt-br%22%7D%7D`,
   );
   // eslint-disable-next-line no-console
   console.log('res', res);
