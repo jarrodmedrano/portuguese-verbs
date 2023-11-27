@@ -168,6 +168,9 @@ importers:
       api:
         specifier: 1.0.0
         version: link:../api
+      axios:
+        specifier: 1.2.6
+        version: registry.npmjs.org/axios@1.2.6
       classnames:
         specifier: 2.3.2
         version: registry.npmjs.org/classnames@2.3.2

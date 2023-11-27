@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Switcher } from './Switcher';
 import Link from 'next/link';
 import { Checkboxes } from './Quiz/Checkboxes';
@@ -10,6 +10,7 @@ import { Spinner } from './Spinner';
 import { z } from 'zod';
 import { Question } from './Quiz/QuizApp';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { getQuestions } from '../../app/api/questions/getQuestions';
 
 const questionType = z.array(
   z.object({
@@ -46,10 +47,22 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     source?: string;
   }>({});
 
-  const { data } = trpc.questions.useQuery({
-    language: 'pt-br',
-    ...query,
-  });
+  const handleGetQuestions: () => Promise<Question[]> = useCallback(async () => {
+    const result = await getQuestions({
+      language: 'pt-br',
+      ...query,
+    });
+    const data = result[0].result.data;
+    setQuizQuestions(data);
+    return data;
+  }, [query, setQuizQuestions]);
+
+  useEffect(() => {
+    if (query) {
+      handleGetQuestions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   const switchHandler = (event: ChangeEvent<HTMLInputElement>, queryParam: 'verbType' | 'regularity' | 'tense') => {
     const newQuery: {
@@ -96,12 +109,12 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     }
   };
 
-  useEffect(() => {
-    if (data) {
-      setQuizQuestions(data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setQuizQuestions(data);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
 
   useEffect(() => {
     if (!isOpen) {

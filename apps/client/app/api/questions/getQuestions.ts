@@ -1,26 +1,29 @@
-import { notFound } from 'next/navigation';
+'use server';
+
+import axios from 'axios';
+
 // `server-only` guarantees any modules that import code in file
 // will never run on the client. Even though this particular api
 // doesn't currently use sensitive environment variables, it's
 // good practise to add `server-only` preemptively.
 import 'server-only';
-import { Question } from '../../../src/components/Quiz/QuizApp';
-export const getQuestions = async () => {
-  // eslint-disable-next-line no-console
-  console.log('me', process.env.NEXT_PUBLIC_TRPC_API);
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_TRPC_API}/trpc/questions,questions?batch=1&input=%7B%220%22%3A%7B%22language%22%3A%22pt-br%22%2C%22orderBy%22%3A%5B%7B%22created_at%22%3A%22desc%22%7D%5D%7D%2C%221%22%3A%7B%22language%22%3A%22pt-br%22%7D%7D`,
-  );
-  // eslint-disable-next-line no-console
-  console.log('res', res);
-  if (!res.ok) {
-    // Render the closest `error.js` Error Boundary
-    throw new Error('Something went wrong!');
+export const getQuestions = async ({ ...args }) => {
+  try {
+    // eslint-disable-next-line no-console
+    console.log('me', process.env.NEXT_PUBLIC_TRPC_API);
+    // eslint-disable-next-line no-console
+    console.log('args', args);
+    const res = await axios.get(
+      `http://api:8080/trpc/questions,questions?batch=1&input=${JSON.stringify({
+        '0': args,
+        '1': args,
+      })}`,
+    );
+    // eslint-disable-next-line no-console
+    console.log('res', res);
+    return res.data;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
   }
-  const questions = (await res.json()) as Question[];
-  if (questions.length === 0) {
-    // Render the closest `not-found.js` Error Boundary
-    notFound();
-  }
-  return questions;
 };
