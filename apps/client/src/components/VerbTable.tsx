@@ -7,7 +7,7 @@ import { Loading } from './Loading';
 // import { Sidebar } from './Sidebar';
 import classNames from 'classnames';
 import { SearchBar } from './SearchBar';
-import { getVerbs } from '../../app/api/verbs/getVerbs';
+import { getConjugation } from '../../app/api/conjugations/getConjugation';
 
 export type CheckBoxVals = {
   [checked: string]: boolean;
@@ -32,31 +32,30 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<any>();
   const { search, partialSearch, setSearch, setPartialSearch } = useContext(SearchContext);
-  // @ts-ignore this
-  // const { data, isLoading, isError, error } = trpc.useQuery([
-  //   'verbecc.get',
-  //   { verb: search ? search : verb, mood },
-  //   { language: 'pt-br' },
-  // ]);
   const [values, setValues] = useState<CheckBoxVals>({});
 
-  const handleGetVerbs: () => Promise<Verb[]> = useCallback(async () => {
-    const result = await getVerbs({ verb: search ? search : verb, mood });
-    const { data, isLoading, isError, error } = result;
-    if (data) {
-      setData(data);
-      // for each filter check or uncheck the box
-      const newVals: { [checked: string]: boolean } = {};
-      filters.forEach((filt: string) => {
-        newVals[filt] = true;
-      });
-      setValues(newVals);
+  const handleGetVerbs: () => Promise<Verb | undefined> = useCallback(async () => {
+    try {
+      const data = await getConjugation({ verb: search ? search : verb, mood });
+      // // eslint-disable-next-line no-console
+      if (data) {
+        setData(data);
+        // for each filter check or uncheck the box
+        const newVals: { [checked: string]: boolean } = {};
+        filters.forEach((filt: string) => {
+          newVals[filt] = true;
+        });
+        setValues(newVals);
+      }
+      setIsLoading(isLoading);
+      setError(error);
+      setIsError(isError);
+      return data;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
-    setIsLoading(isLoading);
-    setError(error);
-    setIsError(isError);
-    return data;
-  }, [search, verb, mood, filters]);
+  }, [error, filters, isError, isLoading, mood, search, verb]);
   useEffect(() => {
     handleGetVerbs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
