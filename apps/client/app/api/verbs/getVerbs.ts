@@ -1,21 +1,24 @@
 'use server';
 
 import axios from 'axios';
+
 import 'server-only';
-export const getQuestions = async ({ ...args }) => {
+export const getVerbs = async ({ ...args }) => {
   try {
     // eslint-disable-next-line no-console
     console.log('me', process.env.NEXT_PUBLIC_TRPC_API);
     // eslint-disable-next-line no-console
     console.log('args', args);
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_TRPC_API}/trpc/questions,questions?batch=1&input=${JSON.stringify({
+      `${process.env.NEXT_PUBLIC_TRPC_API}/trpc/verbecc.get?batch=1&input=${JSON.stringify({
         '0': args,
-        '1': args,
+        '1': {
+          language: 'pt-br',
+        },
       })}`,
     );
     // eslint-disable-next-line no-console
-    // console.log('res', res);
+    console.log('res DATA DATA DATA', res);
     return res.data;
   } catch (error) {
     // eslint-disable-next-line no-console

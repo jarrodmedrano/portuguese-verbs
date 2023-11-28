@@ -160,25 +160,19 @@ resource "aws_lb_target_group" "main" {
   depends_on = [aws_lb.main]
 }
 
-# resource "aws_acm_certificate" "lb_tls_cert" {
-#   private_key      = data.aws_secretsmanager_secret_version.lb_tls_key_latest_ver.secret_string
-#   certificate_body = data.aws_secretsmanager_secret_version.lb_tls_key_latest_ver.secret_string
-# }
+resource "aws_lb_listener" "https_listener" {
+  load_balancer_arn = aws_lb.main.id
+  port              = 443
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.my_certificate_request.arn
 
-// Comment out https for now
-# resource "aws_lb_listener" "https_listener" {
-#   load_balancer_arn = aws_lb.main.id
-#   port              = 443
-#   protocol          = "HTTPS"
-#   # certificate_arn   = aws_acm_certificate.lb_tls_cert.id
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.main.id
+  }
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.main.id
-#   }
-
-#   tags = local.common_tags
-# }
+  tags = local.common_tags
+}
 
 resource "aws_lb_listener" "http_redirect_listener" {
   load_balancer_arn = aws_lb.main.id
@@ -186,19 +180,14 @@ resource "aws_lb_listener" "http_redirect_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.main.id
-  }
-// Comment out https for now
-  # default_action {
-  #   type = "redirect"
+    type = "redirect"
 
-  #   redirect {
-  #     port        = "443"
-  #     protocol    = "HTTPS"
-  #     status_code = "HTTP_301"
-  #   }
-  # }
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
 
   tags = local.common_tags
 }

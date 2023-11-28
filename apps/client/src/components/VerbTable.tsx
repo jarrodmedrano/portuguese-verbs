@@ -1,6 +1,5 @@
 import 'react-tailwind-table/dist/index.css';
-import { useEffect, useState, useContext } from 'react';
-import { trpc } from '../services';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import Table from 'react-tailwind-table';
 import { useConjugation } from './hooks/useConjugation';
 import { SearchContext, withSearchContext } from '../contexts/SearchContext';
@@ -8,6 +7,7 @@ import { Loading } from './Loading';
 // import { Sidebar } from './Sidebar';
 import classNames from 'classnames';
 import { SearchBar } from './SearchBar';
+import { getVerbs } from '../../app/api/verbs/getVerbs';
 
 export type CheckBoxVals = {
   [checked: string]: boolean;
@@ -27,15 +27,41 @@ export type VerbTableProps = {
 };
 
 const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpen }: VerbTableProps) => {
+  const [data, setData] = useState<Verb>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<any>();
   const { search, partialSearch, setSearch, setPartialSearch } = useContext(SearchContext);
   // @ts-ignore this
-  const { data, isLoading, isError, error } = trpc.useQuery([
-    'verbecc.get',
-    { verb: search ? search : verb, mood },
-    { language: 'pt-br' },
-  ]);
-
+  // const { data, isLoading, isError, error } = trpc.useQuery([
+  //   'verbecc.get',
+  //   { verb: search ? search : verb, mood },
+  //   { language: 'pt-br' },
+  // ]);
   const [values, setValues] = useState<CheckBoxVals>({});
+
+  const handleGetVerbs: () => Promise<Verb[]> = useCallback(async () => {
+    const result = await getVerbs({ verb: search ? search : verb, mood });
+    const { data, isLoading, isError, error } = result;
+    if (data) {
+      setData(data);
+      // for each filter check or uncheck the box
+      const newVals: { [checked: string]: boolean } = {};
+      filters.forEach((filt: string) => {
+        newVals[filt] = true;
+      });
+      setValues(newVals);
+    }
+    setIsLoading(isLoading);
+    setError(error);
+    setIsError(isError);
+    return data;
+  }, [search, verb, mood, filters]);
+  useEffect(() => {
+    handleGetVerbs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const { rows, columns } = useConjugation({ data, values });
 
   const handleChange = (event: any) => {
@@ -45,17 +71,6 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
       [event.target.name]: event.target.checked,
     }));
   };
-
-  useEffect(() => {
-    if (data) {
-      // for each filter check or uncheck the box
-      const newVals: { [checked: string]: boolean } = {};
-      filters.forEach((filt: string) => {
-        newVals[filt] = true;
-      });
-      setValues(newVals);
-    }
-  }, [filters, data]);
 
   return (
     <div className={`dark:bg-gray-700 dark:text-white`}>

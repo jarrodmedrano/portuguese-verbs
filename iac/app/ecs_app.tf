@@ -142,6 +142,10 @@ resource "aws_ecs_task_definition" "app" {
         {
           name  = "VERBECC_PORT"
           value = "${tostring(local.verbecc.container.port)}"
+        },
+        {
+          name  = "b"
+          value = "s"
         }
       ]
       portMappings = [
