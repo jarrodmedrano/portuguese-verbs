@@ -5,18 +5,24 @@ import { getVerbs } from '../../../app/api/verbs/getVerbs';
 export const useSearch = (query: string) => {
   const [isSearching, setIsSearching] = useState(false);
   const debouncedQuery = useDebounce(query, 1000);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<{ name: string; id: number }>();
   // const results = trpc.verb.getMany;
 
   const handleGetVerbs: () => Promise<void> = useCallback(async () => {
-    const result = await getVerbs({
-      name: debouncedQuery,
+    const result: [
+      {
+        result: {
+          data: {
+            name: string;
+            id: number;
+          };
+        };
+      },
+    ] = await getVerbs({
+      name: debouncedQuery || '',
     });
-    const data = result[0].result.data;
-    // eslint-disable-next-line no-console
-    console.log('data', result);
-    setResults(data);
-    // return data;
+
+    setResults(result[0].result.data);
   }, [debouncedQuery, setResults]);
 
   useEffect(() => {

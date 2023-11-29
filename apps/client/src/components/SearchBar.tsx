@@ -4,31 +4,24 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { useSearch } from './hooks/useSearch';
 
-export const SearchBar = ({
-  onSubmit,
-  options,
-}: {
-  onChange: Dispatch<SetStateAction<string>>;
-  options: string[];
-  onSubmit: Dispatch<SetStateAction<string>>;
-}) => {
+export const SearchBar = ({ onSubmit }: { onSubmit: Dispatch<SetStateAction<string>> }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [cursor, setCursor] = useState(-1);
   const ref = useRef<HTMLFormElement>(null);
   const [query, setQuery] = useState('');
-  const results = useSearch(query);
+  const { results } = useSearch(query);
+  const [partialSearch, setPartialSearch] = useState<string>('');
+  const [options, setOptions] = useState([partialSearch]);
+
+  useEffect(() => {
+    if (partialSearch) {
+      setOptions([partialSearch]);
+    }
+  }, [partialSearch]);
 
   useMemo(() => {
     if (results) {
-      const {
-        // @ts-ignore this
-        results: { data },
-      } = results;
-      // @ts-ignore this
-      if (data && data.name) {
-        // @ts-ignore this
-        // onChange(data?.name);
-      }
+      setPartialSearch(results.name);
     }
   }, [results]);
 
@@ -83,18 +76,18 @@ export const SearchBar = ({
   };
 
   useEffect(() => {
-    // const listener = (e: { target: any }) => {
-    //   if (ref?.current && !ref.current.contains(e.target)) {
-    //     setShowOptions(false);
-    //     setCursor(-1);
-    //   }
-    // };
-    // document.addEventListener('click', listener);
-    // document.addEventListener('focusin', listener);
-    // return () => {
-    //   document.removeEventListener('click', listener);
-    //   document.removeEventListener('focusin', listener);
-    // };
+    const listener = (e: { target: any }) => {
+      if (ref?.current && !ref.current.contains(e.target)) {
+        setShowOptions(false);
+        setCursor(-1);
+      }
+    };
+    document.addEventListener('click', listener);
+    document.addEventListener('focusin', listener);
+    return () => {
+      document.removeEventListener('click', listener);
+      document.removeEventListener('focusin', listener);
+    };
   }, []);
 
   return (

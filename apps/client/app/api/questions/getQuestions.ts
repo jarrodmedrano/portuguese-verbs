@@ -9,7 +9,7 @@ export const getQuestions = async ({ ...args }) => {
     // eslint-disable-next-line no-console
     console.log('args', args);
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_TRPC_API}/trpc/questions,questions?batch=1&input=${JSON.stringify({
+      `http://api:8080/trpc/questions,questions?batch=1&input=${JSON.stringify({
         '0': args,
         '1': args,
       })}`,

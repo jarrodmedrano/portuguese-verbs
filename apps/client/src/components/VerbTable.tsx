@@ -31,7 +31,7 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<any>();
-  const { search, partialSearch, setSearch, setPartialSearch } = useContext(SearchContext);
+  const { search, setSearch } = useContext(SearchContext);
   const [values, setValues] = useState<CheckBoxVals>({});
   const handleGetConjugation: () => Promise<Verb | undefined> = useCallback(async () => {
     try {
@@ -58,7 +58,7 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
   useEffect(() => {
     handleGetConjugation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [search]);
 
   const { rows, columns } = useConjugation({ data, values });
 
@@ -96,14 +96,14 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
         </div>
       )}
 
-      {(isError || !data) && !isLoading ? (
+      {isError && !isLoading ? (
         <div className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700" role="alert">
           Error: {JSON.stringify(error?.message)}
         </div>
       ) : null}
 
       <div className={classNames(`p-4 ${sidebarIsOpen ? 'sm:ml-64' : 'sm:ml-20'}`)}>
-        <SearchBar options={[partialSearch]} onChange={setPartialSearch} onSubmit={setSearch} />
+        <SearchBar onSubmit={setSearch} />
 
         <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
           <div className="mb-4 flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
