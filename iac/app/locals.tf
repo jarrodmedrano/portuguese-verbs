@@ -20,6 +20,13 @@ locals {
       port  = 8000
     }
   }
+  auth0 = {
+    client_id = var.auth0_client_id
+    client_secret = var.auth0_client_secret
+    issuer_base_url = var.auth0_issuer_base_url
+    base_url = var.auth0_base_url
+    secret = var.auth0_secret
+  }
   common_tags = {
     application = var.application
     environment = var.environment

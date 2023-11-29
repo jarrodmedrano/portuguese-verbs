@@ -144,8 +144,24 @@ resource "aws_ecs_task_definition" "app" {
           value = "${tostring(local.verbecc.container.port)}"
         },
         {
-          name  = "b"
-          value = "s"
+          name = "AUTH0_BASE_URL"
+          value = "https://${local.auth0.domain}"
+        },
+        {
+          name = "AUTH0_CLIENT_ID"
+          value =  "${tostring(local.auth0.client_id)}"
+        },
+        {
+          name = "AUTH0_CLIENT_SECRET"
+          value =  "${tostring(local.auth0.client_secret)}"
+        },
+        {
+          name = "AUTH0_ISSUER_BASE_URL"
+          value =  "${tostring(local.auth0.issuer_base_url)}"
+        },
+        {
+          name = "AUTH0_SECRET"
+          value =  "${tostring(local.auth0.secret)}"
         }
       ]
       portMappings = [
