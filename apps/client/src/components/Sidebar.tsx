@@ -109,13 +109,6 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     }
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setQuizQuestions(data);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
-
   useEffect(() => {
     if (!isOpen) {
       setIsOpenClass('justify-center');

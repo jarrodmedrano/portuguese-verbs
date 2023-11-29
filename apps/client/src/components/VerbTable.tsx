@@ -33,8 +33,7 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
   const [error, setError] = useState<any>();
   const { search, partialSearch, setSearch, setPartialSearch } = useContext(SearchContext);
   const [values, setValues] = useState<CheckBoxVals>({});
-
-  const handleGetVerbs: () => Promise<Verb | undefined> = useCallback(async () => {
+  const handleGetConjugation: () => Promise<Verb | undefined> = useCallback(async () => {
     try {
       const data = await getConjugation({ verb: search ? search : verb, mood });
       // // eslint-disable-next-line no-console
@@ -57,7 +56,7 @@ const VerbTable: React.FC<VerbTableProps> = ({ verb, mood, filters, sidebarIsOpe
     }
   }, [error, filters, isError, isLoading, mood, search, verb]);
   useEffect(() => {
-    handleGetVerbs();
+    handleGetConjugation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
