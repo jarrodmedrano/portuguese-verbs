@@ -145,7 +145,7 @@ resource "aws_ecs_task_definition" "app" {
         },
         {
           name = "AUTH0_BASE_URL"
-          value = "https://${local.auth0.domain}"
+          value = "${tostring(local.auth0.base_url)}"
         },
         {
           name = "AUTH0_CLIENT_ID"

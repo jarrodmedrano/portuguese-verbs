@@ -3,14 +3,15 @@ import { Switcher } from './Switcher';
 import Link from 'next/link';
 import { Checkboxes } from './Quiz/Checkboxes';
 import { ChangeEvent } from 'react';
-import { trpc } from '../services';
 import { AppContext } from '../contexts/AppContext';
 import { isArrayWithLength } from '../../utils/typeguards';
 import { Spinner } from './Spinner';
 import { z } from 'zod';
 import { Question } from './Quiz/QuizApp';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { getAiQuestions } from '../../app/api/openai/getAiQuestions';
 import { getQuestions } from '../../app/api/questions/getQuestions';
+import { postQuestions } from '../../app/api/questions/postQuestions';
 
 const questionType = z.array(
   z.object({
@@ -128,27 +129,30 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     setIsLoading(false);
   };
 
-  const getAiQuestions = trpc.aiQuestion.mutate.useMutation({
-    onSuccess: (data) => {
-      // eslint-disable-next-line no-console
-      console.log('success', data);
-    },
-    onError: (error) => {
-      // eslint-disable-next-line no-console
-      console.log('error', error);
-    },
-  });
+  const handleGetAiQuestions = useCallback(async ({ ...args }) => {
+    try {
+      const data = await getAiQuestions({ ...args });
 
-  const addAiQuestions = trpc.question.createMany.useMutation({
-    onSuccess: (data) => {
+      return data;
+    } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('success', data);
-    },
-    onError: (error) => {
+      console.error(error);
+    }
+  }, []);
+
+  const addAiQuestions = useCallback(async (args: Question[]) => {
+    // eslint-disable-next-line no-console
+    console.log('args', args);
+    try {
+      const res = await postQuestions(args);
       // eslint-disable-next-line no-console
-      console.log('error', error);
-    },
-  });
+      console.log('res', res);
+      return res;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, []);
 
   const stringifyArrays = (value: any) => {
     if (typeof value !== 'object' && typeof value === 'string') {
@@ -163,7 +167,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
     try {
       const { difficulty, tense, verbType, regularity, language, preferredLanguage } = query;
 
-      const result = await getAiQuestions.mutateAsync({
+      const result = await handleGetAiQuestions({
         tense,
         regularity,
         verbType,
@@ -208,7 +212,8 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       // eslint-disable-next-line no-console
       console.log('result', result);
       // @ts-ignore this line
-      const content = result?.choices[0].message.content;
+      const content = result?.[0]?.result?.data?.choices?.[0]?.message?.content;
+      // const content = result?.choices[0].message.content;
       // eslint-disable-next-line no-console
       console.log('content', content);
       const dataJSON = JSON.parse(content);
@@ -219,14 +224,13 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
         setIsLoading(true);
         // // setNewQuestions([...newQuestions, ...dataJSON]);
         // setQuizQuestions([...dataJSON, ...quizQuestions]);
-        addAiQuestions.mutate(
-          dataJSON.map((question: Question) => ({
-            ...question,
-            language: 'pt-br',
-            answers: JSON.stringify(question.answers),
-            src: 'generated',
-          })),
-        );
+        const newQuestions: Question[] = dataJSON.map((question: Question) => ({
+          ...question,
+          language: 'pt-br',
+          answers: JSON.stringify(question.answers),
+          src: 'generated',
+        }));
+        addAiQuestions(newQuestions);
         setIsLoading(false);
       }
       setIsLoadingButton(false);
