@@ -98,7 +98,7 @@ resource "aws_ecs_task_definition" "verbecc" {
       image     = "${var.account}.dkr.ecr.${var.aws_region}.amazonaws.com/${lower(var.application)}:verbecc"
       essential = true
       secrets   = []
-      enable_execute_command   = true
+      enable_execute_command   = false
       environment = [
         {
           name  = "NAME"

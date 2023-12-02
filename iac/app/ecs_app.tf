@@ -95,7 +95,7 @@ resource "aws_ecs_task_definition" "app" {
       name      = local.app.container.name
       image     = "${var.account}.dkr.ecr.${var.aws_region}.amazonaws.com/${lower(var.application)}:client"
       essential = true
-      enable_execute_command   = true
+      enable_execute_command   = false
       secrets = [
         # {
         #   name      = "SECRET"
