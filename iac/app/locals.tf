@@ -31,4 +31,7 @@ locals {
     application = var.application
     environment = var.environment
   }
+  open_ai = {
+    api_key = var.open_ai_api_key
+  }
 }

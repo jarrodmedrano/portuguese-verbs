@@ -3,10 +3,11 @@ import '../src/styles/global.css';
 import { PublicEnvProvider } from 'next-runtime-env';
 
 import { Metadata } from 'next';
+import GoogleAnalytics from './GoogleAnalytics';
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Welcome to Next.js',
+  title: 'Conjugame!',
+  description: 'Test your knowledge of conjugation',
 };
 
 export default function RootLayout({
@@ -18,6 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <GoogleAnalytics />
       <UserProvider>
         <body className="dark:bg-gray-700">
           <PublicEnvProvider>{children}</PublicEnvProvider>

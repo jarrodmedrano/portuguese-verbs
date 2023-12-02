@@ -55,10 +55,14 @@ WORKDIR /app
 # # Don't run production as root
 RUN addgroup --system --gid 1005 expressjs
 RUN adduser --system --uid 1006 expressjs
+COPY --from=installer /app .
+
+RUN chown -R expressjs /app/apps/api/node_modules/database/prisma/dev.db
+RUN chmod 755 /app/apps/api/node_modules/database/prisma/dev.db
+
 USER expressjs
 
 EXPOSE 8080
 ENV PORT 8080
-COPY --from=installer /app .
 
 CMD node apps/api/dist/index.js

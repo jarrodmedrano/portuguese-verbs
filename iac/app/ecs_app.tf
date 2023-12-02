@@ -162,6 +162,10 @@ resource "aws_ecs_task_definition" "app" {
         {
           name = "AUTH0_SECRET"
           value =  "${tostring(local.auth0.secret)}"
+        },
+        {
+          name = "OPENAI_API_KEY",
+          value =  "${tostring(local.open_ai.api_key)}"
         }
       ]
       portMappings = [
