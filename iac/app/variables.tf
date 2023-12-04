@@ -98,3 +98,15 @@ variable "auth0_client_secret" {
 variable "auth0_issuer_base_url" {
   type = string
 }
+
+variable "db_password" {
+  type = string
+}
+
+variable "db_username" {
+  type = string
+}
+
+variable "rds_url" {
+  type = string
+}

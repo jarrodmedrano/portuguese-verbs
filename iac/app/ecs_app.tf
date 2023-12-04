@@ -166,6 +166,10 @@ resource "aws_ecs_task_definition" "app" {
         {
           name = "OPENAI_API_KEY",
           value =  "${tostring(local.open_ai.api_key)}"
+        },
+        {
+          name = "DATABASE_URL",
+          value =  "${tostring(local.database.url)}"
         }
       ]
       portMappings = [

@@ -78,6 +78,11 @@ output "aws_ecs_service_app" {
   description = "ECS service app"
 }
 
+output "aws_db_instance" {
+  value       = aws_db_instance.conjugamedb.endpoint
+  description = "RDS instance"
+}
+
 # output "lb_tls_cert_secret" {
 #   value = aws_secretsmanager_secret.lb_tls_cert.id
 #   description = "TLS cert for load-balancer"

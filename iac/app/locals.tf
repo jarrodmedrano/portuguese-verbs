@@ -27,6 +27,9 @@ locals {
     base_url = var.auth0_base_url
     secret = var.auth0_secret
   }
+  database = {
+    url = var.rds_url
+  }
   common_tags = {
     application = var.application
     environment = var.environment
