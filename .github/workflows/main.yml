@@ -55,6 +55,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           CLIENT_PATH: ./apps/client
           API_PATH: ./apps/api
         run: |
