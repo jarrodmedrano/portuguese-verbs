@@ -1,9 +1,9 @@
+# syntax=docker/dockerfile:1.3.1
 #!/bin/sh
 FROM --platform=linux/amd64 node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update -qq && apt-get install -y openssl
-
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update both files!
 
@@ -42,7 +42,15 @@ COPY turbo.json turbo.json
 
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
+# RUN echo "${/run/secrets/dburl:0:5} ... ${/run/secrets/dburl:5}"
+# COPY --from=builder /app/apps/client/echos.sh .
+# RUN chmod +x ./echos.sh
 
+# RUN --mount=type=secret,id=dburl,required \
+#    export DB_URL=$(cat /run/secrets/dburl) && \
+#    ./echos.sh
+# RUN chmod +x /app/packages/database/generate_prisma.sh
+# RUN ["sh", "/app/packages/database/generate_prisma.sh"]
 RUN pnpm turbo run build --filter=client...
 # CMD ["tail", "-f", "/dev/null"]
 
@@ -64,8 +72,6 @@ ENTRYPOINT ["sh", "./entrypoint.sh"]
 # Don't run production as root
 RUN addgroup --system --gid 1012 nodejs
 RUN adduser --system --uid 1013 nextjs
-RUN apt-get install grep
-RUN apt-get install sudo
 # RUN chmod u+x ./apps/client/.env.production
 # USER nextjs
 # COPY --from=installer /app/apps/client/next.config.js .

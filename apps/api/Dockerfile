@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.3.1
 FROM node:18-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -57,8 +58,8 @@ RUN addgroup --system --gid 1005 expressjs
 RUN adduser --system --uid 1006 expressjs
 COPY --from=installer /app .
 
-RUN chown -R expressjs /app/apps/api/node_modules/database/prisma/dev.db
-RUN chmod 755 /app/apps/api/node_modules/database/prisma/dev.db
+# RUN chown -R expressjs /app/apps/api/node_modules/database/prisma/dev.db
+# RUN chmod 755 /app/apps/api/node_modules/database/prisma/dev.db
 
 USER expressjs
 

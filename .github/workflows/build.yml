@@ -1,0 +1,88 @@
+---
+name: Build and Push Image to AWS ECR
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      DB_URL:
+        required: true
+      ECR_REPOSITORY:
+        required: true
+jobs:
+  build-and-push:
+    name: Build and Push to ECR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.8.0
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: chmod
+        run: chmod -R +x ./.github
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Enable Docker BuildKit
+        run: echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
+      # - name: Build
+      #   run: npx nps build
+      #   env:
+      #     DB_URL: ${{ secrets.DB_URL }}
+
+      - name: Test
+        run: npx nps test
+      - name: Automatic Tagging of Releases
+        id: increment-git-tag
+        run: |
+          bash ./.github/scripts/build.sh -v major
+      - name: Create ECR Repo if it doesn't exist yet
+        id: ecr
+        uses: int128/create-ecr-repository-action@v1
+        with:
+          repository: ${{ secrets.ECR_REPOSITORY }}
+      - name: 'Create env file'
+        run: |
+          cd ./packages/database
+          echo "DB_URL=${{ secrets.DB_URL }}" > .env
+      - name: Build, Tag, and Push the Image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+          CLIENT_PATH: ./apps/client
+          API_PATH: ./apps/api
+          DB_URL: ${{ secrets.DB_URL }}
+        run: |
+          echo "Building the Docker image to $ECR_REGISTRY..."
+          docker build --build-arg=DB_URL=$DB_URL -t $ECR_REGISTRY/${ECR_REPOSITORY}:client . -f ${CLIENT_PATH}/Dockerfile
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:client
+          docker build --build-arg=DB_URL=$DB_URL -t $ECR_REGISTRY/${ECR_REPOSITORY}:api . -f ${API_PATH}/Dockerfile
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:api
+          # [other docker commands]
+          # docker pull bretttolbert/verbecc-svc:latest
+          # docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
+          # docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
+          # docker pull nginx:latest
+          # docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
+          # docker push $ECR_REGISTRY/${ECR_REPOSITORY}:nginx

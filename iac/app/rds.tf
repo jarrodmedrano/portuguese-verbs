@@ -2,6 +2,9 @@ data "aws_availability_zones" "available" {}
 
 resource "aws_vpc" "db_vpc" {
   cidr_block = "10.0.0.0/16"
+
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "subnet_a" {
@@ -22,6 +25,30 @@ resource "aws_db_subnet_group" "conjugamedb" {
 
   tags = local.common_tags
 }
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.db_vpc.id
+}
+
+resource "aws_route_table" "r" {
+  vpc_id = aws_vpc.db_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.subnet_a.id
+  route_table_id = aws_route_table.r.id
+}
+
+resource "aws_route_table_association" "b" {
+  subnet_id      = aws_subnet.subnet_b.id
+  route_table_id = aws_route_table.r.id
+}
+
 
 resource "aws_security_group" "rds" {
   name   = "conjugamedb_rds"
@@ -75,7 +102,7 @@ resource "aws_db_instance" "conjugamedb" {
   db_subnet_group_name   = aws_db_subnet_group.conjugamedb.name
   vpc_security_group_ids = [aws_security_group.rds.id]
   parameter_group_name   = aws_db_parameter_group.conjugamedb.name
-  publicly_accessible    = false
+  publicly_accessible    = true
 
   backup_retention_period = 7
   backup_window = "03:00-04:00"

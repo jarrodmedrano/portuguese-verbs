@@ -145,7 +145,7 @@ resource "aws_ecs_task_definition" "api" {
           value =  "${tostring(local.open_ai.api_key)}"
         },
         {
-          name = "DATABASE_URL",
+          name = "DB_URL",
           value =  "${tostring(local.database.url)}"
         }
       ]
