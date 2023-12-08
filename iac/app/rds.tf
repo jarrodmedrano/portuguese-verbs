@@ -51,7 +51,7 @@ resource "aws_route_table_association" "b" {
 
 
 resource "aws_security_group" "rds" {
-  name   = "conjugamedb_rds"
+  name   = "conjugamedb_rds_old"
   vpc_id = aws_vpc.db_vpc.id
 
   ingress {

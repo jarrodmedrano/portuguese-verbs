@@ -83,6 +83,11 @@ output "aws_db_instance" {
   description = "RDS instance"
 }
 
+output "aws_db_instance_new" {
+  value       = aws_db_instance.dbconjugame.endpoint
+  description = "RDS instance new"
+}
+
 # output "lb_tls_cert_secret" {
 #   value = aws_secretsmanager_secret.lb_tls_cert.id
 #   description = "TLS cert for load-balancer"
