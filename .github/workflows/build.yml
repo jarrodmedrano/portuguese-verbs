@@ -80,9 +80,9 @@ jobs:
           docker build --build-arg=DB_URL=$DB_URL -t $ECR_REGISTRY/${ECR_REPOSITORY}:api . -f ${API_PATH}/Dockerfile
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}:api
           # [other docker commands]
-          # docker pull bretttolbert/verbecc-svc:latest
-          # docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
-          # docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
-          # docker pull nginx:latest
-          # docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
-          # docker push $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
+          docker pull bretttolbert/verbecc-svc:latest
+          docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
+          docker pull nginx:latest
+          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
+          docker push $ECR_REGISTRY/${ECR_REPOSITORY}:nginx

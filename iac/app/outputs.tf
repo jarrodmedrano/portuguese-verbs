@@ -78,10 +78,10 @@ output "aws_ecs_service_app" {
   description = "ECS service app"
 }
 
-output "aws_db_instance" {
-  value       = aws_db_instance.conjugamedb.endpoint
-  description = "RDS instance"
-}
+# output "aws_db_instance" {
+#   value       = aws_db_instance.conjugamedb.endpoint
+#   description = "RDS instance"
+# }
 
 output "aws_db_instance_new" {
   value       = aws_db_instance.dbconjugame.endpoint
