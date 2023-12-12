@@ -110,3 +110,8 @@ variable "db_username" {
 variable "rds_url" {
   type = string
 }
+
+variable "nginx_image_tag" {
+  type    = string
+  default = "latest"
+}

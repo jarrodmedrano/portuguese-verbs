@@ -59,7 +59,7 @@ resource "aws_db_instance" "dbconjugame" {
   db_subnet_group_name   = aws_db_subnet_group.dbconjugame.name
   vpc_security_group_ids = [aws_security_group.sgrds.id]
   parameter_group_name   = aws_db_parameter_group.dbconjugame.name
-  publicly_accessible    = false
+  publicly_accessible    = true
 
   backup_retention_period = 7
   backup_window = "03:00-04:00"

@@ -1,4 +1,11 @@
 locals {
+  nginx = {
+    container = {
+      name  = "nginx"
+      image = "${var.ecr_repository}:${var.nginx_image_tag}"
+      port  = 8080
+    }
+  }
   app = {
     container = {
       name  = "app"
@@ -6,6 +13,7 @@ locals {
       port  = 8080
     }
   }
+  
   api = {
     container = {
       name  = "api"
