@@ -84,8 +84,6 @@ jobs:
           docker pull bretttolbert/verbecc-svc:latest
           docker tag bretttolbert/verbecc-svc:latest $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
-          # docker pull nginx:latest
           docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:nginx . -f ${NGINX_PATH}/Dockerfile
-          docker tag nginx:latest $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
           rm .env
