@@ -86,4 +86,3 @@ jobs:
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}:verbecc
           docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:nginx . -f ${NGINX_PATH}/Dockerfile
           docker push $ECR_REGISTRY/${ECR_REPOSITORY}:nginx
-          rm .env
