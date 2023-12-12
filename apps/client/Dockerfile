@@ -81,7 +81,7 @@ RUN adduser --system --uid 1013 nextjs
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/client/.next/static ./apps/client/.next/static
-# COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
+COPY --from=installer --chown=nextjs:nodejs /app/apps/client/public ./apps/client/public
 # COPY --from=builder --chown=nextjs:nodejs /app/apps/client/start.sh ./
 RUN chown -R nextjs:nodejs ./apps/client
 RUN chown -R nextjs:nodejs ./apps/client/.env.production

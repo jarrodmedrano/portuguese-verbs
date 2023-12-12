@@ -60,7 +60,7 @@ resource "aws_security_group" "verbecc_service" {
     to_port   = 0
     protocol  = "-1"
     # Only allow traffic in from the app service security group
-    security_groups = [aws_security_group.api_service.id, aws_security_group.app_service.id, aws_security_group.nginx_service.id]
+    security_groups = [aws_security_group.api_service.id, aws_security_group.app_service.id]
   }
 
   egress {
