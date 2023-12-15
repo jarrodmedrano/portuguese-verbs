@@ -36,7 +36,7 @@ resource "aws_ecs_service" "api" {
   network_configuration {
     subnets          = aws_subnet.private.*.id
     assign_public_ip = false
-    security_groups  = [aws_security_group.api_service.id, aws_security_group.app_service.id, aws_security_group.nginx_service.id]
+    security_groups  = [aws_security_group.api_service.id, aws_security_group.app_service.id]
   }
 
   deployment_controller {
