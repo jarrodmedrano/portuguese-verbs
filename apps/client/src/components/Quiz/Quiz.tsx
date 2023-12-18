@@ -17,8 +17,8 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
   const [formattedAnswers, setFormattedAnswers] = useState<Answer[]>([]);
 
   useEffect(() => {
-    if (currentQuestion && questions?.length) {
-      setLastQuestion(!!(currentIndex === questions?.length ? questions.length - 1 : 0));
+    if (currentQuestion && questions && questions.length) {
+      setLastQuestion(currentIndex === questions?.length - 1);
     }
   }, [currentIndex, currentQuestion, questions]);
 
