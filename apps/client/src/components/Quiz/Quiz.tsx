@@ -93,7 +93,7 @@ const Quiz = ({ questions }: { questions?: Question[] }) => {
           <div className="flex justify-between">
             {currentIndex !== 0 && (
               <button
-                className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+                className="mr-5 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
                 onClick={handlePrevClick}
               >
                 Previous Question

@@ -46,8 +46,8 @@ const QuizApp = () => {
   return (
     <>
       <div className="flex h-screen ">
-        <div className="m-auto w-full max-w-md rounded border px-10 py-10 text-center  dark:bg-gray-800 dark:text-white">
-          <h1 className="text-3xl font-bold">Conjugame</h1>
+        <div className="mt-[100px] w-full max-w-md rounded border py-10 text-center dark:bg-gray-800 dark:text-white  sm:px-5 md:m-auto">
+          <h1 className="text-3xl font-bold ">Conjugame</h1>
 
           {isLoading ? (
             <>
