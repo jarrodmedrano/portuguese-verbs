@@ -22,7 +22,7 @@ export const useSearch = (query: string) => {
       name: debouncedQuery || '',
     });
 
-    setResults(result[0].result.data);
+    setResults(result?.[0]?.result?.data);
   }, [debouncedQuery, setResults]);
 
   useEffect(() => {

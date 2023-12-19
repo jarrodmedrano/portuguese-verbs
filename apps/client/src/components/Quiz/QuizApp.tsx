@@ -35,7 +35,7 @@ const QuizApp = () => {
         },
       ],
     });
-    const data = result[0].result.data;
+    const data = result?.[0]?.result?.data;
     setQuizQuestions(data);
     return data;
   }, [setQuizQuestions]);

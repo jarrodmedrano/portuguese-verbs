@@ -34,36 +34,35 @@ const questionType = z.array(
 );
 export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOpen: boolean }) => {
   const { user } = useUser();
-  const { setQuizQuestions, quizQuestions, setIsLoading, isLoadingButton, setIsLoadingButton } = useContext(AppContext);
+  const {
+    setQuizQuestions,
+    quizQuestions,
+    setIsLoading,
+    isLoadingButton,
+    setIsLoadingButton,
+    searchQuery,
+    setSearchQuery,
+  } = useContext(AppContext);
 
   const [isOpenClass, setIsOpenClass] = useState('justify-center');
   // const { partialSearch, setPartialSearch, setSearch } = useContext(SearchContext);
-  const [query, setQuery] = useState<{
-    tense?: string | string[];
-    regularity?: string | string[];
-    verbType?: string | string[];
-    preferredLanguage?: string;
-    language?: string;
-    difficulty?: string;
-    source?: string;
-  }>({});
 
   const handleGetQuestions: () => Promise<Question[]> = useCallback(async () => {
     const result = await getQuestions({
       language: 'pt-br',
-      ...query,
+      ...searchQuery,
     });
-    const data = result[0].result.data;
+    const data = result?.[0]?.result?.data;
     setQuizQuestions(data);
     return data;
-  }, [query, setQuizQuestions]);
+  }, [searchQuery, setQuizQuestions]);
 
   useEffect(() => {
-    if (query) {
+    if (searchQuery) {
       handleGetQuestions();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [searchQuery]);
 
   const switchHandler = (event: ChangeEvent<HTMLInputElement>, queryParam: 'verbType' | 'regularity' | 'tense') => {
     const newQuery: {
@@ -71,7 +70,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
       regularity?: string[] | string;
       tense?: string[] | string;
       source?: string;
-    } = { ...query };
+    } = { ...searchQuery };
 
     if (event.target.checked) {
       if (newQuery?.[queryParam] && Array.isArray(newQuery[queryParam])) {
@@ -82,7 +81,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
         newQuery[queryParam] = [event.target.value];
       }
     } else {
-      if (Array.isArray(newQuery[queryParam]) && isArrayWithLength(newQuery?.[queryParam]?.length)) {
+      if (Array.isArray(newQuery[queryParam]) && isArrayWithLength(newQuery?.[queryParam])) {
         newQuery[queryParam] = (newQuery[queryParam] as string[])?.filter(
           (item: string) => item !== event.target.value,
         );
@@ -90,7 +89,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
         delete newQuery[queryParam];
       }
     }
-    setQuery(newQuery);
+    setSearchQuery(newQuery);
   };
 
   const handleCheckboxSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +164,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
   const handleGetMore = async () => {
     setIsLoadingButton(true);
     try {
-      const { difficulty, tense, verbType, regularity, language, preferredLanguage } = query;
+      const { difficulty, tense, verbType, regularity, language, preferredLanguage } = searchQuery;
 
       const result = await handleGetAiQuestions({
         tense,
@@ -190,10 +189,10 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
             }. The translation SHOULD include the verb, not a blank space. the answer should be the same verb but in different conjugations. Do not include tu or vos form. Do not include the mais que perfecto form. Do not repeat questions. Answer text should be unique and not repeat. Make sure the JSON output is valid JSON. Only one answer can be correct. The questions should be an array of objects in this format but randomize the questions don't take this example literally: {${JSON.stringify(
               [
                 {
-                  tense: query?.tense || 'presente',
-                  regularity: query?.regularity || 'regular',
-                  verbType: query?.verbType || 'ar',
-                  difficulty: query?.difficulty || 'A1',
+                  tense: searchQuery?.tense || 'presente',
+                  regularity: searchQuery?.regularity || 'regular',
+                  verbType: searchQuery?.verbType || 'ar',
+                  difficulty: searchQuery?.difficulty || 'A1',
                   text: 'Eu ______ café todas as manhãs.',
                   translation: 'I drink coffee every morning.',
                   answers: [
@@ -339,7 +338,7 @@ export const Sidebar = ({ handleClick, isOpen }: { handleClick: () => void; isOp
             Shuffle
           </button>
         )}
-        {isOpen && <Checkboxes isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />}
+        {isOpen && <Checkboxes searchQuery={searchQuery} isOpen={isOpen} handleCheckbox={handleCheckboxSelect} />}
         {isOpen && (
           <div className="size-sm fixed inset-x-0 bottom-0 m-2 justify-center text-center text-sm ">
             Copyright{' '}

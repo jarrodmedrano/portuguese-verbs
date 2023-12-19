@@ -3,9 +3,11 @@ import { ChangeEvent } from 'react';
 export const Checkboxes = ({
   handleCheckbox,
   isOpen,
+  searchQuery,
 }: {
   handleCheckbox: (event: ChangeEvent<HTMLInputElement>) => void;
   isOpen: boolean;
+  searchQuery: { tense?: string | string[]; regularity?: string | string[]; verbType?: string | string[] };
 }) => {
   return (
     <div className={`${isOpen ? 'gap-4 md:grid-cols-3' : 'md:grid-cols-1'} grid  `} id="grid gap-4 md:grid-cols-3">
@@ -23,7 +25,17 @@ export const Checkboxes = ({
         { value: 'futuro-do-preterito', color: 'bg-lime-600', label: 'Futuro do Pretérito' },
       ].map((item) => (
         <label key={item.value} className={`block cursor-pointer`}>
-          <input type="checkbox" className="mr-2" onChange={handleCheckbox} value={item.value} />
+          <input
+            checked={
+              searchQuery.verbType?.includes(item.value) ||
+              searchQuery.regularity?.includes(item.value) ||
+              searchQuery.tense?.includes(item.value)
+            }
+            type="checkbox"
+            className="mr-2"
+            onChange={handleCheckbox}
+            value={item.value}
+          />
           <span
             className={`inline-block rounded px-3 py-2 text-xs text-white hover:bg-${item.color}-600 ${item.color}`}
           >

@@ -11,6 +11,16 @@ interface AppContextProps {
   setIsLoading: (isLoading: boolean) => void;
   isLoadingButton: boolean;
   setIsLoadingButton: (isLoadingButton: boolean) => void;
+  setSearchQuery: (query: any) => void;
+  searchQuery: {
+    tense?: string | string[];
+    regularity?: string | string[];
+    verbType?: string | string[];
+    preferredLanguage?: string;
+    language?: string;
+    difficulty?: string;
+    source?: string;
+  };
 }
 
 export const AppContext = React.createContext<AppContextProps>({
@@ -22,6 +32,9 @@ export const AppContext = React.createContext<AppContextProps>({
   setIsLoading: () => false,
   setIsLoadingButton: () => false,
   isLoadingButton: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setSearchQuery: () => {},
+  searchQuery: {},
 });
 
 export const AppContextProvider = ({ children }: { children: any }) => {
@@ -30,6 +43,15 @@ export const AppContextProvider = ({ children }: { children: any }) => {
   const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<{
+    tense?: string | string[];
+    regularity?: string | string[];
+    verbType?: string | string[];
+    preferredLanguage?: string;
+    language?: string;
+    difficulty?: string;
+    source?: string;
+  }>({});
 
   return (
     <AppContext.Provider
@@ -42,6 +64,8 @@ export const AppContextProvider = ({ children }: { children: any }) => {
         setIsLoading,
         isLoadingButton,
         setIsLoadingButton,
+        setSearchQuery,
+        searchQuery,
       }}
     >
       {children}
