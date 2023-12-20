@@ -25,7 +25,7 @@ http {
   server {
     
     listen 80;
-    server_name # www.conjugame.org conjugame.org;
+    server_name www.conjugame.org conjugame.org;
 
     # Nginx will reject anything not matching our api
 
@@ -38,7 +38,7 @@ http {
       # Only requests matching the whitelist expectations will
       # get sent to the application server
       
-      proxy_pass http://app;
+      proxy_pass http://app:8080;
       proxy_set_header Host $host;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_http_version 1.1;

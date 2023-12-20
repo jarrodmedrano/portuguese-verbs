@@ -31,11 +31,11 @@ resource "aws_ecs_service" "app" {
     security_groups  = [aws_security_group.app_service.id]
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.main.arn
-    container_name   = local.app.container.name
-    container_port   = local.app.container.port
-  }
+  # load_balancer {
+  #   target_group_arn = aws_lb_target_group.main.arn
+  #   container_name   = local.app.container.name
+  #   container_port   = local.app.container.port
+  # }
 
   deployment_controller {
     type = "ECS"
