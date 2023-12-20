@@ -1,49 +1,54 @@
+
+worker_processes 1;
+
 events {
-  worker_connections 768;
+  worker_connections 10000;
 }
 
 http {
-  # Nginx will handle gzip compression of responses from the app server
+
+  # NGINX will handle gzip compression of responses from the app server
+  
   gzip on;
   gzip_proxied any;
   gzip_types text/plain application/json;
   gzip_min_length 1000;
+ 
 
-  server{
-    listen 8080;
-    location /stub_status {
-        stub_status   on;
-    }
+  upstream portuguese-verbs {
+
+    server app:8080;
+
   }
 
+
   server {
-        listen 80;
-        server_name localhost;
-        
-        location /api/ {
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_pass http://api:8080/;
-            
-            proxy_http_version 1.1;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Upgrade $http_upgrade;
-        }
+    
+    listen 80;
+    server_name # www.conjugame.org conjugame.org;
 
-        location /_next/webpack-hmr {
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header Host $host;
+    # Nginx will reject anything not matching our api
+
+    location / {
+
+      if ($request_method !~ ^(GET|POST|HEAD|OPTIONS|PUT|DELETE)$) {
+        return 405;
+      }
+
+      # Only requests matching the whitelist expectations will
+      # get sent to the application server
+      
+      proxy_pass http://app;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+
+      proxy_cache_bypass $http_upgrade;
+    
+    }
 
 
-            proxy_pass http://app:8080;
-
-            proxy_http_version 1.1;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Upgrade $http_upgrade;
-        }
-
-        location / {
-            proxy_pass http://app:8080;
-        }
   }
 }
