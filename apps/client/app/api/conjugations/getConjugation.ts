@@ -17,7 +17,7 @@ export const getConjugation = async ({ verb, mood }: { verb: string; mood?: stri
   console.log('verb', verb);
   // eslint-disable-next-line no-console
   console.log('mood', mood);
-  const response = await axios.get(`${process.env.VERBECC_API}//conjugate/pt/${verb}?mood=${mood}`);
+  const response = await axios.get(`${process.env.VERBECC_API}/conjugate/pt/${verb}?mood=${mood}`);
   // eslint-disable-next-line no-console
   console.log('res', response);
   const data = response.data;

@@ -19,7 +19,8 @@
   },
   "scripts": {
     "dev": "npx tsnd --respawn src/index.ts",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "vercel-build": "echo hello"
   },
   "devDependencies": {
     "@types/cors": "2.8.12",
