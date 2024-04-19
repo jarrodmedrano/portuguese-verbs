@@ -18,6 +18,7 @@
     "zod": "3.20.2"
   },
   "scripts": {
+    "start": "npx tsnd src/index.ts",
     "dev": "npx tsnd --respawn src/index.ts",
     "build": "tsc -p tsconfig.json",
     "vercel-build": "echo hello"
