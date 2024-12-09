@@ -11,7 +11,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 # Set working directory
 WORKDIR /app
-RUN yarn global add turbo
+RUN yarn global add turbo@1.10.16
 COPY . .
 
 # RUN turbo prune database --docker
@@ -22,7 +22,8 @@ FROM base AS installer
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apt-get update
-RUN apt-get install -y openssl
+RUN apt-get install -y openssl python3 python3-pip
+
 WORKDIR /app
 RUN yarn global add pnpm
 # First install dependencies (as they change less often)

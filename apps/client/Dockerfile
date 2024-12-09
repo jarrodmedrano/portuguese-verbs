@@ -11,7 +11,7 @@ FROM --platform=linux/amd64 base AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 # Set working directory
 WORKDIR /app
-RUN yarn global add turbo
+RUN yarn global add turbo@1.10.16
 COPY . .
 #RUN pnpm global add turbo
 RUN turbo prune --scope=client --docker
@@ -30,6 +30,8 @@ COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY packages/database /app/packages/database
 COPY apps/api /app/apps/api
 COPY apps/client /app/apps/client
+# Install git
+RUN apt-get update && apt-get install -y git
 RUN pnpm install
 
 # Build the project
