@@ -34,3 +34,5 @@ yarn-error.log*
 
 #sqlite database
 dev.db
+.vercel
+.env*.local
