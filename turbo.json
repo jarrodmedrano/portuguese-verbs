@@ -1,7 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "baseBranch": "origin/main",
-  "pipeline": {
+  "tasks": {
     "db:generate": {
       "cache": false
     },
@@ -15,14 +14,14 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "build/**"]
     },
-    "//#lint": {
-      "dependsOn": ["//#check:toml", "//#check:prettier"],
+    "lint": {
+      "dependsOn": ["check:toml", "check:prettier"],
       "outputs": ["dist/**", "build/**"]
     },
-    "//#check:prettier": {
+    "check:prettier": {
       "outputs": ["dist/**", "build/**"]
     },
-    "//#check:toml": {
+    "check:toml": {
       "outputs": ["dist/**", "build/**"]
     },
     "check-types": {
@@ -35,9 +34,6 @@
     "build": {
       "outputs": ["dist/**/*", ".next/**/*"],
       "dependsOn": ["^build"]
-    },
-    "lint": {
-      "cache": false
     },
     "lint:fix": {
       "cache": false
