@@ -26,7 +26,7 @@
     "db:push": "prisma db push --skip-generate",
     "migrate dev": "npx prisma migrate dev --create-only --name init",
     "migrate": "npx prisma migrate deploy",
-    "prebuild": "ls -a",
+    "prebuild": "ls -a && npx pnpm install",
     "build": "npx pnpm run generate && npx pnpm run migrate && tsc -p tsconfig.json",
     "generate": "npx prisma generate",
     "dev": "npx pnpm run build && tsnd --respawn src/index.ts",
