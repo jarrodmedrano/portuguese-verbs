@@ -7,7 +7,7 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
-      DATABASE_URL:
+      DB_URL:
         required: true
       ECR_REPOSITORY:
         required: true
@@ -64,7 +64,7 @@ jobs:
         run: |
           cd ./packages/database
           pnpm install
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+          echo "DB_URL=${{ secrets.DB_URL }}" > .env
       - name: Build, Tag, and Push the Image to Amazon ECR
         id: build-image
         env:
@@ -74,7 +74,7 @@ jobs:
           CLIENT_PATH: ./apps/client
           API_PATH: ./apps/api
           NGINX_PATH: ./packages/config
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DB_URL: ${{ secrets.DB_URL }}
         run: |
           echo "Building the Docker image to $ECR_REGISTRY..."
           docker build -t $ECR_REGISTRY/${ECR_REPOSITORY}:client . -f ${CLIENT_PATH}/Dockerfile
