@@ -7,11 +7,11 @@ services:
     image: bretttolbert/verbecc-svc:latest
     restart: always
     ports:
-      - 8000:8000
+      - 8080:8080
     networks:
       - app_network
     expose:
-      - '8000'
+      - '8080'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   api:
@@ -21,14 +21,14 @@ services:
       dockerfile: ./apps/api/Dockerfile
     restart: always
     ports:
-      - 8080:8080
+      - 8000:8000
     networks:
       - app_network
     expose:
-      - '8080'
+      - '8000'
     environment:
-      - VERBECC_API=http://verbecc:8000
-      - TRPC_PORT=8080
+      - VERBECC_API=http://verbecc:8080
+      - TRPC_PORT=8000
     volumes:
       - ./apps/api:/app/apps/api
     image: ${IMAGE_URI:-api}:${IMAGE_TAG:-latest}
@@ -44,9 +44,9 @@ services:
     networks:
       - app_network
     environment:
-      - VERBECC_API=http://localhost:8000
+      - VERBECC_API=http://verbecc:8080
       - NODE_ENV=production
-      - NEXT_PUBLIC_TRPC_API=http://localhost:8080
+      - NEXT_PUBLIC_TRPC_API=http://api:8000
     image: ${IMAGE_URI:-client}:${IMAGE_TAG:-latest}
   reverse-proxy:
     image: nginx:stable

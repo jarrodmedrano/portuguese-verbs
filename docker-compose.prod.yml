@@ -45,7 +45,7 @@ services:
     environment:
       - VERBECC_API=http://localhost:8000
       - NODE_ENV=production
-      - NEXT_PUBLIC_TRPC_API=http://localhost:8080
+      - NEXT_PUBLIC_TRPC_API=http://localhost:8000
     volumes:
       - ./:/app
       - /app/node_modules

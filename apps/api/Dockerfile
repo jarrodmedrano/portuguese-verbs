@@ -63,7 +63,7 @@ COPY --from=installer /app .
 
 USER expressjs
 
-EXPOSE 8080
-ENV PORT 8080
+EXPOSE 8000
+ENV PORT 8000
 
 CMD node apps/api/dist/index.js

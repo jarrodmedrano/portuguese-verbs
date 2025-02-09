@@ -18,8 +18,8 @@ services:
       context: .
       dockerfile: ./apps/api/Dockerfile.dev
     environment:
-      - VERBECC_API=http://localhost:8000
-      - TRPC_PORT=8080
+      - VERBECC_API=http://verbecc:8080
+      - TRPC_PORT=8000
   client:
     extends:
       file: common-services.yml
@@ -28,9 +28,9 @@ services:
       context: .
       dockerfile: ./apps/client/Dockerfile.dev
     environment:
-      - VERBECC_API=http://localhost:8000
+      - VERBECC_API=http://verbecc:8080
       - NODE_ENV=development
-      - NEXT_PUBLIC_TRPC_API=http://localhost:8080
+      - NEXT_PUBLIC_TRPC_API=http://api:8000
     volumes:
       - ./:/app
       - ./apps/client/node_modules:/app/apps/client/node_modules
